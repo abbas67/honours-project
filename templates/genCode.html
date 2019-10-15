@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block head %}
+  <link type="text/css" rel="stylesheet"  href="{{ url_for('static', filename='genCode.css') }}" >
+{% endblock head %}
+
+{% block content %}
+
+        <div id="codeGen" >
+           {{code}}
+        </div>
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+
+{% endblock scripts %}
