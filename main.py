@@ -6,12 +6,17 @@ app = Flask(__name__)
 
 
 @app.route("/")
-@app.route("/home")
+@app.route("/Home")
 def index():
+    return render_template('homepage.html')
+
+
+@app.route("/lecturesignin")
+def lecturesignin():
     date = datetime.datetime.now()
 
     #uses template from https://bootsnipp.com/snippets/vl4R7
-    return render_template('home.html', date=date)
+    return render_template('lecturesignin.html', date=date)
 
 
 @app.route("/genCode")
@@ -26,4 +31,4 @@ def generatenewcode():
 
 
 if __name__ == "__main__":
-    app.run(host= '0.0.0.0', threaded=True)
+    app.run(host='0.0.0.0', threaded=True)
