@@ -1,11 +1,9 @@
-import datetime,sys, json, string, random
+import datetime, string, random
 from flask import Flask, render_template
-from flask_bootstrap import Bootstrap
-from flask_sqlalchemy import SQLAlchemy
-from flask_heroku import Heroku
+
 
 app = Flask(__name__)
-Bootstrap(app)
+
 
 
 @app.route("/")
