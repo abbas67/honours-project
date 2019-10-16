@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block head %}
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='homepage.css') }}">
+    <title>Home</title>
+
+{% endblock head %}
+
+{% block content %}
+
+
+    <p> </p>
+    <h1 align="center"> Dundee University Attendance</h1>
+
+
+    <div class ="flex-container" id="menu-options">
+
+            <div class="card" style="width: 30rem;">
+          <img class="card-img-top" src="/static/lecturersPic.jpg" >
+          <div class="card-body">
+            <h5 class="card-title">Tools For Lecturers</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Lecturer Dashboard</a>
+          </div>
+        </div>
+
+        <div class="card" style="width: 30rem;">
+          <img class="card-img-top" src="/static/lecturePic.jpg" >
+          <div class="card-body">
+            <h5 class="card-title">Signing in For Students</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="{{ url_for('lecturesignin') }}" class="btn btn-primary">Sign in to your lecture</a>
+          </div>
+        </div>
+
+    </div>
+
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+
+{% endblock scripts %}
