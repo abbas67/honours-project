@@ -1,9 +1,12 @@
-import datetime, string, random
+import datetime, string, random, urllib.parse, pyodbc
 from flask import Flask, render_template
-
+from flask_sqlalchemy import SQLAlchemy
+import urllib.parse
 
 app = Flask(__name__)
 
+conn = pyodbc.connect("DRIVER={SQL Server};Server=tcp:honoursdbserver.database.windows.net,1433;Database=HonoursProjectDB;Uid=alawal98;Pwd=Hazard1998;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+cursor = conn.cursor()
 
 @app.route("/")
 @app.route("/Home")
