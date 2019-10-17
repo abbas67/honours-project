@@ -1,12 +1,28 @@
-import datetime, string, random, urllib.parse, pyodbc
-from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
-import urllib.parse
+import datetime
+import pyodbc
+import random
+import urllib
+import string
+import sqlalchemy as db
+from sqlalchemy import select, MetaData, Table
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-conn = pyodbc.connect("DRIVER={SQL Server};Server=tcp:honoursdbserver.database.windows.net,1433;Database=HonoursProjectDB;Uid=alawal98;Pwd=Hazard1998;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
-cursor = conn.cursor()
+metadata = MetaData(bind=None)
+params = urllib.parse.quote_plus("DRIVER={ODBC Driver 13 for SQL Server};Server=tcp:honoursdbserver.database.windows.net,1433;Database=HonoursProjectDB;Uid=alawal98;Pwd=Hazard1998;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+engine = db.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
+
+
+'''
+metadata = MetaData(bind=None)
+table = Table('Students', metadata, autoload = True, autoload_with=engine)
+stmt = select([table]).where(table.columns.FirstName == 'JOHN')
+
+connection = engine.connect()
+results = connection.execute(stmt).fetchall()
+'''
+
 
 @app.route("/")
 @app.route("/Home")
@@ -31,6 +47,71 @@ def codedisplay():
 def generatenewcode():
 
     return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(6))
+
+
+@app.route("/signedin")
+def confirmsignin():
+
+    return render_template('signedin.html')
+
+
+@app.route("/login", methods=['POST'])
+def login():
+
+    matriculationnumber = request.form['MatriculationNumber']
+    password = request.form['Password']
+    lecturecode = request.form['LectureCode']
+
+
+    table = Table('Students', metadata, autoload=True, autoload_with=engine)
+    stmt = select([table]).where(table.columns.MatricNum == matriculationnumber)
+
+    connection = engine.connect()
+    rows = connection.execute(stmt).fetchall()
+
+    list_of_dicts = [{key: value for (key, value) in row.items()} for row in rows]
+
+    error = None
+
+    if len(list_of_dicts) != 1:
+        error = "Matriculation Number or password is incorrect"
+        print("yaaaas")
+        return render_template('lecturesignin.html', error=error)
+
+
+    if checkpass(list_of_dicts[0], password) and checklecturecode(lecturecode):
+        print("yaaaas")
+        return render_template('signedin.html')
+
+    else:
+        error = "Wrong Password or Lecture Code"
+        return render_template('lecturesignin.html', error=error)
+
+
+def checkpass(user, possiblepassword):
+
+    if user['Password'] == possiblepassword:
+        return True
+    else:
+        return False
+
+
+def checklecturecode(lecturecode):
+
+    table = Table('Lectures', metadata, autoload=True, autoload_with=engine)
+    stmt = select([table]).where(table.columns.LectureID == lecturecode)
+
+    connection = engine.connect()
+    rows = connection.execute(stmt).fetchall()
+
+    list_of_dicts = [{key: value for (key, value) in row.items()} for row in rows]
+
+    print(list_of_dicts)
+
+    if len(list_of_dicts) != 1 :
+        return False
+    else:
+        return True
 
 
 if __name__ == "__main__":
