@@ -1,5 +1,4 @@
 import datetime
-import pyodbc
 import random
 import urllib
 import string
