@@ -1,6 +1,7 @@
 import datetime
 import random
 import urllib
+import pyodbc
 import string
 import sqlalchemy as db
 from sqlalchemy import select, MetaData, Table
@@ -9,18 +10,19 @@ from flask import Flask, render_template, request, redirect, url_for
 app = Flask(__name__)
 
 metadata = MetaData(bind=None)
-params = urllib.parse.quote_plus("DRIVER={ODBC Driver 13 for SQL Server};Server=tcp:honoursdbserver.database.windows.net,1433;Database=HonoursProjectDB;Uid=alawal98;Pwd=Hazard1998;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+
+params = urllib.parse.quote_plus("Driver={ODBC Driver 13 for SQL Server};Server=tcp:honoursdbserver.database.windows.net,1433;Database=HonoursProjectDB;Uid=alawal98;Pwd=Hazard1998;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
 engine = db.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
-
-'''
 metadata = MetaData(bind=None)
-table = Table('Students', metadata, autoload = True, autoload_with=engine)
+
+table = Table('Students', metadata, autoload=True, autoload_with=engine)
+print("this is a problem")
 stmt = select([table]).where(table.columns.FirstName == 'JOHN')
 
 connection = engine.connect()
+
 results = connection.execute(stmt).fetchall()
-'''
 
 
 @app.route("/")
@@ -61,12 +63,13 @@ def login():
     password = request.form['Password']
     lecturecode = request.form['LectureCode']
 
-
+    engine = db.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
     table = Table('Students', metadata, autoload=True, autoload_with=engine)
     stmt = select([table]).where(table.columns.MatricNum == matriculationnumber)
 
     connection = engine.connect()
     rows = connection.execute(stmt).fetchall()
+    print("please")
 
     list_of_dicts = [{key: value for (key, value) in row.items()} for row in rows]
 
