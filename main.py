@@ -6,12 +6,17 @@ import string
 import sqlalchemy as db
 from sqlalchemy import select, MetaData, Table
 from flask import Flask, render_template, request, redirect, url_for
+import platform
 
 app = Flask(__name__)
 
 metadata = MetaData(bind=None)
+if platform.system() == 'Darwin':
+    params = urllib.parse.quote_plus("Driver={ODBC Driver 13 for SQL Server};Server=tcp:honoursdbserver.database.windows.net,1433;Database=HonoursProjectDB;Uid=alawal98;Pwd=Hazard1998;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+else:
+    params = urllib.parse.quote_plus("Driver={FreeTDS};Server=tcp:honoursdbserver.database.windows.net,1433;Database=HonoursProjectDB;Uid=alawal98;Pwd=Hazard1998;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
 
-params = urllib.parse.quote_plus("Driver={ODBC Driver 13 for SQL Server};Server=tcp:honoursdbserver.database.windows.net,1433;Database=HonoursProjectDB;Uid=alawal98;Pwd=Hazard1998;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+
 engine = db.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 metadata = MetaData(bind=None)
