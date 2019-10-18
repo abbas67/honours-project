@@ -10,34 +10,24 @@ import platform
 
 app = Flask(__name__)
 
-print(platform.system())
 metadata = MetaData(bind=None)
-'''
-if platform.system() == 'Darwin':
-    params = urllib.parse.quote_plus("Driver={ODBC Driver 13 for SQL Server};Server=tcp:honoursdbserver.database.windows.net,1433;Database=HonoursProjectDB;Uid=alawal98;Pwd=Hazard1998;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
-else:
-    params = urllib.parse.quote_plus("Driver={SQL Server};Server=tcp:honoursdbserver.database.windows.net,1433;Database=HonoursProjectDB;Uid=alawal98;Pwd=Hazard1998;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
-'''
 
-cnxn = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:honoursdbserver.database.windows.net,1433;Database=HonoursProjectDB;Uid=alawal98;Pwd=Hazard1998;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
-cursor = cnxn.cursor()
+drivers = [item for item in pyodbc.drivers()]
+driver = drivers[-1]
+print("driver:{}".format(driver))
+server = 'tcp:honoursdbserver.database.windows.net,1433'
+database = 'HonoursProjectDB'
+uid = 'alawal98'
+pwd = 'Hazard1998'
+
+params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
+conn = pyodbc.connect(params)
+cursor = conn.cursor()
 cursor.execute("select @@VERSION")
 row = cursor.fetchone()
 if row:
     print(row)
-'''
-engine = db.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
-metadata = MetaData(bind=None)
-
-table = Table('Students', metadata, autoload=True, autoload_with=engine)
-
-stmt = select([table]).where(table.columns.FirstName == 'JOHN')
-
-connection = engine.connect()
-
-results = connection.execute(stmt).fetchall()
-'''
 
 @app.route("/")
 @app.route("/Home")
