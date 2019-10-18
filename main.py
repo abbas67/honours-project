@@ -10,6 +10,7 @@ import platform
 
 app = Flask(__name__)
 
+print(platform.system())
 metadata = MetaData(bind=None)
 if platform.system() == 'Darwin':
     params = urllib.parse.quote_plus("Driver={ODBC Driver 13 for SQL Server};Server=tcp:honoursdbserver.database.windows.net,1433;Database=HonoursProjectDB;Uid=alawal98;Pwd=Hazard1998;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
