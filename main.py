@@ -1,6 +1,8 @@
 import datetime
 import random
+import pandas as pd
 import urllib
+import itertools
 import pyodbc
 import string
 import sqlalchemy as db
@@ -8,13 +10,14 @@ from sqlalchemy import select, MetaData, Table
 from flask import Flask, render_template, request, redirect, url_for
 import platform
 
+from sqlalchemy.dialects.mssql.information_schema import columns
+
 app = Flask(__name__)
 
 metadata = MetaData(bind=None)
 
 drivers = [item for item in pyodbc.drivers()]
 driver = drivers[-1]
-print("driver:{}".format(driver))
 server = 'tcp:honoursdbserver.database.windows.net,1433'
 database = 'HonoursProjectDB'
 uid = 'alawal98'
@@ -23,10 +26,7 @@ pwd = 'Hazard1998'
 params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
 conn = pyodbc.connect(params)
 cursor = conn.cursor()
-cursor.execute("select @@VERSION")
-row = cursor.fetchone()
-if row:
-    print(row)
+
 
 
 @app.route("/")
@@ -67,26 +67,26 @@ def login():
     password = request.form['Password']
     lecturecode = request.form['LectureCode']
 
-    engine = db.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
-    table = Table('Students', metadata, autoload=True, autoload_with=engine)
-    stmt = select([table]).where(table.columns.MatricNum == matriculationnumber)
+    query = "SELECT * FROM Students WHERE MatricNum=?"
 
-    connection = engine.connect()
-    rows = connection.execute(stmt).fetchall()
-
-    list_of_dicts = [{key: value for (key, value) in row.items()} for row in rows]
+    result = pd.read_sql(query, conn, params=(matriculationnumber,))
+    studentinfo = result.to_dict('records')
+    print(studentinfo)
 
     error = None
 
-    if len(list_of_dicts) != 1:
+    if len(studentinfo) != 1:
         error = "Matriculation Number or password is incorrect"
-        print("yaaaas")
         return render_template('lecturesignin.html', error=error)
 
+    query = "SELECT * FROM Lectures WHERE LectureID=?"
+    result = pd.read_sql(query, conn, params=(lecturecode,))
+    lectureinfo = result.to_dict('records')
+    print(lectureinfo[0])
 
-    if checkpass(list_of_dicts[0], password) and checklecturecode(lecturecode):
-        print("yaaaas")
-        return render_template('signedin.html')
+    if checkpass(studentinfo[0], password) is True and len(lectureinfo) is 1:
+
+        return render_template('signedin.html', lecturedata=lectureinfo[0])
 
     else:
         error = "Wrong Password or Lecture Code"
@@ -99,24 +99,6 @@ def checkpass(user, possiblepassword):
         return True
     else:
         return False
-
-
-def checklecturecode(lecturecode):
-
-    table = Table('Lectures', metadata, autoload=True, autoload_with=engine)
-    stmt = select([table]).where(table.columns.LectureID == lecturecode)
-
-    connection = engine.connect()
-    rows = connection.execute(stmt).fetchall()
-
-    list_of_dicts = [{key: value for (key, value) in row.items()} for row in rows]
-
-    print(list_of_dicts)
-
-    if len(list_of_dicts) != 1 :
-        return False
-    else:
-        return True
 
 
 if __name__ == "__main__":
