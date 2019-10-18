@@ -17,7 +17,7 @@ engine = db.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 metadata = MetaData(bind=None)
 
 table = Table('Students', metadata, autoload=True, autoload_with=engine)
-print("this is a problem")
+
 stmt = select([table]).where(table.columns.FirstName == 'JOHN')
 
 connection = engine.connect()
@@ -69,7 +69,6 @@ def login():
 
     connection = engine.connect()
     rows = connection.execute(stmt).fetchall()
-    print("please")
 
     list_of_dicts = [{key: value for (key, value) in row.items()} for row in rows]
 
