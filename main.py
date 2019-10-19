@@ -8,9 +8,6 @@ import string
 import sqlalchemy as db
 from sqlalchemy import select, MetaData, Table
 from flask import Flask, render_template, request, redirect, url_for
-import platform
-
-from sqlalchemy.dialects.mssql.information_schema import columns
 
 app = Flask(__name__)
 
@@ -28,11 +25,24 @@ conn = pyodbc.connect(params)
 cursor = conn.cursor()
 
 
-
 @app.route("/")
 @app.route("/Home")
 def index():
     return render_template('homepage.html')
+
+
+@app.route("/lecturemanagement")
+def lectureman():
+
+    query = "SELECT * FROM Modules"
+
+    result = pd.read_sql(query, conn)
+    moduleinfo = result.to_dict('records')
+    print(moduleinfo)
+
+    # uses https://yuilibrary.com/yui/docs/calendar/calendar-simple.html
+
+    return render_template('createlecture.html', modules=moduleinfo)
 
 
 @app.route("/lecturesignin")
@@ -41,6 +51,24 @@ def lecturesignin():
 
     #uses template from https://bootsnipp.com/snippets/vl4R7
     return render_template('lecturesignin.html', date=date)
+
+
+@app.route("/createlecture", methods=['POST'])
+def createlecture():
+
+    time = request.form['time']
+    duration = request.form['duration']
+    name = request.form['name']
+    location = ['location']
+    module = request.form['module']
+
+    print(time,duration, name, location, module)
+
+    return "yes bro"
+
+
+
+
 
 
 @app.route("/genCode")

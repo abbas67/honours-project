@@ -1,0 +1,126 @@
+{% extends "layout.html" %}
+
+{% block head %}
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='createlecture.css') }}">
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.17.2/build/tabview/assets/skins/night/tabview.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="http://yui.yahooapis.com/3.18.1/build/yui/yui-min.js"></script>
+
+     <title>Lecture Management</title>
+
+{% endblock head %}
+
+{% block content %}
+
+    <div class ="flex-container" id="lecture-options">
+
+        <div class="card" style="">
+            <div id="demo" class="yui3-skin-sam yui3-g" style="margin: auto;"> <!-- You need this skin class -->
+              <div id="leftcolumn" class="yui3-u">
+                 <!-- Container for the calendar -->
+                 <div class="card" id="mycalendar" style="margin: auto;"></div>
+              </div>
+              <div id="rightcolumn" class="yui3-u">
+               <div   style="align-items: center;">
+
+               </div>
+              </div>
+            </div>
+
+        </div>
+
+
+        <div id="links" class="card" style="width: 30rem;">
+              <div class="card-body">
+                    <h5 class="card-title">Lecture Setup</h5>
+                  <form action="{{ url_for('createlecture') }}" method="post">
+                        <div class="form-group">
+                            <label>Module ID:
+                            <select name="module" class="select">
+                            <option value="" disabled selected hidden>Module Code</option>
+                              {% for item in modules %}
+                                  <option value="{{ item['ModuleID'] }}">{{ item['ModuleID'] }}</option>
+                              {% endfor %}
+                            </select>
+                            <br>
+                            <p class="card-text"> Date: <span id="selecteddate"></span> </p>
+
+                                <input type="text" name="name" placeholder="Lecture Name"><br>
+                            <br>
+                                <input type="text" name="location" placeholder="Lecture Location"><br>
+                            <br>
+                                <p>Lecture Duration: </p> <input  type="number" name="duration" min="1" max="7">
+                            <br>
+                            <p>Lecture Start Time: <input type="time" id="time" name="time" min="09:00" max="18:00" required>
+
+                            </label>
+                        </div>
+                   <input type="submit" class="btn btn-primary" Create Lecture >
+
+                  </form>
+
+              </div>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+    YUI().use('calendar', 'datatype-date', 'cssbutton',  function(Y) {
+
+        // Create a new instance of calendar, placing it in
+        // #mycalendar container, setting its width to 340px,
+        // the flags for showing previous and next month's
+        // dates in available empty cells to true, and setting
+        // the date to today's date.
+        var calendar = new Y.Calendar({
+          contentBox: "#mycalendar",
+          width:'340px',
+          showPrevMonth: true,
+          showNextMonth: true,
+          date: new Date()}).render();
+
+        // Get a reference to Y.DataType.Date
+        var dtdate = Y.DataType.Date;
+
+        // Listen to calendar's selectionChange event.
+        calendar.on("selectionChange", function (ev) {
+
+          // Get the date from the list of selected
+          // dates returned with the event (since only
+          // single selection is enabled by default,
+          // we expect there to be only one date)
+          var newDate = ev.newSelection[0];
+
+          // Format the date and output it to a DOM
+          // element.
+          Y.one("#selecteddate").setHTML(dtdate.format(newDate));
+        });
+
+
+        // When the 'Show Previous Month' link is clicked,
+        // modify the showPrevMonth property to show or hide
+        // previous month's dates
+        Y.one("#togglePrevMonth").on('click', function (ev) {
+          ev.preventDefault();
+          calendar.set('showPrevMonth', !(calendar.get("showPrevMonth")));
+        });
+
+        // When the 'Show Next Month' link is clicked,
+        // modify the showNextMonth property to show or hide
+        // next month's dates
+        Y.one("#toggleNextMonth").on('click', function (ev) {
+          ev.preventDefault();
+          calendar.set('showNextMonth', !(calendar.get("showNextMonth")));
+        });
+    });
+    </script>
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+
+
+
+{% endblock scripts %}
