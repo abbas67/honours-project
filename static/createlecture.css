@@ -1,0 +1,30 @@
+.yui3-button {
+    margin:10px 0px 10px 0px;
+    color: #fff;
+    background-color: #3476b7;
+}
+
+.card{
+    margin-top: 100px;
+    align-content: center;
+    align-self: center;
+    width:375px;
+    margin-left: 10rem;
+
+
+}
+.flex-container{
+    display: flex;
+    justify-content: center;
+    background:#fff;
+    align-self:center;
+    vertical-align: middle;
+    margin-top: 100px;}
+
+.form-group select {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+
+select:invalid { color: gray; }
