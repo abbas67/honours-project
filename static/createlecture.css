@@ -27,4 +27,12 @@
     vertical-align: middle;
 }
 
+input, label {
+    display:block;
+}
+select, label {
+    display:block;
+}
+
 select:invalid { color: gray; }
+
