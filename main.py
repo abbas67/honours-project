@@ -1,17 +1,14 @@
 import datetime
 import random
 import pandas as pd
-import urllib
-import itertools
 import pyodbc
 import string
-import sqlalchemy as db
 from sqlalchemy import select, MetaData, Table
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 app = Flask(__name__)
 
-metadata = MetaData(bind=None)
+app.secret_key = "supersecretkey"
 
 drivers = [item for item in pyodbc.drivers()]
 driver = drivers[-1]
@@ -40,7 +37,6 @@ def lectureman():
     moduleinfo = result.to_dict('records')
     print(moduleinfo)
 
-    # uses https://yuilibrary.com/yui/docs/calendar/calendar-simple.html
 
     return render_template('createlecture.html', modules=moduleinfo)
 
@@ -53,23 +49,29 @@ def lecturesignin():
     return render_template('lecturesignin.html', date=date)
 
 
-@app.route("/createlecture", methods=['POST'])
+@app.route("/createlecture", methods=['GET', 'POST'])
 def createlecture():
 
     time = request.form['time']
     duration = request.form['duration']
     name = request.form['name']
-    location = ['location']
+    location = request.form['location']
     module = request.form['module']
+    weekday = request.form['weekday']
+    first = request.form['first']
+    first = int(first)
+    last = request.form['last']
+    last = int(last)
 
-    print(time,duration, name, location, module)
+    for x in range (first, last + 1):
 
-    return "yes bro"
+        query = "INSERT INTO Lectures (LectureID, ModuleID, LectureName, LectureLocation, LectureDuration, Week, Day, Time ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
 
+        cursor.execute(query, (generatenewcode(), module, name, location, duration, x, weekday, time))
+        conn.commit()
 
-
-
-
+    flash("Lecture successfully created timetabled." )
+    return redirect(url_for('lectureman'))
 
 @app.route("/genCode")
 def codedisplay():
@@ -130,4 +132,4 @@ def checkpass(user, possiblepassword):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', threaded=True)
+    app.run(host='0.0.0.0', threaded=True, debug=True)
