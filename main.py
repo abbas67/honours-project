@@ -28,6 +28,43 @@ def index():
     return render_template('homepage.html')
 
 
+
+@app.route("/lecturersigninpage")
+def lecturersigninpage():
+
+    return render_template('lecturersignin.html')
+
+
+@app.route("/lecturersignin", methods=['POST'])
+def lecturersignin():
+
+    lecturerid = request.form['lecturerid']
+    password = request.form['Password']
+
+    query = "SELECT * FROM Lecturers WHERE LecturerID=?"
+
+    result = pd.read_sql(query, conn, params=(lecturerid,))
+    lecturerinfo = result.to_dict('records')
+    print(lecturerinfo)
+
+    error = None
+
+    if len(lecturerinfo) != 1:
+        error = "LecturerID or password is incorrect"
+        return render_template('lecturersignin.html', error=error)
+
+    if checkpass(lecturerinfo[0], password) is True:
+
+        return redirect(url_for('lectureman'))
+
+    else:
+        error = "LecturerID or password is incorrect"
+        return render_template('lecturersignin.html', error=error)
+
+
+
+
+
 @app.route("/lecturemanagement")
 def lectureman():
 
