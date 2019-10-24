@@ -3,6 +3,7 @@ dominate==2.4.0
 Flask==1.1.1
 Flask-Bootstrap==3.3.7.1
 flask-heroku==0.1.9
+Flask-Login==0.4.1
 Flask-SQLAlchemy==2.4.1
 gunicorn==19.9.0
 itsdangerous==1.1.0

@@ -1,0 +1,47 @@
+.flex-container {
+    display: flex;
+    background: #fff;
+    margin-top: 100px;
+    justify-content: center;
+
+}
+.main {
+    width:100%;
+    display: inline-block;
+}
+
+.row
+{
+    align-self: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+.left{
+
+    float: left;
+    width: 90%;
+    padding: 5px;
+
+}
+.right{
+
+  float: right;
+  width: 90%;
+  padding: 5px;
+}
+.topnav1{
+  float: right;
+  color: dodgerblue;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+    background-color: #333;
+
+}
+* {
+  box-sizing: border-box;
+}
