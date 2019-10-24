@@ -3,8 +3,7 @@ import random
 import pandas as pd
 import pyodbc
 import string
-from sqlalchemy import select, MetaData, Table
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session, g
 
 app = Flask(__name__)
 
@@ -22,15 +21,35 @@ conn = pyodbc.connect(params)
 cursor = conn.cursor()
 
 
+@app.before_request
+def before_request():
+
+    g. user = None
+
+    if 'user' in session:
+        g.user = session['user']
+
+
 @app.route("/")
 @app.route("/Home")
 def index():
     return render_template('homepage.html')
 
 
+@app.route("/lecturerhome")
+def lecturerhomepage():
+
+    if g.user:
+        return render_template('lecturerhome.html')
+
+    return redirect(url_for('lecturersigninpage'))
+
 
 @app.route("/lecturersigninpage")
 def lecturersigninpage():
+
+    if g.user:
+        return redirect(url_for('lecturerhomepage'))
 
     return render_template('lecturersignin.html')
 
@@ -38,44 +57,58 @@ def lecturersigninpage():
 @app.route("/lecturersignin", methods=['POST'])
 def lecturersignin():
 
+    session.pop('user', None)
     lecturerid = request.form['lecturerid']
     password = request.form['Password']
 
     query = "SELECT * FROM Lecturers WHERE LecturerID=?"
-
     result = pd.read_sql(query, conn, params=(lecturerid,))
     lecturerinfo = result.to_dict('records')
-    print(lecturerinfo)
-
     error = None
 
     if len(lecturerinfo) != 1:
-        error = "LecturerID or password is incorrect"
+        error = "Account does not exist"
         return render_template('lecturersignin.html', error=error)
 
     if checkpass(lecturerinfo[0], password) is True:
 
-        return redirect(url_for('lectureman'))
+        session['user'] = lecturerid
+        session['moduleinfo'] = []
+
+        query = "SELECT * FROM Modules WHERE LecturerID=?"
+        result = pd.read_sql(query, conn, params=(lecturerid,))
+        lecturerinfo = result.to_dict('records')
+        print(lecturerinfo)
+
+        for x in lecturerinfo:
+            print(x['LecturerID'])
+            print(session['user'])
+            if x['LecturerID'] == session['user']:
+                print("why")
+                session['moduleinfo'].add(x['LecturerID'])
+
+        print(session['moduleinfo'])
+
+        return redirect(url_for('lecturerhomepage'))
 
     else:
         error = "LecturerID or password is incorrect"
         return render_template('lecturersignin.html', error=error)
 
 
-
-
-
 @app.route("/lecturemanagement")
 def lectureman():
+    if g.user:
 
-    query = "SELECT * FROM Modules"
+        query = "SELECT * FROM Modules"
 
-    result = pd.read_sql(query, conn)
-    moduleinfo = result.to_dict('records')
-    print(moduleinfo)
+        result = pd.read_sql(query, conn)
+        moduleinfo = result.to_dict('records')
+        print(moduleinfo)
 
+        return render_template('createlecture.html', modules=moduleinfo)
 
-    return render_template('createlecture.html', modules=moduleinfo)
+    return redirect(url_for('lecturersigninpage'))
 
 
 @app.route("/lecturesignin")
@@ -100,7 +133,7 @@ def createlecture():
     last = request.form['last']
     last = int(last)
 
-    for x in range (first, last + 1):
+    for x in range(first, last + 1):
 
         query = "INSERT INTO Lectures (LectureID, ModuleID, LectureName, LectureLocation, LectureDuration, Week, Day, Time ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
 
@@ -113,18 +146,18 @@ def createlecture():
 @app.route("/genCode")
 def codedisplay():
 
-    return render_template('genCode.html', code=generatenewcode())
+    if g.user:
+
+        print(session['user'])
+
+        return render_template('genCode.html', code=generatenewcode())
+
+    return redirect(url_for('lecturersigninpage'))
 
 
 def generatenewcode():
 
     return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(6))
-
-
-@app.route("/signedin")
-def confirmsignin():
-
-    return render_template('signedin.html')
 
 
 @app.route("/login", methods=['POST'])
@@ -166,6 +199,12 @@ def checkpass(user, possiblepassword):
         return True
     else:
         return False
+
+
+@app.route('/sign_out')
+def sign_out():
+    session.pop('user', None)
+    return redirect(url_for('index'))
 
 
 if __name__ == "__main__":
