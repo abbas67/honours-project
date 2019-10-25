@@ -2,10 +2,10 @@
 
 {% block head %}
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturesignin.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='signup.css') }}">
 
 
-    <title>Login Page</title>
+    <title>Sign Up Page</title>
 
 
 	<!--Bootsrap 4 CDN-->
@@ -14,18 +14,17 @@
     <!--Fontawesome CDN-->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-    <title>Home</title>
 {% endblock head %}
 
 
 {% block content %}
 
     <div class="container">
-        <form action="{{ url_for('login') }}" method="post">
+        <form action="{{ url_for('signup') }}" method="post">
             <div class="d-flex justify-content-center h-100">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Sign In</h3>
+                        <h3>Sign Up</h3>
 
                     </div>
                     <div class="card-body">
@@ -34,7 +33,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="Matriculation Number" name="MatriculationNumber" required>
+                                <input type="text" class="form-control" placeholder="Matriculation/Lecturer Number" name="idnum" required >
 
                             </div>
 
@@ -42,7 +41,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-key"></i></span>
                                 </div>
-                                <input type="password" class="form-control" placeholder="Password" name="Password" required>
+                                <input type="password" class="form-control" placeholder="Password" name="password" required>
 
                             </div>
 
@@ -50,26 +49,39 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-key"></i></span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="LectureCode" name="LectureCode" required>
+                                <input type="text" class="form-control" placeholder="First Name" name="fname" required>
                             </div>
-                            <div class="row align-items-center remember">
-                                <input type="checkbox">Remember Me
+
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Last Name" name="lname" required>
                             </div>
+
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <select name="lecturercheck" >
+                                    <option value="Lecturer">Lecturer Account</option>
+                                    <option value="Student">Student Account</option>
+                                </select>
+                            </div>
+
+
                             <div class="form-group">
                                 <input type="submit" value="Login" class="btn float-right login_btn">
                             </div>
                         </form>
 
-                        {% if error %}
-                            <p class="error"><strong>Error:</strong> {{ error }}
+                        {% if notification %}
+                            <p class="error"><strong>Notification:</strong> {{ notification}}
                         {% endif %}
                     </div>
                     <div class="card-footer">
                         <div class="d-flex justify-content-center links">
-                            <a href="{{ url_for('signup') }}" style="color:dodgerblue" >Don't have an account? Sign Up</a>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <a href="#" style="color:dodgerblue">Forgot your password?</a>
+                            <a href="{{ url_for('lecturesignin') }}" style="color:dodgerblue" >Already have an account? Log in</a>
                         </div>
                     </div>
                 </div>

@@ -54,6 +54,61 @@ def lecturersigninpage():
     return render_template('lecturersignin.html')
 
 
+@app.route("/signup", methods=['POST', 'GET'])
+def signup():
+
+    if request.method == 'POST':
+
+        notification = None
+
+        idnum = request.form['idnum']
+        password = request.form['password']
+        fname = request.form['fname']
+        lname = request.form['lname']
+        type = request.form['lecturercheck']
+        print(idnum, password, fname, lname, type)
+
+        if type == 'Lecturer':
+
+            query = "SELECT * FROM Lecturers WHERE LecturerID=?"
+            result = pd.read_sql(query, conn, params=(idnum,))
+            resultdict = result.to_dict('records')
+
+            if len(resultdict) > 0:
+                notification = "The ID already exists"
+                return render_template('signup.html', notification=notification)
+
+            query = "INSERT INTO Lecturers (LecturerID, FirstName, LastName, Password) VALUES (?, ?, ? ,?);"
+            cursor.execute(query, (idnum, fname, lname, password))
+            conn.commit()
+
+        notification = "account successfully created"
+
+        if type == 'Student':
+
+            query = "SELECT * FROM Students WHERE MatricNum=?"
+            result = pd.read_sql(query, conn, params=(idnum,))
+            resultdict = result.to_dict('records')
+
+            if len(resultdict) > 0:
+                notification = "The ID already exists"
+                return render_template('signup.html', notification=notification)
+
+            if len(idnum) != 9:
+                notification = "Please enter a valid matriculation number"
+                return render_template('signup.html', notification=notification)
+
+            query = "INSERT INTO Students (MatricNum, FirstName, LastName, Password) VALUES (?, ?, ? ,?);"
+            cursor.execute(query, (idnum, fname, lname, password))
+            conn.commit()
+
+        notification = "account successfully created"
+
+        return render_template('signup.html', notification=notification)
+
+    return render_template('signup.html')
+
+
 @app.route("/lecturersignin", methods=['POST'])
 def lecturersignin():
 
@@ -74,20 +129,16 @@ def lecturersignin():
 
         session['user'] = lecturerid
         session['moduleinfo'] = []
+        session['lectureinfo'] = []
 
         query = "SELECT * FROM Modules WHERE LecturerID=?"
         result = pd.read_sql(query, conn, params=(lecturerid,))
-        lecturerinfo = result.to_dict('records')
-        print(lecturerinfo)
+        lectureinfo = result.to_dict('records')
 
-        for x in lecturerinfo:
-            print(x['LecturerID'])
-            print(session['user'])
-            if x['LecturerID'] == session['user']:
-                print("why")
-                session['moduleinfo'].add(x['LecturerID'])
+        for x in lectureinfo:
 
-        print(session['moduleinfo'])
+            if x['LecturerID'].strip() == session['user']:
+                session['moduleinfo'].append(x['ModuleID'])
 
         return redirect(url_for('lecturerhomepage'))
 
