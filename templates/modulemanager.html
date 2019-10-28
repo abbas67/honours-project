@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block head %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='genCode.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturerhome.css') }}">
+    <title>Module Management</title>
+
+    <div class="topnav1">
+          <a href="{{ url_for('sign_out') }}">Sign Out</a>
+    </div>
+{% endblock head %}
+
+{% block content %}
+
+    <br>
+    <h1 align="center"> Module Manager</h1>
+    <br>
+    <div class="container" style="margin-outside: 100px;">
+
+        {% for item in modules %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item['ModuleID'] }}</h5>
+                    <p class="card-text">{{ item['ModuleName'] }}</p>
+                    <button type="button" class="btn btn-primary">Edit Module</button>
+                    <button type="button" class="btn btn-primary">Remove Module</button>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+
+    <button type="button" class="btn btn-primary" onclick = "myFunction()" >Create New Module </button>
+
+    </div>
+
+        <div id="myDIV" style="display: none">
+            This is my DIV element.
+        </div>
+
+
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+
+    <script>
+        function myFunction() {
+          var x = document.getElementById("myDIV");
+          if (x.style.display === "none") {
+            x.style.display = "block";
+          } else {
+            x.style.display = "none";
+          }
+        }
+
+    </script>
+
+
+{% endblock scripts %}

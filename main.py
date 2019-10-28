@@ -162,6 +162,26 @@ def lectureman():
     return redirect(url_for('lecturersigninpage'))
 
 
+@app.route("/modulemanagement", methods=['GET', 'POST'])
+def modulemanagement():
+
+    if request.method == 'POST':
+
+        pass
+
+    else:
+
+        if g.user:
+            query = "SELECT * FROM Modules WHERE LecturerID=?"
+            result = pd.read_sql(query, conn, params=(session['user'],))
+            lectureinfo = result.to_dict('records')
+            print(lectureinfo)
+
+            return render_template('modulemanager.html', modules=lectureinfo)
+
+        return redirect(url_for('lecturersigninpage'))
+
+
 @app.route("/lecturesignin")
 def lecturesignin():
     date = datetime.datetime.now()
