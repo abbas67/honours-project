@@ -167,7 +167,16 @@ def modulemanagement():
 
     if request.method == 'POST':
 
-        pass
+        moduleid = request.form['moduleid']
+        modulename = request.form['modulename']
+
+        print(moduleid, modulename)
+        query = "SELECT * FROM Modules WHERE LecturerID=?"
+        result = pd.read_sql(query, conn, params=(session['user'],))
+        lectureinfo = result.to_dict('records')
+        session['supervisedmodules'] = lectureinfo
+
+        return render_template('modulemanager.html', modules=session['supervisedmodules'])
 
     else:
 
@@ -175,7 +184,7 @@ def modulemanagement():
             query = "SELECT * FROM Modules WHERE LecturerID=?"
             result = pd.read_sql(query, conn, params=(session['user'],))
             lectureinfo = result.to_dict('records')
-            print(lectureinfo)
+            session['supervisedmodules'] = lectureinfo
 
             return render_template('modulemanager.html', modules=lectureinfo)
 
