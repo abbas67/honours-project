@@ -24,10 +24,10 @@
 
                       <select name="module" class="select" required>
                             <option value="" disabled selected hidden>Module Code</option>
-                            {% for item in session['moduleinfo'] %}
-                                <option value="{{ item }}">{{ item }}</option>
+                            {% for item in session['supervisedmodules'] %}
+                                <option value="{{ item['ModuleID'] }}">{{ item['ModuleID'] }}</option>
                             {% endfor %}
-                        </select>
+                      </select>
 
                     <p class="card-text"></p>
                     <a href=" " class="btn btn-primary">Display Code</a>
