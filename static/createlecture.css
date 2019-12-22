@@ -4,22 +4,21 @@
     background-color: #3476b7;
 }
 
-.card{
-    margin-top: 100px;
+.container{
+    height: 100%;
     align-content: center;
     align-self: center;
-    width:375px;
-    margin-left: 10rem;
-
-
+    margin-right: auto;
+    margin-left: auto;
 }
-.flex-container{
-    display: flex;
-    justify-content: center;
-    background:#fff;
-    align-self:center;
-    vertical-align: middle;
-    margin-top: 100px;}
+
+.card{
+
+    margin-top: 100px;
+    margin-bottom: auto;
+    width: auto;
+    background-color: ghostwhite !important;
+}
 
 .form-group select {
     display: inline-block;

@@ -11,10 +11,10 @@ app.secret_key = "supersecretkey"
 
 drivers = [item for item in pyodbc.drivers()]
 driver = drivers[-1]
-server = 'tcp:honoursdbserver.database.windows.net,1433'
-database = 'HonoursProjectDB'
-uid = 'alawal98'
-pwd = 'Hazard1998'
+server = 'Zeno.computing.dundee.ac.uk'
+database = 'abbaslawaldb'
+uid = 'abbaslawal'
+pwd = 'abc2019ABL123..'
 
 params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
 conn = pyodbc.connect(params)
@@ -45,13 +45,51 @@ def lecturerhomepage():
     return redirect(url_for('lecturersigninpage'))
 
 
-@app.route("/lecturersigninpage")
-def lecturersigninpage():
+@app.route("/lecturersignin", methods=['POST', 'GET'])
+def lecturersignin():
 
-    if g.user:
-        return redirect(url_for('lecturerhomepage'))
+    if request.method == 'POST':
 
-    return render_template('lecturersignin.html')
+        session.pop('user', None)
+        lecturerid = request.form['lecturerid']
+        password = request.form['Password']
+
+        query = "SELECT * FROM Lecturers WHERE LecturerID=?"
+        result = pd.read_sql(query, conn, params=(lecturerid,))
+        lecturerinfo = result.to_dict('records')
+        error = None
+
+        if len(lecturerinfo) != 1:
+            error = "Account does not exist"
+            return render_template('lecturersignin.html', error=error)
+
+        if checkpass(lecturerinfo[0], password) is True:
+
+            session['user'] = lecturerid
+            session['moduleinfo'] = []
+            session['lectureinfo'] = []
+
+            query = "SELECT * FROM Modules WHERE LecturerID=?"
+            result = pd.read_sql(query, conn, params=(lecturerid,))
+            lectureinfo = result.to_dict('records')
+
+            for x in lectureinfo:
+
+                if x['LecturerID'].strip() == session['user']:
+                    session['moduleinfo'].append(x['ModuleID'])
+
+            return redirect(url_for('lecturerhomepage'))
+
+        else:
+            error = "LecturerID or password is incorrect"
+            return render_template('lecturersignin.html', error=error)
+
+    else:
+
+        if g.user:
+            return redirect(url_for('lecturerhomepage'))
+
+        return render_template('lecturersignin.html')
 
 
 @app.route("/signup", methods=['POST', 'GET'])
@@ -109,139 +147,141 @@ def signup():
     return render_template('signup.html')
 
 
-@app.route("/lecturersignin", methods=['POST'])
-def lecturersignin():
-
-    session.pop('user', None)
-    lecturerid = request.form['lecturerid']
-    password = request.form['Password']
-
-    query = "SELECT * FROM Lecturers WHERE LecturerID=?"
-    result = pd.read_sql(query, conn, params=(lecturerid,))
-    lecturerinfo = result.to_dict('records')
-    error = None
-
-    if len(lecturerinfo) != 1:
-        error = "Account does not exist"
-        return render_template('lecturersignin.html', error=error)
-
-    if checkpass(lecturerinfo[0], password) is True:
-
-        session['user'] = lecturerid
-        session['moduleinfo'] = []
-        session['lectureinfo'] = []
-
-        query = "SELECT * FROM Modules WHERE LecturerID=?"
-        result = pd.read_sql(query, conn, params=(lecturerid,))
-        lectureinfo = result.to_dict('records')
-
-        for x in lectureinfo:
-
-            if x['LecturerID'].strip() == session['user']:
-                session['moduleinfo'].append(x['ModuleID'])
-
-        return redirect(url_for('lecturerhomepage'))
-
-    else:
-        error = "LecturerID or password is incorrect"
-        return render_template('lecturersignin.html', error=error)
-
-
-@app.route("/lecturemanagement")
-def lectureman():
-    if g.user:
-
-        query = "SELECT * FROM Modules"
-
-        result = pd.read_sql(query, conn)
-        moduleinfo = result.to_dict('records')
-        print(moduleinfo)
-
-        return render_template('createlecture.html', modules=moduleinfo)
-
-    return redirect(url_for('lecturersigninpage'))
-
-
-@app.route("/lecturesignin")
-def lecturesignin():
-    date = datetime.datetime.now()
-
-    #uses template from https://bootsnipp.com/snippets/vl4R7
-    return render_template('lecturesignin.html', date=date)
-
-
 @app.route("/createlecture", methods=['GET', 'POST'])
 def createlecture():
 
-    time = request.form['time']
-    duration = request.form['duration']
-    name = request.form['name']
-    location = request.form['location']
-    module = request.form['module']
-    weekday = request.form['weekday']
-    first = request.form['first']
-    first = int(first)
-    last = request.form['last']
-    last = int(last)
+    if request.method == 'POST':
 
-    for x in range(first, last + 1):
+        time = request.form['time']
+        duration = request.form['duration']
+        name = request.form['name']
+        location = request.form['location']
+        module = request.form['module']
+        weekday = request.form['weekday']
+        first = request.form['first']
+        first = int(first)
+        last = request.form['last']
+        last = int(last)
 
-        query = "INSERT INTO Lectures (LectureID, ModuleID, LectureName, LectureLocation, LectureDuration, Week, Day, Time ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
+        for x in range(first, last + 1):
+            query = "INSERT INTO Lectures (LectureID, ModuleID, LectureName, LectureLocation, LectureDuration, Week, Day, Time ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
 
-        cursor.execute(query, (generatenewcode(), module, name, location, duration, x, weekday, time))
+            cursor.execute(query, (generatenewcode(), module, name, location, duration, x, weekday, time))
+            conn.commit()
+
+        flash("Lecture successfully timetabled.")
+        return redirect(url_for('createlecture'))
+
+    else:
+
+        if g.user:
+
+            query = "SELECT * FROM Modules"
+
+            result = pd.read_sql(query, conn)
+            moduleinfo = result.to_dict('records')
+            print(moduleinfo)
+
+            return render_template('createlecture.html', modules=moduleinfo)
+
+        return redirect(url_for('lecturersigninpage'))
+
+
+@app.route("/modulemanagement", methods=['GET', 'POST'])
+def modulemanagement():
+
+    if request.method == 'POST':
+
+        moduleid = request.form['moduleid']
+        modulename = request.form['modulename']
+
+        print(moduleid, modulename)
+        query = "INSERT INTO Modules(ModuleID, ModuleName, LecturerID) VALUES (?, ?, ?);"
+        cursor.execute(query, (moduleid, modulename, session['user']))
         conn.commit()
+        updatemanagedmodules()
+        return render_template('modulemanager.html', modules=session['supervisedmodules'])
 
-    flash("Lecture successfully created timetabled." )
-    return redirect(url_for('lectureman'))
+    else:
 
-@app.route("/genCode")
+        if g.user:
+
+            updatemanagedmodules()
+            return render_template('modulemanager.html', modules=session['supervisedmodules'])
+
+        return redirect(url_for('lecturersigninpage'))
+
+
+def updatemanagedmodules():
+
+    query = "SELECT * FROM Modules WHERE LecturerID=?"
+    result = pd.read_sql(query, conn, params=(session['user'],))
+    session['supervisedmodules'] = result.to_dict('records')
+
+
+@app.route("/lecturesignin", methods=['GET', 'POST'])
+def lecturesignin():
+
+    if request.method == 'POST':
+
+        matriculationnumber = request.form['MatriculationNumber']
+        password = request.form['Password']
+        lecturecode = request.form['LectureCode']
+
+        query = "SELECT * FROM Students WHERE MatricNum=?"
+
+        result = pd.read_sql(query, conn, params=(matriculationnumber,))
+        studentinfo = result.to_dict('records')
+        print(studentinfo)
+
+        error = None
+
+        if len(studentinfo) != 1:
+            error = "Matriculation Number or password is incorrect"
+            return render_template('lecturesignin.html', error=error)
+
+        query = "SELECT * FROM Lectures WHERE LectureID=?"
+        result = pd.read_sql(query, conn, params=(lecturecode,))
+        lectureinfo = result.to_dict('records')
+
+        if len(lectureinfo) != 1:
+            error = "Incorrect lecture code, please try again"
+            return render_template('lecturesignin.html', error=error)
+
+        if checkpass(studentinfo[0], password) is True and len(lectureinfo) is 1:
+
+            return render_template('signedin.html', lecturedata=lectureinfo[0])
+
+        else:
+            error = "Wrong Password or Lecture Code"
+            return render_template('lecturesignin.html', error=error)
+    else:
+
+        date = datetime.datetime.now()
+        #uses template from https://bootsnipp.com/snippets/vl4R7
+        return render_template('lecturesignin.html', date=date)
+
+
+@app.route("/genCode", methods=['GET', 'POST'])
 def codedisplay():
 
-    if g.user:
+    if request.method == 'POST':
+        pass
 
-        print(session['user'])
+    else:
 
-        return render_template('genCode.html', code=generatenewcode())
+        if g.user:
 
-    return redirect(url_for('lecturersigninpage'))
+            print(session['user'])
+
+            return render_template('genCode.html', code=generatenewcode(), )
+
+        return redirect(url_for('lecturersigninpage'))
 
 
 def generatenewcode():
 
     return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(6))
-
-
-@app.route("/login", methods=['POST'])
-def login():
-
-    matriculationnumber = request.form['MatriculationNumber']
-    password = request.form['Password']
-    lecturecode = request.form['LectureCode']
-
-    query = "SELECT * FROM Students WHERE MatricNum=?"
-
-    result = pd.read_sql(query, conn, params=(matriculationnumber,))
-    studentinfo = result.to_dict('records')
-    print(studentinfo)
-
-    error = None
-
-    if len(studentinfo) != 1:
-        error = "Matriculation Number or password is incorrect"
-        return render_template('lecturesignin.html', error=error)
-
-    query = "SELECT * FROM Lectures WHERE LectureID=?"
-    result = pd.read_sql(query, conn, params=(lecturecode,))
-    lectureinfo = result.to_dict('records')
-    print(lectureinfo[0])
-
-    if checkpass(studentinfo[0], password) is True and len(lectureinfo) is 1:
-
-        return render_template('signedin.html', lecturedata=lectureinfo[0])
-
-    else:
-        error = "Wrong Password or Lecture Code"
-        return render_template('lecturesignin.html', error=error)
 
 
 def checkpass(user, possiblepassword):
