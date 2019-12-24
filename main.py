@@ -3,7 +3,7 @@ import random
 import pandas as pd
 import pyodbc
 import string
-from flask import Flask, render_template, request, redirect, url_for, flash, session, g
+from flask import Flask, render_template, request, redirect, url_for, flash, session, g, json
 
 app = Flask(__name__)
 
@@ -262,21 +262,42 @@ def lecturesignin():
         return render_template('lecturesignin.html', date=date)
 
 
-@app.route("/genCode", methods=['GET', 'POST'])
-def codedisplay():
+@app.route("/gencode", methods=['GET', 'POST'])
+def gencode():
 
     if request.method == 'POST':
-        pass
+        modulecode = request.form['module']
+        flash(generatenewcode())
+        return render_template('gencode.html', code=generatenewcode(), )
 
     else:
-
         if g.user:
+            updatemanagedmodules()
+            return render_template('gencode.html')
 
-            print(session['user'])
+        return redirect(url_for('lecturersigninpage', code=0, moduleselected=False))
 
-            return render_template('genCode.html', code=generatenewcode(), )
 
-        return redirect(url_for('lecturersigninpage'))
+@app.route("/selectmodule", methods=['GET', 'POST'])
+def selectmodule():
+
+    module = request.form['module']
+
+    query = "SELECT * FROM Lectures WHERE ModuleID=?"
+
+    result = pd.read_sql(query, conn, params=(module,))
+    lectureinfo = result.to_dict('records')
+    print(lectureinfo)
+
+    return render_template('gencode.html', lectures=lectureinfo, moduleselected=True )
+
+
+@app.route("/selectlecture", methods=['GET', 'POST'])
+def selectlecture():
+
+    lecture = request.form['lecture']
+    print(lecture)
+
 
 
 def generatenewcode():
@@ -299,4 +320,5 @@ def sign_out():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', threaded=True, debug=True)
+    app.run(host='0.0.0.0', threaded=True, debug=True, port=5000)
+    #app.run(debug=True, port=10000)
