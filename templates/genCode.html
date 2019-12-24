@@ -16,23 +16,77 @@
         <p> </p>
     <h1 align="center"> Lecture Code Display</h1>
 
+
     <div class ="flex-container" id="menu-options">
-            <div class="card" style="width: 30rem;">
-
-                  <div class="card-body">
-                    <h5 class="card-title">Select Module</h5>
-
-                      <select name="module" class="select" required>
-                            <option value="" disabled selected hidden>Module Code</option>
-                            {% for item in session['supervisedmodules'] %}
-                                <option value="{{ item['ModuleID'] }}">{{ item['ModuleID'] }}</option>
-                            {% endfor %}
-                      </select>
-
-                    <p class="card-text"></p>
-                    <a href=" " class="btn btn-primary">Display Code</a>
-                  </div>
+    <form action="{{ url_for('selectmodule') }}" method="post">
+        {% for item in session['supervisedmodules'] %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item['ModuleID'] }}</h5>
+                    <p class="card-text">{{ item['ModuleName'] }}</p>
+                    <input name="module" type="submit" class="btn btn-primary" value="{{ item['ModuleID'] }}" >
+                </div>
             </div>
+            <br>
+        {% endfor %}
+    </form>
+
+
+
+    {% if moduleselected == True %}
+
+        <div class="card" style="width: 30rem;">
+
+            <div class="card-body">
+                <h5 class="card-title">Select Lecture</h5>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">Select</th>
+        <th scope="col">Day</th>
+        <th scope="col">Week</th>
+        <th scope="col">Time</th>
+        <th scope="col">Location</th>
+    </tr>
+  </thead>
+
+  <tbody>
+   {% for item in lectures%}
+       <form action="{{ url_for('selectlecture') }}" method="post">
+    <tr>
+        <th scope="col"></th>
+        <td><input name="lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}"></td>
+        <td>{{ item['Day'] }}</td>
+        <td>{{ item['Week'] }}</td>
+        <td>{{ item['Time '] }}</td>
+        <td>{{ item['LectureLocation'] }}</td>
+    </tr>
+       </form>
+   {% endfor %}
+
+  </tbody>
+</table>
+
+
+
+
+        </div>
+
+
+        </div>
+
+    {% endif %}
+
+    <div>
+        {% with message = get_flashed_messages() %}
+            {% if message %}
+                <h1 class=flashes align="center">
+                    {{ message }}
+                </h1>
+            {% endif %}
+        {% endwith %}
     </div>
 
 {% endblock content %}
