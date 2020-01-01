@@ -30,6 +30,16 @@ body {
     object-fit: cover;
 }
 
+.centered{
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      margin-top: -50px;
+      margin-left: -100px;
+
+
+}
+
 
 /* Responsive columns - one column layout (vertical) on small screens */
 @media screen and (max-width: 600px) {
