@@ -3,3 +3,12 @@
     align-content: center;
     align-self: center;
 }
+
+.flex-container{
+    display: flex;
+    justify-content: center;
+    background:#fff;
+    align-self:center;
+    vertical-align: middle;
+    margin-top: 100px;
+}

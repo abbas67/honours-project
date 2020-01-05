@@ -3,11 +3,19 @@ import random
 import pandas as pd
 import pyodbc
 import string
+import logging
+from os import path
+import os
+from logging import handlers
+
 from flask import Flask, render_template, request, redirect, url_for, flash, session, g, json
+import hashlib, binascii, os
 
 app = Flask(__name__)
 
 app.secret_key = "supersecretkey"
+
+logger = logging
 
 drivers = [item for item in pyodbc.drivers()]
 driver = drivers[-1]
@@ -42,28 +50,28 @@ def lecturerhomepage():
     if g.user:
         return render_template('lecturerhome.html')
 
-    return redirect(url_for('lecturersigninpage'))
+    return redirect(url_for('lecturersignin'))
 
 
 @app.route("/lecturersignin", methods=['POST', 'GET'])
 def lecturersignin():
 
     if request.method == 'POST':
-
         session.pop('user', None)
         lecturerid = request.form['lecturerid']
         password = request.form['Password']
-
         query = "SELECT * FROM Lecturers WHERE LecturerID=?"
         result = pd.read_sql(query, conn, params=(lecturerid,))
         lecturerinfo = result.to_dict('records')
         error = None
-
         if len(lecturerinfo) != 1:
             error = "Account does not exist"
+            logger.info("Account does not exist")
+            print("failing")
             return render_template('lecturersignin.html', error=error)
 
-        if checkpass(lecturerinfo[0], password) is True:
+        actualpass = lecturerinfo[0]['Password']
+        if checkpass(actualpass, password) is True:
 
             session['user'] = lecturerid
             session['moduleinfo'] = []
@@ -77,11 +85,14 @@ def lecturersignin():
 
                 if x['LecturerID'].strip() == session['user']:
                     session['moduleinfo'].append(x['ModuleID'])
-
+                    print("passing")
+            logger.info("Successfully Signed In")
             return redirect(url_for('lecturerhomepage'))
 
         else:
             error = "LecturerID or password is incorrect"
+            logger.info("LecturerID or password is incorrect")
+            print("failing because password")
             return render_template('lecturersignin.html', error=error)
 
     else:
@@ -100,7 +111,7 @@ def signup():
         notification = None
 
         idnum = request.form['idnum']
-        password = request.form['password']
+        password = hash_password(request.form['password'])
         fname = request.form['fname']
         lname = request.form['lname']
         type = request.form['lecturercheck']
@@ -114,6 +125,7 @@ def signup():
 
             if len(resultdict) > 0:
                 notification = "The ID already exists"
+                logger.info("The ID already exists, Account Creation failed")
                 return render_template('signup.html', notification=notification)
 
             query = "INSERT INTO Lecturers (LecturerID, FirstName, LastName, Password) VALUES (?, ?, ? ,?);"
@@ -121,6 +133,7 @@ def signup():
             conn.commit()
 
         notification = "account successfully created"
+        logger.info("lecturer account successfully created")
 
         if type == 'Student':
 
@@ -130,10 +143,12 @@ def signup():
 
             if len(resultdict) > 0:
                 notification = "The ID already exists"
+                logger.info("Error, ID already exists")
                 return render_template('signup.html', notification=notification)
 
             if len(idnum) != 9:
                 notification = "Please enter a valid matriculation number"
+                logger.info("Invalid Matriculation Number")
                 return render_template('signup.html', notification=notification)
 
             query = "INSERT INTO Students (MatricNum, FirstName, LastName, Password) VALUES (?, ?, ? ,?);"
@@ -141,6 +156,7 @@ def signup():
             conn.commit()
 
         notification = "account successfully created"
+        logger.info("Student account successfully created")
 
         return render_template('signup.html', notification=notification)
 
@@ -184,7 +200,7 @@ def createlecture():
 
             return render_template('createlecture.html', modules=moduleinfo)
 
-        return redirect(url_for('lecturersigninpage'))
+        return redirect(url_for('lecturersignin'))
 
 
 @app.route("/modulemanagement", methods=['GET', 'POST'])
@@ -209,7 +225,7 @@ def modulemanagement():
             updatemanagedmodules()
             return render_template('modulemanager.html', modules=session['supervisedmodules'])
 
-        return redirect(url_for('lecturersigninpage'))
+        return redirect(url_for('lecturersignin'))
 
 
 def updatemanagedmodules():
@@ -232,8 +248,7 @@ def lecturesignin():
 
         result = pd.read_sql(query, conn, params=(matriculationnumber,))
         studentinfo = result.to_dict('records')
-        print(studentinfo)
-
+        actualpassword = studentinfo[0]['Password']
         error = None
 
         if len(studentinfo) != 1:
@@ -248,8 +263,25 @@ def lecturesignin():
             error = "Incorrect lecture code, please try again"
             return render_template('lecturesignin.html', error=error)
 
-        if checkpass(studentinfo[0], password) is True and len(lectureinfo) is 1:
+        if checkpass(actualpassword, password) is True and len(lectureinfo) is 1:
 
+            filename = ('Attendance_Docs/%s.txt' % lecturecode)
+
+            if path.exists(filename):
+                with open(filename, 'a') as file:
+                    file.write("file does exist bitch")
+                    print(studentinfo['MatricNum'] + ' ,' + studentinfo['FirstName'] + studentinfo['LastName'])
+
+            else:
+
+                file = open(filename, 'w')
+                file.write("file does not exist yet.")
+                #file.write(studentinfo['MatricNum'] + ' ,' + studentinfo['FirstName'] + studentinfo['LastName'])
+                file.write(studentinfo['MatricNum'] + ' ,' + studentinfo['FirstName'] + studentinfo['LastName'])
+                file.close()
+
+            print(test)
+            logger.info("Successfully signed into lecture")
             return render_template('signedin.html', lecturedata=lectureinfo[0])
 
         else:
@@ -258,7 +290,7 @@ def lecturesignin():
     else:
 
         date = datetime.datetime.now()
-        #uses template from https://bootsnipp.com/snippets/vl4R7
+
         return render_template('lecturesignin.html', date=date)
 
 
@@ -267,15 +299,14 @@ def gencode():
 
     if request.method == 'POST':
         modulecode = request.form['module']
-        flash(generatenewcode())
-        return render_template('gencode.html', code=generatenewcode(), )
+        return render_template('gencode.html', moduleselected=False, lectureselected=False )
 
     else:
         if g.user:
             updatemanagedmodules()
-            return render_template('gencode.html')
+            return render_template('gencode.html', moduleselected=False, lectureselected=False)
 
-        return redirect(url_for('lecturersigninpage', code=0, moduleselected=False))
+        return redirect(url_for('lecturersignin'))
 
 
 @app.route("/selectmodule", methods=['GET', 'POST'])
@@ -289,15 +320,15 @@ def selectmodule():
     lectureinfo = result.to_dict('records')
     print(lectureinfo)
 
-    return render_template('gencode.html', lectures=lectureinfo, moduleselected=True )
+    return render_template('gencode.html', lectures=lectureinfo, moduleselected=True, lectureselected=False)
 
 
 @app.route("/selectlecture", methods=['GET', 'POST'])
 def selectlecture():
 
     lecture = request.form['lecture']
-    print(lecture)
-
+    flash(lecture)
+    return render_template('gencode.html', moduleselected=True, code=lecture, lectureselected=True)
 
 
 def generatenewcode():
@@ -305,20 +336,35 @@ def generatenewcode():
     return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(6))
 
 
-def checkpass(user, possiblepassword):
+def checkpass(stored_password, provided_password):
+    """Verify a stored password against one provided by user"""
+    salt = stored_password[:64]
+    stored_password = stored_password[64:]
+    pwdhash = hashlib.pbkdf2_hmac('sha512',
+                                  provided_password.encode('utf-8'),
+                                  salt.encode('ascii'),
+                                  100000)
+    pwdhash = binascii.hexlify(pwdhash).decode('ascii')
+    return pwdhash == stored_password
 
-    if user['Password'] == possiblepassword:
-        return True
-    else:
-        return False
+
+def hash_password(password):
+    """Hash a password for storing."""
+    salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
+    pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'),
+                                salt, 100000)
+    pwdhash = binascii.hexlify(pwdhash)
+    return (salt + pwdhash).decode('ascii')
 
 
 @app.route('/sign_out')
 def sign_out():
     session.pop('user', None)
-    return redirect(url_for('index'))
+    logger.info("Successfully Signed In")
+    return redirect(url_for('Home'))
 
 
 if __name__ == "__main__":
+
     app.run(host='0.0.0.0', threaded=True, debug=True, port=5000)
-    #app.run(debug=True, port=10000)
+
