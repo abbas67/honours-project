@@ -4,12 +4,18 @@ import pandas as pd
 import pyodbc
 import string
 import logging
+from os import path
+import os
+from logging import handlers
+
 from flask import Flask, render_template, request, redirect, url_for, flash, session, g, json
 import hashlib, binascii, os
-logger = logging
+
 app = Flask(__name__)
 
 app.secret_key = "supersecretkey"
+
+logger = logging
 
 drivers = [item for item in pyodbc.drivers()]
 driver = drivers[-1]
@@ -51,19 +57,17 @@ def lecturerhomepage():
 def lecturersignin():
 
     if request.method == 'POST':
-
         session.pop('user', None)
         lecturerid = request.form['lecturerid']
         password = request.form['Password']
-
         query = "SELECT * FROM Lecturers WHERE LecturerID=?"
         result = pd.read_sql(query, conn, params=(lecturerid,))
         lecturerinfo = result.to_dict('records')
         error = None
-
         if len(lecturerinfo) != 1:
             error = "Account does not exist"
             logger.info("Account does not exist")
+            print("failing")
             return render_template('lecturersignin.html', error=error)
 
         actualpass = lecturerinfo[0]['Password']
@@ -81,12 +85,14 @@ def lecturersignin():
 
                 if x['LecturerID'].strip() == session['user']:
                     session['moduleinfo'].append(x['ModuleID'])
+                    print("passing")
             logger.info("Successfully Signed In")
             return redirect(url_for('lecturerhomepage'))
 
         else:
             error = "LecturerID or password is incorrect"
             logger.info("LecturerID or password is incorrect")
+            print("failing because password")
             return render_template('lecturersignin.html', error=error)
 
     else:
@@ -259,6 +265,23 @@ def lecturesignin():
 
         if checkpass(actualpassword, password) is True and len(lectureinfo) is 1:
 
+            filename = ('Attendance_Docs/%s.txt' % lecturecode)
+
+            if path.exists(filename):
+                with open(filename, 'a') as file:
+                    file.write("file does exist bitch")
+                    print(studentinfo['MatricNum'] + ' ,' + studentinfo['FirstName'] + studentinfo['LastName'])
+
+            else:
+
+                file = open(filename, 'w')
+                file.write("file does not exist yet.")
+                #file.write(studentinfo['MatricNum'] + ' ,' + studentinfo['FirstName'] + studentinfo['LastName'])
+                file.write(studentinfo['MatricNum'] + ' ,' + studentinfo['FirstName'] + studentinfo['LastName'])
+                file.close()
+
+            print(test)
+            logger.info("Successfully signed into lecture")
             return render_template('signedin.html', lecturedata=lectureinfo[0])
 
         else:
@@ -267,7 +290,7 @@ def lecturesignin():
     else:
 
         date = datetime.datetime.now()
-        #uses template from https://bootsnipp.com/snippets/vl4R7
+
         return render_template('lecturesignin.html', date=date)
 
 
@@ -342,5 +365,6 @@ def sign_out():
 
 
 if __name__ == "__main__":
+
     app.run(host='0.0.0.0', threaded=True, debug=True, port=5000)
-    #app.run(debug=True, port=10000)
+
