@@ -5,6 +5,7 @@ import pyodbc
 import string
 import logging
 from os import path
+import sys
 import os
 from logging import handlers
 
@@ -15,7 +16,26 @@ app = Flask(__name__)
 
 app.secret_key = "supersecretkey"
 
-logger = logging
+if path.exists('logger.log'):
+    os.remove('logger.log')
+    print("Log file rotated.")
+
+# create logger with 'spam_application'
+logger = logging.getLogger('logger')
+logger.setLevel(logging.DEBUG)
+# create file handler which logs even debug messages
+fh = logging.FileHandler('logger.log')
+fh.setLevel(logging.INFO)
+# create console handler with a higher log level
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+# create formatter and add it to the handlers
+formatter = logging.Formatter('%(name)s-%(levelname)s-%(message)s')
+fh.setFormatter(formatter)
+ch.setFormatter(formatter)
+# add the handlers to the logger
+logger.addHandler(fh)
+logger.addHandler(ch)
 
 drivers = [item for item in pyodbc.drivers()]
 driver = drivers[-1]
@@ -86,10 +106,11 @@ def lecturersignin():
                 if x['LecturerID'].strip() == session['user']:
                     session['moduleinfo'].append(x['ModuleID'])
                     print("passing")
-            logger.info("Successfully Signed In")
+            logger.info("Successfully Signed Into Lecturer Account")
             return redirect(url_for('lecturerhomepage'))
 
         else:
+
             error = "LecturerID or password is incorrect"
             logger.info("LecturerID or password is incorrect")
             print("failing because password")
@@ -115,7 +136,6 @@ def signup():
         fname = request.form['fname']
         lname = request.form['lname']
         type = request.form['lecturercheck']
-        print(idnum, password, fname, lname, type)
 
         if type == 'Lecturer':
 
@@ -126,16 +146,16 @@ def signup():
             if len(resultdict) > 0:
                 notification = "The ID already exists"
                 logger.info("The ID already exists, Account Creation failed")
+
                 return render_template('signup.html', notification=notification)
 
             query = "INSERT INTO Lecturers (LecturerID, FirstName, LastName, Password) VALUES (?, ?, ? ,?);"
             cursor.execute(query, (idnum, fname, lname, password))
             conn.commit()
+            notification = "account successfully created"
+            logger.info("Lecturer account successfully created")
 
-        notification = "account successfully created"
-        logger.info("lecturer account successfully created")
-
-        if type == 'Student':
+        else:
 
             query = "SELECT * FROM Students WHERE MatricNum=?"
             result = pd.read_sql(query, conn, params=(idnum,))
@@ -155,8 +175,8 @@ def signup():
             cursor.execute(query, (idnum, fname, lname, password))
             conn.commit()
 
-        notification = "account successfully created"
-        logger.info("Student account successfully created")
+            notification = "account successfully created"
+            logger.info("Student account successfully created")
 
         return render_template('signup.html', notification=notification)
 
@@ -248,6 +268,7 @@ def lecturesignin():
 
         result = pd.read_sql(query, conn, params=(matriculationnumber,))
         studentinfo = result.to_dict('records')
+
         actualpassword = studentinfo[0]['Password']
         error = None
 
@@ -265,22 +286,28 @@ def lecturesignin():
 
         if checkpass(actualpassword, password) is True and len(lectureinfo) is 1:
 
-            filename = ('Attendance_Docs/%s.txt' % lecturecode)
+            filename = ('/Attendance_Docs/%s.txt' % lecturecode)
+            current_path = os.path.abspath(os.path.dirname(__file__))
+            path = current_path + filename
+            attendance_info = ('Matriculation_Number: '+ studentinfo[0]['MatricNum'] + ', First_Name: ' + studentinfo[0]['FirstName'] + ', Last_Name: '+ studentinfo[0]['LastName'] + ';' )
 
-            if path.exists(filename):
-                with open(filename, 'a') as file:
-                    file.write("file does exist bitch")
-                    print(studentinfo['MatricNum'] + ' ,' + studentinfo['FirstName'] + studentinfo['LastName'])
+            if os.path.exists(path):
 
+                if check_if_signed_in(matriculationnumber, path):
+                    error = "Your attendance has already been recorded for this lecture."
+                    logger.info("Error, student attendance has already been recorded")
+                    return render_template('lecturesignin.html', error=error)
+
+                logger.info("Lecture attendance file exists, appending to file...")
+                with open(path, 'a') as file:
+                    file.write('\n' + attendance_info)
             else:
 
-                file = open(filename, 'w')
-                file.write("file does not exist yet.")
-                #file.write(studentinfo['MatricNum'] + ' ,' + studentinfo['FirstName'] + studentinfo['LastName'])
-                file.write(studentinfo['MatricNum'] + ' ,' + studentinfo['FirstName'] + studentinfo['LastName'])
+                logger.info("Lecture attendance file does not exist yet, creating new file...")
+                file = open(path, 'w+')
+                file.write(attendance_info)
                 file.close()
 
-            print(test)
             logger.info("Successfully signed into lecture")
             return render_template('signedin.html', lecturedata=lectureinfo[0])
 
@@ -292,6 +319,15 @@ def lecturesignin():
         date = datetime.datetime.now()
 
         return render_template('lecturesignin.html', date=date)
+
+
+def check_if_signed_in(matriculation_number, path):
+
+    with open(path) as f:
+        if matriculation_number in f.read():
+            return True
+        else:
+            return False
 
 
 @app.route("/gencode", methods=['GET', 'POST'])
@@ -360,7 +396,7 @@ def hash_password(password):
 @app.route('/sign_out')
 def sign_out():
     session.pop('user', None)
-    logger.info("Successfully Signed In")
+    logger.info("Successfully Signed Out")
     return redirect(url_for('Home'))
 
 

@@ -12,8 +12,8 @@ from main import app
 
 app.testing = True
 
-# Testing that each page returns the required response.
 
+# Testing that each page returns the required response.
 class BasicTests(unittest.TestCase):
 
     def setUp(self):
@@ -56,6 +56,9 @@ class AdvancedTests(unittest.TestCase):
         cursor.execute("DELETE FROM Students WHERE MatricNum=?", ('160012345',))
         cursor.commit()
 
+        cursor.execute("DELETE FROM Students WHERE MatricNum=?", ('160012346',))
+        cursor.commit()
+
         cursor.execute("DELETE FROM Lecturers WHERE LecturerID=?", ('testaccount123',))
         cursor.commit()
 
@@ -63,7 +66,7 @@ class AdvancedTests(unittest.TestCase):
         cursor.commit()
 
     # Testing the account creation functionality for students
-    def test_studentsignup(self):
+    def test_student_signup(self):
 
         with self.assertLogs(level='INFO') as cm:
             # sending a post request to the application.
@@ -89,7 +92,7 @@ class AdvancedTests(unittest.TestCase):
             self.assertEqual(['INFO:logger:Error, ID already exists'], cm.output)
 
     # Testing the account creation functionality for lecturers
-    def test_lecturersignup(self):
+    def test_lecturer_signup(self):
 
         with self.assertLogs(level='INFO') as cm:
             # Sending a post request to the application.
@@ -111,25 +114,52 @@ class AdvancedTests(unittest.TestCase):
 
         with self.assertLogs(level='INFO') as cm:
             # Creating a lecturer account using the helper sign up method.
-            self.lecturer_sign_up('testaccount123', 'password123', 'John', 'Doe', 'Lecturer')
+            self.account_sign_up('testaccount123', 'password123', 'John', 'Doe', 'Lecturer')
             # sending a post request to the application, attempting to log in...
             self.app.post('/lecturersignin',
                           data=dict(lecturerid='testaccount123', Password='password123', follow_redirects=True))
             # 'checks to see if the account has been successfully signed in or not.
-            print(cm.output)
             self.assertIn('INFO:logger:Successfully Signed Into Lecturer Account', cm.output)
 
-
     def test_student_lecture_login(self):
-        
-        response = self.app.post('/signup', data=dict(idnum=idnum, password=password, fname=fname,
-                                                      lname=lname, lecturercheck=type, follow_redirects=True))
+
+        with self.assertLogs(level='INFO') as cm:
+
+            # Checking to see if a register already exists, so that it can be deleted, making sure the test is accurate.
+            path = os.path.abspath(os.path.dirname(__file__)) + '/../Attendance_Docs/Z80JCL.txt'
+            if os.path.isfile(path):
+                os.remove(path)
+            # Creating the required accounts for the test.
+            self.account_sign_up('160012346', 'password123', 'Harry', 'Potter', 'Student')
+            self.account_sign_up('160012345', 'password123', 'Draco', 'Malfoy', 'Student')
+            # Sending the required request to the application
+            response = self.app.post('/lecturesignin', data=dict(MatriculationNumber='160012346', LectureCode='Z80JCL',
+                                                                 Password='password123', follow_redirects=True))
+
+            # Checking to see the register has been created and that the student has been signed in.
+            self.assertTrue(os.path.isfile(path))
+            self.assertIn('INFO:logger:Lecture attendance file does not exist yet, creating new file...', cm.output)
+            self.assertIn('INFO:logger:Successfully signed into lecture', cm.output)
+            # Sending the required request to the application
+            response = self.app.post('/lecturesignin', data=dict(MatriculationNumber='160012345', LectureCode='Z80JCL',
+                                                                 Password='password123', follow_redirects=True))
+
+            # checking that the student has been added to the register and signed in.
+            self.assertIn('INFO:logger:Lecture attendance file exists, appending to file...', cm.output)
+            self.assertIn('INFO:logger:Successfully signed into lecture', cm.output)
+
+            # Testing that students cannot be signed into the same lecture twice.
+
+            response = self.app.post('/lecturesignin', data=dict(MatriculationNumber='160012345', LectureCode='Z80JCL',
+                                                                 Password='password123', follow_redirects=True))
+
+            self.assertIn('INFO:logger:Error, student attendance has already been recorded', cm.output)
 
     ########################
     #### helper methods ####
     ########################
 
-    def lecturer_sign_up(self, idnum, password, fname, lname, type):
+    def account_sign_up(self, idnum, password, fname, lname, type):
         response = self.app.post('/signup', data=dict(idnum=idnum, password=password, fname=fname,
                                                       lname=lname, lecturercheck=type, follow_redirects=True))
 
