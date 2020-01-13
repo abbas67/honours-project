@@ -20,7 +20,7 @@ if path.exists('logger.log'):
     os.remove('logger.log')
     print("Log file rotated.")
 
-# create logger with 'spam_application'
+
 logger = logging.getLogger('logger')
 logger.setLevel(logging.DEBUG)
 # create file handler which logs even debug messages
@@ -30,7 +30,7 @@ fh.setLevel(logging.INFO)
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)
 # create formatter and add it to the handlers
-formatter = logging.Formatter('%(name)s-%(levelname)s-%(message)s')
+formatter = logging.Formatter("%(asctime)s;%(levelname)s;%(message)s")
 fh.setFormatter(formatter)
 ch.setFormatter(formatter)
 # add the handlers to the logger
@@ -200,6 +200,7 @@ def createlecture():
         last = int(last)
 
         for x in range(first, last + 1):
+
             query = "INSERT INTO Lectures (LectureID, ModuleID, LectureName, LectureLocation, LectureDuration, Week, Day, Time ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
 
             cursor.execute(query, (generatenewcode(), module, name, location, duration, x, weekday, time))
@@ -223,6 +224,86 @@ def createlecture():
         return redirect(url_for('lecturersignin'))
 
 
+
+@app.route("/module_options", methods=['GET', 'POST'])
+def module_options():
+
+    if request.method == 'POST':
+
+        module_id = request.form['Module']
+        getmoduleinfo(module_id)
+        print(session['moduleinfo'])
+        updatemanagedmodules()
+        modulelectures = get_lectures(module_id)
+
+        return render_template('module_options.html', moduleid=module_id, lectures=modulelectures,
+                               timetabled_days=check_timetabled_days(modulelectures))
+
+    else:
+        if g.user:
+
+            module_id = request.form['Module']
+            updatemanagedmodules()
+            return render_template('module_options.html', ID=module_id, lectures=get_lectures(module_id))
+
+        return redirect(url_for('lecturersignin'))
+
+
+@app.route("/delete_module", methods=['POST'])
+def delete_module():
+
+    module_id = request.form['Module']
+
+    cursor.execute("DELETE FROM Modules WHERE ModuleID=?", (module_id,))
+    cursor.commit()
+
+    cursor.execute("DELETE FROM Lectures WHERE ModuleID=?", (module_id,))
+    cursor.commit()
+
+    updatemanagedmodules()
+    logger.info("Module Deleted")
+    return render_template('modulemanager.html', modules=session['supervisedmodules'])
+
+
+def get_lectures(module):
+
+    query = "SELECT * FROM Lectures WHERE ModuleID=? ORDER BY Week ASC"
+
+    result = pd.read_sql(query, conn, params=(module,))
+    return result.to_dict('records')
+
+
+def check_timetabled_days(modulelectures):
+    timetabled_days = {'Monday': False, 'Tuesday': False, 'Wednesday': False, 'Thursday': False, 'Friday': False}
+
+    for x in modulelectures:
+
+        if x['Day'] == 'Monday':
+            timetabled_days['Monday'] = True
+
+        if x['Day'] == 'Tueday':
+            timetabled_days['Tuesday'] = True
+
+        if x['Day'] == 'Wednesday':
+            timetabled_days['Wednesday'] = True
+
+        if x['Day'] == 'Thursday':
+            timetabled_days['Thursday'] = True
+
+        if x['Day'] == 'Friday':
+            timetabled_days['Friday'] = True
+
+    return timetabled_days
+
+
+def getmoduleinfo(module_id):
+
+    query = "SELECT * FROM Modules WHERE ModuleID=?"
+    result = pd.read_sql(query, conn, params=(module_id,))
+    #result.sort_values(by=3, ascending=True)
+    session['moduleinfo'] = result.to_dict('records')[0]
+
+
 @app.route("/modulemanagement", methods=['GET', 'POST'])
 def modulemanagement():
 
@@ -231,11 +312,17 @@ def modulemanagement():
         moduleid = request.form['moduleid']
         modulename = request.form['modulename']
 
-        print(moduleid, modulename)
+        if check_duplicate('Modules', 'ModuleID', moduleid):
+            error = "Error, module ID already exists, please choose another."
+            logger.info("Error, module ID already exists, please choose another.")
+            flash("Error, module ID already exists, please choose another.")
+            return render_template('modulemanager.html', modules=session['supervisedmodules'], Notification=error)
+
         query = "INSERT INTO Modules(ModuleID, ModuleName, LecturerID) VALUES (?, ?, ?);"
         cursor.execute(query, (moduleid, modulename, session['user']))
         conn.commit()
         updatemanagedmodules()
+        logger.info("Module Created")
         return render_template('modulemanager.html', modules=session['supervisedmodules'])
 
     else:
@@ -350,13 +437,7 @@ def selectmodule():
 
     module = request.form['module']
 
-    query = "SELECT * FROM Lectures WHERE ModuleID=?"
-
-    result = pd.read_sql(query, conn, params=(module,))
-    lectureinfo = result.to_dict('records')
-    print(lectureinfo)
-
-    return render_template('gencode.html', lectures=lectureinfo, moduleselected=True, lectureselected=False)
+    return render_template('gencode.html', lectures=get_lectures(module), moduleselected=True, lectureselected=False)
 
 
 @app.route("/selectlecture", methods=['GET', 'POST'])
@@ -391,6 +472,24 @@ def hash_password(password):
                                 salt, 100000)
     pwdhash = binascii.hexlify(pwdhash)
     return (salt + pwdhash).decode('ascii')
+
+
+def check_duplicate(table_name, field, unique_key):
+
+    query = ("SELECT * FROM %s WHERE %s=?" % (table_name, field))
+    print(query)
+    # filename = ('/Attendance_Docs/%s.txt' % lecturecode)
+    result = pd.read_sql(query, conn, params=(unique_key,))
+    tableinfo = result.to_dict('records')
+    print(tableinfo)
+
+    if len(tableinfo) > 0:
+
+        return True
+
+    else:
+
+        return False
 
 
 @app.route('/sign_out')
