@@ -224,43 +224,61 @@ def createlecture():
         return redirect(url_for('lecturersignin'))
 
 
-
 @app.route("/module_options", methods=['GET', 'POST'])
 def module_options():
 
     if request.method == 'POST':
 
-        module_id = request.form['Module']
-        getmoduleinfo(module_id)
-        print(session['moduleinfo'])
+        lecture_id = request.form['lecture']
+        getmoduleinfo(session['moduleinfo']['ModuleID'])
         updatemanagedmodules()
-        modulelectures = get_lectures(module_id)
-
-        return render_template('module_options.html', moduleid=module_id, lectures=modulelectures,
+        modulelectures = get_lectures(session['moduleinfo']['ModuleID'])
+        logger.info("Lecture deleted")
+        logger.info("Lecture deleted")
+        delete_lecture(lecture_id)
+        return render_template('module_options.html', moduleid=session['moduleinfo']['ModuleID'], lectures=modulelectures,
                                timetabled_days=check_timetabled_days(modulelectures))
 
     else:
+
         if g.user:
 
-            module_id = request.form['Module']
+            module_id = request.args['module']
+            session['moduleid'] = module_id
+            print(module_id)
+            getmoduleinfo(module_id)
+            print(session['moduleinfo'])
             updatemanagedmodules()
-            return render_template('module_options.html', ID=module_id, lectures=get_lectures(module_id))
+            modulelectures = get_lectures(module_id)
+
+            return render_template('module_options.html', moduleid=module_id, lectures=modulelectures,
+                                   timetabled_days=check_timetabled_days(modulelectures))
 
         return redirect(url_for('lecturersignin'))
+
+
+def delete_lecture(lecture_id):
+
+    cursor.execute("DELETE FROM Lectures WHERE LectureID=?", (lecture_id,))
+    cursor.commit()
 
 
 @app.route("/delete_module", methods=['POST'])
 def delete_module():
 
     module_id = request.form['Module']
-
+    print("issues")
     cursor.execute("DELETE FROM Modules WHERE ModuleID=?", (module_id,))
     cursor.commit()
 
     cursor.execute("DELETE FROM Lectures WHERE ModuleID=?", (module_id,))
     cursor.commit()
 
+    module_id = request.args['module']
+    session['moduleid'] = module_id
+    getmoduleinfo(module_id)
     updatemanagedmodules()
+    modulelectures = get_lectures(module_id)
     logger.info("Module Deleted")
     return render_template('modulemanager.html', modules=session['supervisedmodules'])
 
@@ -495,6 +513,7 @@ def check_duplicate(table_name, field, unique_key):
 @app.route('/sign_out')
 def sign_out():
     session.pop('user', None)
+    session.clear()
     logger.info("Successfully Signed Out")
     return redirect(url_for('Home'))
 

@@ -23,6 +23,10 @@ class BasicTests(unittest.TestCase):
 
     def test_main_pages(self):
 
+        ########################
+        #### SPRINT 1 ####
+        ########################
+
         response = self.app.get('/Home', follow_redirects=True)
         # checks to see the page loads with no server errors etc.
         self.assertEqual(response.status_code, 200)
@@ -64,6 +68,10 @@ class AdvancedTests(unittest.TestCase):
 
         cursor.execute("DELETE FROM Lecturers WHERE LecturerID=?", ('testlecturerID123',))
         cursor.commit()
+
+    ########################
+    #### SPRINT 1 ####
+    ########################
 
     # Testing the account creation functionality for students
     def test_student_signup(self):

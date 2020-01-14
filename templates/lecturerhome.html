@@ -20,53 +20,59 @@
     <h1 align="center"> Lecturer Home</h1>
 
 
+    <div class="container">
 
-    <div class = "main">
+        <div class = "main">
 
-        <div class = "left">
+            <div class = "left">
 
-             <div class="row">
-                  <div class="col-sm-6">
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title">Lecture Plan</h5>
-                        <p class="card-text">Create lectures for existing modules</p>
-                        <a href="{{ url_for('createlecture') }}" class="btn btn-primary">Go</a>
+                 <div class="row">
+                      <div class="col-sm-6">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title">Lecture Plan</h5>
+                            <p class="card-text">Create lectures for existing modules</p>
+                            <a href="{{ url_for('createlecture') }}" class="btn btn-primary">Go</a>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
 
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title"> Code Generation</h5>
-                        <p class="card-text">Generate and display a code for a lecture.</p>
-                        <a href="{{ url_for('gencode') }}" class="btn btn-primary">Go</a>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title"> Code Generation</h5>
+                            <p class="card-text">Generate and display a code for a lecture.</p>
+                            <a href="{{ url_for('gencode') }}" class="btn btn-primary">Go</a>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
 
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title">Module Manager</h5>
-                        <p class="card-text">Manage your modules</p>
-                        <a href="{{ url_for('modulemanagement') }}" class="btn btn-primary">Go</a>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title">Module Manager</h5>
+                            <p class="card-text">Manage your modules</p>
+                            <a href="{{ url_for('modulemanagement') }}" class="btn btn-primary">Go</a>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+
+            </div>
 
         </div>
 
     </div>
 
+    <div class="flex-container">
 
+        <h1 align="center"> Notifications</h1>
 
+    </div>
 
 {% endblock content %}
 
