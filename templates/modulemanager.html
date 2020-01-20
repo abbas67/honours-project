@@ -12,25 +12,30 @@
     <div class="topnav1">
           <a href="{{ url_for('sign_out') }}">Sign Out</a>
     </div>
+
 {% endblock head %}
 
 {% block content %}
 
     <br>
     <h1 align="center"> Module Manager</h1>
+    {% if notification %}
+        <p class="error"><strong>Notification:</strong> {{ notification}}
+    {% endif %}
     <br>
     <div class="container" style="margin-outside: 100px;">
 
         {% for item in modules %}
+            <form action="{{ url_for('module_options') }}" method="get">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ item['ModuleID'] }}</h5>
                     <p class="card-text">{{ item['ModuleName'] }}</p>
-                    <button type="button" class="btn btn-primary">Edit Module</button>
-                    <button type="button" class="btn btn-primary">Remove Module</button>
+                    <button name="module" type="submit" class="btn btn-primary" value="{{ item['ModuleID'] }}" >Module Options</button>
                 </div>
             </div>
             <br>
+            </form>
         {% endfor %}
 
     <button type="button" class="btn btn-primary" onclick = "myFunction()" >Create New Module </button>
@@ -50,6 +55,8 @@
                         </div>
 
                     <button type="submit" class="btn btn-primary">Create Module</button>
+
+
                     </form>
                 </div>
             </div>
@@ -74,8 +81,5 @@
 
 {% block scripts %}
 {{ super() }}
-
-
-
 
 {% endblock scripts %}

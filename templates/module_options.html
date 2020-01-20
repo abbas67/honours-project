@@ -1,0 +1,163 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='genCode.css') }}">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturerhome.css') }}">
+    <title>Module Management</title>
+
+    <div class="topnav1">
+        <a href="{{ url_for('sign_out') }}">Sign Out</a>
+    </div>
+{% endblock head %}
+
+{% block content %}
+
+    <h1 class="text-center"> {{ session['moduleinfo']['ModuleID'] }} : {{ session['moduleinfo']['ModuleName'] }}</h1>
+
+
+    <div class="container">
+        <form action="{{ url_for('delete_module') }}" method="post">
+        <a href="{{ url_for('createlecture') }}" class="btn btn-primary">Add Lecture</a>
+
+
+            <button name="Module" type="submit" class="btn btn-primary" value="{{ session['moduleinfo']['ModuleID'] }}" >Delete Module</button>
+        </form>
+
+
+    </div>
+
+    <div class="flex-container">
+
+    {% if timetabled_days['Monday'] == True %}
+
+         <div class=mx-2>
+
+             <h5 class="card-title" text-align="centre">Monday</h5>
+                <div class=card-body >
+                    <ul class="list-group">
+
+                        {% if lectures|count  > 0 %}
+                            {% for item in lectures %}
+                                {% if item['Day'] == "Monday" %}
+                                    <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+
+                                        <form action="{{ url_for('module_options') }}" method="post">
+                                        <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
+                                        </form>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                    </ul>
+
+                </div>
+         </div>
+    {% endif %}
+    {% if timetabled_days['Tuesday'] == True %}
+
+        <div class=class=mx-1>
+            <h5 class="card-title">Tuesday</h5>
+                <div class=card-body >
+                    <ul class="list-group">
+                        {% if lectures|count  > 0 %}
+                            {% for item in lectures %}
+                                {% if item['Day'] == "Tuesday" %}
+                                    <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+                                        <form action="{{ url_for('module_options') }}" method="post">
+                                        <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
+                                        </form>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+        </div>
+    {% endif %}
+
+    {% if timetabled_days['Wednesday'] == True %}
+             <div class=class=mx-1>
+             <h5 class="card-title">Wednesday</h5>
+                <div class=card-body >
+                    <ul class="list-group">
+                        {% if lectures|count  > 0 %}
+                            {% for item in lectures %}
+                                {% if item['Day'] == "Wednesday" %}
+                                    <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+                                        <form action="{{ url_for('module_options') }}" method="post">
+                                        <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
+                                        </form>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+         </div>
+    {% endif %}
+
+    {% if timetabled_days['Thursday'] == True %}
+        <div class=class=mx-1>
+
+            <h5 class="card-title">Thursday</h5>
+                <div class=card-body >
+                    <ul class="list-group">
+                        {% if lectures|count  > 0 %}
+                            {% for item in lectures %}
+                                {% if item['Day'] == "Thursday" %}
+                                    <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+                                        <form action="{{ url_for('module_options') }}" method="post">
+                                        <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
+                                        </form>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+
+        </div>
+    {% endif %}
+
+    {% if timetabled_days['Friday'] == True %}
+        <div class=class=mx-1>
+
+            <h5 class="card-title">Friday</h5>
+                <div class=card-body >
+                    <ul class="list-group">
+                        {% if lectures|count  > 0 %}
+                            {% for item in lectures %}
+                                {% if item['Day'] == "Friday" %}
+                                    <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+                                        <form action="{{ url_for('module_options') }}" method="post">
+                                        <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
+                                        </form>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+
+                </div>
+        </div>
+
+    {% endif %}
+
+
+     </div>
+    </div>
+
+
+
+
+
+{% endblock content %}
+
+{% block scripts %}
+
+    {{ super() }}
+
+{% endblock scripts %}

@@ -5,6 +5,7 @@ import pyodbc
 import string
 import logging
 from os import path
+import sys
 import os
 from logging import handlers
 
@@ -15,7 +16,26 @@ app = Flask(__name__)
 
 app.secret_key = "supersecretkey"
 
-logger = logging
+if path.exists('logger.log'):
+    os.remove('logger.log')
+    print("Log file rotated.")
+
+
+logger = logging.getLogger('logger')
+logger.setLevel(logging.DEBUG)
+# create file handler which logs even debug messages
+fh = logging.FileHandler('logger.log')
+fh.setLevel(logging.INFO)
+# create console handler with a higher log level
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+# create formatter and add it to the handlers
+formatter = logging.Formatter("%(asctime)s:%(levelname)s:%(message)s")
+fh.setFormatter(formatter)
+ch.setFormatter(formatter)
+# add the handlers to the logger
+logger.addHandler(fh)
+logger.addHandler(ch)
 
 drivers = [item for item in pyodbc.drivers()]
 driver = drivers[-1]
@@ -86,10 +106,11 @@ def lecturersignin():
                 if x['LecturerID'].strip() == session['user']:
                     session['moduleinfo'].append(x['ModuleID'])
                     print("passing")
-            logger.info("Successfully Signed In")
+            logger.info("Successfully Signed Into Lecturer Account")
             return redirect(url_for('lecturerhomepage'))
 
         else:
+
             error = "LecturerID or password is incorrect"
             logger.info("LecturerID or password is incorrect")
             print("failing because password")
@@ -115,7 +136,6 @@ def signup():
         fname = request.form['fname']
         lname = request.form['lname']
         type = request.form['lecturercheck']
-        print(idnum, password, fname, lname, type)
 
         if type == 'Lecturer':
 
@@ -126,16 +146,16 @@ def signup():
             if len(resultdict) > 0:
                 notification = "The ID already exists"
                 logger.info("The ID already exists, Account Creation failed")
+
                 return render_template('signup.html', notification=notification)
 
             query = "INSERT INTO Lecturers (LecturerID, FirstName, LastName, Password) VALUES (?, ?, ? ,?);"
             cursor.execute(query, (idnum, fname, lname, password))
             conn.commit()
+            notification = "account successfully created"
+            logger.info("Lecturer account successfully created")
 
-        notification = "account successfully created"
-        logger.info("lecturer account successfully created")
-
-        if type == 'Student':
+        else:
 
             query = "SELECT * FROM Students WHERE MatricNum=?"
             result = pd.read_sql(query, conn, params=(idnum,))
@@ -155,12 +175,22 @@ def signup():
             cursor.execute(query, (idnum, fname, lname, password))
             conn.commit()
 
-        notification = "account successfully created"
-        logger.info("Student account successfully created")
+            notification = "account successfully created"
+            logger.info("Student account successfully created")
 
         return render_template('signup.html', notification=notification)
 
     return render_template('signup.html')
+
+
+@app.route("/select_module_lecture", methods=['GET', 'POST'])
+def select_module_lecture():
+
+    if request.method == 'POST':
+
+        session['selected_module_lecture'] = request.form['module']
+
+        return render_template('createlecture.html', modules=session['supervisedmodules'], moduleselected=True)
 
 
 @app.route("/createlecture", methods=['GET', 'POST'])
@@ -172,7 +202,7 @@ def createlecture():
         duration = request.form['duration']
         name = request.form['name']
         location = request.form['location']
-        module = request.form['module']
+        module = session['selected_module_lecture']
         weekday = request.form['weekday']
         first = request.form['first']
         first = int(first)
@@ -180,11 +210,13 @@ def createlecture():
         last = int(last)
 
         for x in range(first, last + 1):
+
             query = "INSERT INTO Lectures (LectureID, ModuleID, LectureName, LectureLocation, LectureDuration, Week, Day, Time ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
 
             cursor.execute(query, (generatenewcode(), module, name, location, duration, x, weekday, time))
             conn.commit()
 
+        logger.info("Lecture set successfully created.")
         flash("Lecture successfully timetabled.")
         return redirect(url_for('createlecture'))
 
@@ -192,15 +224,103 @@ def createlecture():
 
         if g.user:
 
-            query = "SELECT * FROM Modules"
-
-            result = pd.read_sql(query, conn)
-            moduleinfo = result.to_dict('records')
-            print(moduleinfo)
-
-            return render_template('createlecture.html', modules=moduleinfo)
+            return render_template('createlecture.html', modules=session['supervisedmodules'], moduleselected=False)
 
         return redirect(url_for('lecturersignin'))
+
+
+@app.route("/module_options", methods=['GET', 'POST'])
+def module_options():
+
+    if request.method == 'POST':
+        lecture_id = request.form['Lecture']
+        logger.info("Lecture deleted")
+        delete_lecture(lecture_id)
+        getmoduleinfo(session['moduleinfo']['ModuleID'])
+        updatemanagedmodules()
+        modulelectures = get_lectures(session['moduleinfo']['ModuleID'])
+
+        return render_template('module_options.html', moduleid=session['moduleinfo']['ModuleID'], lectures=modulelectures,
+                               timetabled_days=check_timetabled_days(modulelectures))
+
+    else:
+
+        if g.user:
+
+            module_id = request.args['module']
+            session['moduleid'] = module_id
+            updatemanagedmodules()
+            modulelectures = get_lectures(module_id)
+
+            return render_template('module_options.html', moduleid=module_id, lectures=modulelectures,
+                                   timetabled_days=check_timetabled_days(modulelectures))
+
+        return redirect(url_for('lecturersignin'))
+
+
+def delete_lecture(lecture_id):
+
+    cursor.execute("DELETE FROM Lectures WHERE LectureID=?", (lecture_id,))
+    cursor.commit()
+
+
+@app.route("/delete_module", methods=['POST'])
+def delete_module():
+
+    module_id = request.form['Module']
+    print("issues")
+    cursor.execute("DELETE FROM Modules WHERE ModuleID=?", (module_id,))
+    cursor.commit()
+
+    cursor.execute("DELETE FROM Lectures WHERE ModuleID=?", (module_id,))
+    cursor.commit()
+
+    module_id = request.args['module']
+    session['moduleid'] = module_id
+    getmoduleinfo(module_id)
+    updatemanagedmodules()
+    modulelectures = get_lectures(module_id)
+    logger.info("Module Deleted")
+    return render_template('modulemanager.html', modules=session['supervisedmodules'])
+
+
+def get_lectures(module):
+
+    query = "SELECT * FROM Lectures WHERE ModuleID=? ORDER BY Week ASC"
+
+    result = pd.read_sql(query, conn, params=(module,))
+    return result.to_dict('records')
+
+
+def check_timetabled_days(modulelectures):
+    timetabled_days = {'Monday': False, 'Tuesday': False, 'Wednesday': False, 'Thursday': False, 'Friday': False}
+
+    for x in modulelectures:
+
+        if x['Day'] == 'Monday':
+            timetabled_days['Monday'] = True
+
+        if x['Day'] == 'Tueday':
+            timetabled_days['Tuesday'] = True
+
+        if x['Day'] == 'Wednesday':
+            timetabled_days['Wednesday'] = True
+
+        if x['Day'] == 'Thursday':
+            timetabled_days['Thursday'] = True
+
+        if x['Day'] == 'Friday':
+            timetabled_days['Friday'] = True
+
+    return timetabled_days
+
+
+def getmoduleinfo(module_id):
+
+    query = "SELECT * FROM Modules WHERE ModuleID=?"
+    result = pd.read_sql(query, conn, params=(module_id,))
+    #result.sort_values(by=3, ascending=True)
+    session['moduleinfo'] = result.to_dict('records')[0]
 
 
 @app.route("/modulemanagement", methods=['GET', 'POST'])
@@ -211,11 +331,17 @@ def modulemanagement():
         moduleid = request.form['moduleid']
         modulename = request.form['modulename']
 
-        print(moduleid, modulename)
+        if check_duplicate('Modules', 'ModuleID', moduleid):
+            error = "Error, module ID already exists, please choose another."
+            logger.info("Error, module ID already exists, please choose another.")
+            flash("Error, module ID already exists, please choose another.")
+            return render_template('modulemanager.html', modules=session['supervisedmodules'], Notification=error)
+
         query = "INSERT INTO Modules(ModuleID, ModuleName, LecturerID) VALUES (?, ?, ?);"
         cursor.execute(query, (moduleid, modulename, session['user']))
         conn.commit()
         updatemanagedmodules()
+        logger.info("Module Created")
         return render_template('modulemanager.html', modules=session['supervisedmodules'])
 
     else:
@@ -248,6 +374,7 @@ def lecturesignin():
 
         result = pd.read_sql(query, conn, params=(matriculationnumber,))
         studentinfo = result.to_dict('records')
+
         actualpassword = studentinfo[0]['Password']
         error = None
 
@@ -265,22 +392,28 @@ def lecturesignin():
 
         if checkpass(actualpassword, password) is True and len(lectureinfo) is 1:
 
-            filename = ('Attendance_Docs/%s.txt' % lecturecode)
+            filename = ('/Attendance_Docs/%s.txt' % lecturecode)
+            current_path = os.path.abspath(os.path.dirname(__file__))
+            path = current_path + filename
+            attendance_info = ('Matriculation_Number: '+ studentinfo[0]['MatricNum'] + ', First_Name: ' + studentinfo[0]['FirstName'] + ', Last_Name: '+ studentinfo[0]['LastName'] + ';' )
 
-            if path.exists(filename):
-                with open(filename, 'a') as file:
-                    file.write("file does exist bitch")
-                    print(studentinfo['MatricNum'] + ' ,' + studentinfo['FirstName'] + studentinfo['LastName'])
+            if os.path.exists(path):
 
+                if check_if_signed_in(matriculationnumber, path):
+                    error = "Your attendance has already been recorded for this lecture."
+                    logger.info("Error, student attendance has already been recorded")
+                    return render_template('lecturesignin.html', error=error)
+
+                logger.info("Lecture attendance file exists, appending to file...")
+                with open(path, 'a') as file:
+                    file.write('\n' + attendance_info)
             else:
 
-                file = open(filename, 'w')
-                file.write("file does not exist yet.")
-                #file.write(studentinfo['MatricNum'] + ' ,' + studentinfo['FirstName'] + studentinfo['LastName'])
-                file.write(studentinfo['MatricNum'] + ' ,' + studentinfo['FirstName'] + studentinfo['LastName'])
+                logger.info("Lecture attendance file does not exist yet, creating new file...")
+                file = open(path, 'w+')
+                file.write(attendance_info)
                 file.close()
 
-            print(test)
             logger.info("Successfully signed into lecture")
             return render_template('signedin.html', lecturedata=lectureinfo[0])
 
@@ -292,6 +425,15 @@ def lecturesignin():
         date = datetime.datetime.now()
 
         return render_template('lecturesignin.html', date=date)
+
+
+def check_if_signed_in(matriculation_number, path):
+
+    with open(path) as f:
+        if matriculation_number in f.read():
+            return True
+        else:
+            return False
 
 
 @app.route("/gencode", methods=['GET', 'POST'])
@@ -314,13 +456,7 @@ def selectmodule():
 
     module = request.form['module']
 
-    query = "SELECT * FROM Lectures WHERE ModuleID=?"
-
-    result = pd.read_sql(query, conn, params=(module,))
-    lectureinfo = result.to_dict('records')
-    print(lectureinfo)
-
-    return render_template('gencode.html', lectures=lectureinfo, moduleselected=True, lectureselected=False)
+    return render_template('gencode.html', lectures=get_lectures(module), moduleselected=True, lectureselected=False)
 
 
 @app.route("/selectlecture", methods=['GET', 'POST'])
@@ -357,10 +493,29 @@ def hash_password(password):
     return (salt + pwdhash).decode('ascii')
 
 
+def check_duplicate(table_name, field, unique_key):
+
+    query = ("SELECT * FROM %s WHERE %s=?" % (table_name, field))
+    print(query)
+    # filename = ('/Attendance_Docs/%s.txt' % lecturecode)
+    result = pd.read_sql(query, conn, params=(unique_key,))
+    tableinfo = result.to_dict('records')
+    print(tableinfo)
+
+    if len(tableinfo) > 0:
+
+        return True
+
+    else:
+
+        return False
+
+
 @app.route('/sign_out')
 def sign_out():
     session.pop('user', None)
-    logger.info("Successfully Signed In")
+    session.clear()
+    logger.info("Successfully Signed Out")
     return redirect(url_for('Home'))
 
 
