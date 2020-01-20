@@ -31,6 +31,7 @@
     <div class="flex-container">
 
     {% if timetabled_days['Monday'] == True %}
+
          <div class=mx-2>
 
              <h5 class="card-title" text-align="centre">Monday</h5>
@@ -78,13 +79,9 @@
     {% endif %}
 
     {% if timetabled_days['Wednesday'] == True %}
-
              <div class=class=mx-1>
-
              <h5 class="card-title">Wednesday</h5>
-
                 <div class=card-body >
-
                     <ul class="list-group">
                         {% if lectures|count  > 0 %}
                             {% for item in lectures %}
@@ -98,9 +95,7 @@
                             {% endfor %}
                         {% endif %}
                     </ul>
-
                 </div>
-
          </div>
     {% endif %}
 

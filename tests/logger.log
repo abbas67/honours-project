@@ -1,0 +1,14 @@
+logger-INFO-Lecturer account successfully created
+logger-INFO-Successfully Signed Into Lecturer Account
+logger-INFO-Lecturer account successfully created
+logger-INFO-The ID already exists, Account Creation failed
+logger-INFO-Student account successfully created
+logger-INFO-Student account successfully created
+logger-INFO-Lecture attendance file does not exist yet, creating new file...
+logger-INFO-Successfully signed into lecture
+logger-INFO-Lecture attendance file exists, appending to file...
+logger-INFO-Successfully signed into lecture
+logger-INFO-Error, student attendance has already been recorded
+logger-INFO-Student account successfully created
+logger-INFO-Invalid Matriculation Number
+logger-INFO-Error, ID already exists

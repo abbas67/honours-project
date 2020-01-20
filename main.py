@@ -30,7 +30,7 @@ fh.setLevel(logging.INFO)
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)
 # create formatter and add it to the handlers
-formatter = logging.Formatter("%(asctime)s;%(levelname)s;%(message)s")
+formatter = logging.Formatter("%(asctime)s:%(levelname)s:%(message)s")
 fh.setFormatter(formatter)
 ch.setFormatter(formatter)
 # add the handlers to the logger
@@ -183,6 +183,16 @@ def signup():
     return render_template('signup.html')
 
 
+@app.route("/select_module_lecture", methods=['GET', 'POST'])
+def select_module_lecture():
+
+    if request.method == 'POST':
+
+        session['selected_module_lecture'] = request.form['module']
+
+        return render_template('createlecture.html', modules=session['supervisedmodules'], moduleselected=True)
+
+
 @app.route("/createlecture", methods=['GET', 'POST'])
 def createlecture():
 
@@ -192,7 +202,7 @@ def createlecture():
         duration = request.form['duration']
         name = request.form['name']
         location = request.form['location']
-        module = request.form['module']
+        module = session['selected_module_lecture']
         weekday = request.form['weekday']
         first = request.form['first']
         first = int(first)
@@ -206,6 +216,7 @@ def createlecture():
             cursor.execute(query, (generatenewcode(), module, name, location, duration, x, weekday, time))
             conn.commit()
 
+        logger.info("Lecture set successfully created.")
         flash("Lecture successfully timetabled.")
         return redirect(url_for('createlecture'))
 
@@ -213,13 +224,7 @@ def createlecture():
 
         if g.user:
 
-            query = "SELECT * FROM Modules"
-
-            result = pd.read_sql(query, conn)
-            moduleinfo = result.to_dict('records')
-            print(moduleinfo)
-
-            return render_template('createlecture.html', modules=moduleinfo)
+            return render_template('createlecture.html', modules=session['supervisedmodules'], moduleselected=False)
 
         return redirect(url_for('lecturersignin'))
 
@@ -228,14 +233,13 @@ def createlecture():
 def module_options():
 
     if request.method == 'POST':
-
-        lecture_id = request.form['lecture']
+        lecture_id = request.form['Lecture']
+        logger.info("Lecture deleted")
+        delete_lecture(lecture_id)
         getmoduleinfo(session['moduleinfo']['ModuleID'])
         updatemanagedmodules()
         modulelectures = get_lectures(session['moduleinfo']['ModuleID'])
-        logger.info("Lecture deleted")
-        logger.info("Lecture deleted")
-        delete_lecture(lecture_id)
+
         return render_template('module_options.html', moduleid=session['moduleinfo']['ModuleID'], lectures=modulelectures,
                                timetabled_days=check_timetabled_days(modulelectures))
 
@@ -245,9 +249,6 @@ def module_options():
 
             module_id = request.args['module']
             session['moduleid'] = module_id
-            print(module_id)
-            getmoduleinfo(module_id)
-            print(session['moduleinfo'])
             updatemanagedmodules()
             modulelectures = get_lectures(module_id)
 
