@@ -1,14 +1,9 @@
-logger-INFO-Lecturer account successfully created
-logger-INFO-Successfully Signed Into Lecturer Account
-logger-INFO-Lecturer account successfully created
-logger-INFO-The ID already exists, Account Creation failed
-logger-INFO-Student account successfully created
-logger-INFO-Student account successfully created
-logger-INFO-Lecture attendance file does not exist yet, creating new file...
-logger-INFO-Successfully signed into lecture
-logger-INFO-Lecture attendance file exists, appending to file...
-logger-INFO-Successfully signed into lecture
-logger-INFO-Error, student attendance has already been recorded
-logger-INFO-Student account successfully created
-logger-INFO-Invalid Matriculation Number
-logger-INFO-Error, ID already exists
+2020-01-23 14:33:12,591:INFO:Lecturer account successfully created
+2020-01-23 14:33:12,898:INFO:Successfully Signed Into Lecturer Account
+2020-01-23 14:33:13,296:INFO:Lecturer account successfully created
+2020-01-23 14:33:13,506:INFO:The ID already exists, Account Creation failed
+2020-01-23 14:33:13,881:INFO:Student account successfully created
+2020-01-23 14:33:14,112:INFO:Student account successfully created
+2020-01-23 14:33:14,469:INFO:Student account successfully created
+2020-01-23 14:33:14,666:INFO:Invalid Matriculation Number
+2020-01-23 14:33:14,873:INFO:Error, ID already exists
