@@ -1,3 +1,0 @@
-Matriculation_Number: 160012346, First_Name: Harry, Last_Name: Potter;
-Matriculation_Number: 160012345, First_Name: Draco, Last_Name: Malfoy;
-Matriculation_Number: 160014267, First_Name: Abbas, Last_Name: Lawal;

@@ -217,7 +217,7 @@ def createlecture():
             conn.commit()
 
         logger.info("Lecture set successfully created.")
-        flash("Lecture successfully timetabled.")
+        #flash("Lecture successfully timetabled.")
         return redirect(url_for('createlecture'))
 
     else:
@@ -236,11 +236,12 @@ def module_options():
         lecture_id = request.form['Lecture']
         logger.info("Lecture deleted")
         delete_lecture(lecture_id)
-        getmoduleinfo(session['moduleinfo']['ModuleID'])
+        print(session['moduleid'])
+        getmoduleinfo(session['moduleid'])
         updatemanagedmodules()
-        modulelectures = get_lectures(session['moduleinfo']['ModuleID'])
+        modulelectures = get_lectures(session['moduleid'])
 
-        return render_template('module_options.html', moduleid=session['moduleinfo']['ModuleID'], lectures=modulelectures,
+        return render_template('module_options.html', moduleid=session['moduleid'], lectures=modulelectures,
                                timetabled_days=check_timetabled_days(modulelectures))
 
     else:
@@ -249,6 +250,7 @@ def module_options():
 
             module_id = request.args['module']
             session['moduleid'] = module_id
+            getmoduleinfo(session['moduleid'])
             updatemanagedmodules()
             modulelectures = get_lectures(module_id)
 
@@ -321,6 +323,7 @@ def getmoduleinfo(module_id):
     result = pd.read_sql(query, conn, params=(module_id,))
     #result.sort_values(by=3, ascending=True)
     session['moduleinfo'] = result.to_dict('records')[0]
+    print(session['moduleinfo'])
 
 
 @app.route("/modulemanagement", methods=['GET', 'POST'])
@@ -516,7 +519,7 @@ def sign_out():
     session.pop('user', None)
     session.clear()
     logger.info("Successfully Signed Out")
-    return redirect(url_for('Home'))
+    return render_template('homepage.html')
 
 
 if __name__ == "__main__":
