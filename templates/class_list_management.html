@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='genCode.css') }}">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturerhome.css') }}">
+    <title>Module Management</title>
+
+    <div class="topnav1">
+        <a href="{{ url_for('sign_out') }}">Sign Out</a>
+    </div>
+{% endblock head %}
+
+{% block content %}
+
+    {#    <h1 class="text-center"> {{ session['moduleinfo']['ModuleID'] }} : {{ session['moduleinfo']['ModuleName'] }}</h1>#}
+
+    {% if error %}
+
+        <div class="d-flex justify-content-center" >
+            <div class="my-5">
+                <div class="card-body">
+                    {{ error }}
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+
+    {% if exists == False %}
+
+        <div class="my-5">
+
+        <div class="d-flex justify-content-center" >
+            <div class="card">
+                <div class="card-body">
+
+                    A class list does not exist, please upload one or add students individually.
+
+
+                    <button name="Module" type="submit" class="btn btn-primary" value="{{ session['moduleinfo']['ModuleID'] }}" >Upload Class Lists</button>
+
+                    <p> </p>
+                    <form name="myform" action="{{ url_for('class_list_management') }}" method="post">
+                        <label for="f_name"> First Name:</label>
+                        <input type="text" name="f_name" required>
+                        <label for="l_name"> Second Name:</label>
+                        <input type="text" name="l_name" required>
+                        <label for="matric_num"> Matric #:</label>
+                        <input type="text" name="matric_num" required>
+
+                        <input type="submit" class="btn btn-primary" Add >
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% if exists == True %}
+
+    <p> </p>
+    <div class="d-flex justify-content-center" >
+        <div class="card">
+            <div class="card-body">
+
+
+                <form name="myform" action="{{ url_for('class_list_management') }}" method="post">
+
+                    <label for="f_name"> First Name:</label>
+                    <input type="text" name="f_name" required>
+                    <label for="l_name"> Second Name:</label>
+                    <input type="text" name="l_name" required>
+                    <label for="matric_num"> Matric #:</label>
+                    <input type="text" name="matric_num" required>
+
+                    <input type="submit" class="btn btn-primary" Add >
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <div class="flex-container">
+
+        <div class="row">
+            {% for item in class_list %}
+
+                <div class="card bg-primary mx-3">
+                    <img class="card-img-top" src="/static/anon.jpg.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item['FirstName'] }} {{ item['LastName'] }}</h5>
+                        <a href="#" class="btn btn-primary">Remove</a>
+                        <a href="#" class="btn btn-primary">View Attendance</a>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+{% endif %}
+
+
+
+{% endblock content %}
+
+{% block scripts %}
+
+    {{ super() }}
+
+{% endblock scripts %}

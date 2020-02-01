@@ -23,7 +23,6 @@
 
         <div class="row">
 
-            <div class="col">
                 <div class="container">
 
                     <div class="card" style="width: 30rem;">
@@ -51,9 +50,9 @@
 
 
                                 <form name="myform" action="{{ url_for('createlecture') }}" method="post">
-                                    <label for="name"> Lecture Duration (Hours):</label>
+                                    <label for="name"> Teaching Type:</label>
                                     <select name="name" class="form-control" id="exampleFormControlSelect1" required>
-                                        <option value="" disabled selected hidden>Name</option>
+                                        <option value="" disabled selected hidden>Select Teaching Type</option>
                                         <option value="Tutorial">Tutorial</option>
                                         <option value="Lecture">Lecture</option>
                                         <option value="Lab">Lab</option>
@@ -62,7 +61,7 @@
 
                                     <label for="first"> First Week:</label>
                                     <select name="first" class="form-control" id="exampleFormControlSelect1" required>
-                                        <option value="" disabled selected hidden>Duration</option>
+                                        <option value="" disabled selected hidden>Select First Lecture Week</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -91,7 +90,7 @@
 
                                     <label for="last"> Final Week:</label>
                                     <select name="last" class="form-control" id="exampleFormControlSelect1" required>
-                                        <option value="" disabled selected hidden>Duration</option>
+                                        <option value="" disabled selected hidden>Select Last Lecture Week</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -178,23 +177,8 @@
                     </div>
                 </div>
 
-                <div class="col">
 
-                    <div class="container">
 
-                        <div class="card" style="width: 18rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
         </div>
 
     </div>
