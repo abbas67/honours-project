@@ -1,0 +1,18 @@
+import json,  os
+import fileinput
+student_list = []
+
+
+with open('SOC_Students.txt', 'r+') as file:
+    for line in file:
+
+        line.rstrip("\n")
+
+# with open('/Users/abbaslawal/Desktop/honours-project/SOC_Students.txt', "r") as file:
+#
+#     for line in file:
+#         student_list.append(json.loads(line))
+#         print(line)
+
+
+

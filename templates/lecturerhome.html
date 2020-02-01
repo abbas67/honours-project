@@ -23,20 +23,6 @@
     <div class="container">
 
 
-
-        {#                 <div class="row">#}
-        {#                      <div class="col-sm-6">#}
-        {#                        <div class="card">#}
-        {#                          <div class="card-body">#}
-        {#                            <h5 class="card-title">Lecture Plan</h5>#}
-        {#                            <p class="card-text">Create lectures for existing modules</p>#}
-        {#                            <a href="{{ url_for('createlecture') }}" class="btn btn-primary">Go</a>#}
-        {#                          </div>#}
-        {#                        </div>#}
-        {#                      </div>#}
-        {#                    </div>#}
-
-
         <div class="my-4">
             <div class="card">
                 <div class="card-body">
@@ -82,6 +68,199 @@
                     <h5 class="card-title">Module Manager</h5>
                     <p class="card-text">Manage your modules</p>
                     <a href="{{ url_for('modulemanagement') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-4">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="flex-container">
+
+                        {% if timetabled_days['Monday'] == True %}
+
+                            <div class=mx-2>
+
+                                <h5 class="card-title" text-align="centre">Monday</h5>
+                                <div class=card-body >
+                                    <ul class="list-group">
+
+                                        {% if lectures|count  > 0 %}
+                                            {% for item in lectures %}
+                                                {% if item['Day'] == "Monday" %}
+                                                    <li class="list-group-item"> {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+
+                                    </ul>
+
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if timetabled_days['Monday'] == False %}
+
+                            <div class=class=mx-1>
+
+                                <h5 class="card-title">Monday</h5>
+                                <div class=card-body >
+                                    <ul class="list-group">
+
+                                        <li class="list-group-item"> No lectures planned</li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if timetabled_days['Tuesday'] == True %}
+
+                            <div class=class=mx-1>
+                                <h5 class="card-title">Tuesday</h5>
+                                <div class=card-body >
+                                    <ul class="list-group">
+                                        {% if lectures|count  > 0 %}
+                                            {% for item in lectures %}
+                                                {% if item['Day'] == "Tuesday" %}
+                                                    <li class="list-group-item"> {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if timetabled_days['Tuesday'] == False %}
+
+                            <div class=class=mx-1>
+
+                                <h5 class="card-title">Tuesday</h5>
+                                <div class=card-body >
+                                    <ul class="list-group">
+
+                                        <li class="list-group-item"> No lectures planned</li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if timetabled_days['Wednesday'] == True %}
+                            <div class=class=mx-1>
+                                <h5 class="card-title">Wednesday</h5>
+                                <div class=card-body >
+                                    <ul class="list-group">
+                                        {% if lectures|count  > 0 %}
+                                            {% for item in lectures %}
+                                                {% if item['Day'] == "Wednesday" %}
+                                                    <li class="list-group-item"> {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if timetabled_days['Wednesday'] == False %}
+
+                            <div class=class=mx-1>
+
+                                <h5 class="card-title">Wednesday</h5>
+                                <div class=card-body >
+                                    <ul class="list-group">
+
+                                        <li class="list-group-item"> No lectures planned</li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if timetabled_days['Thursday'] == True %}
+                            <div class=class=mx-1>
+
+                                <h5 class="card-title">Thursday</h5>
+                                <div class=card-body >
+                                    <ul class="list-group">
+                                        {% if lectures|count  > 0 %}
+                                            {% for item in lectures %}
+                                                {% if item['Day'] == "Thursday" %}
+                                                    <li class="list-group-item">{{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+
+                            </div>
+                        {% endif %}
+
+                        {% if timetabled_days['Thursday'] == False %}
+
+                            <div class=class=mx-1>
+
+                                <h5 class="card-title">Thursday</h5>
+                                <div class=card-body >
+                                    <ul class="list-group">
+
+                                        <li class="list-group-item"> No lectures planned</li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if timetabled_days['Friday'] == True %}
+                            <div class=class=mx-1>
+
+                                <h5 class="card-title">Friday</h5>
+                                <div class=card-body >
+                                    <ul class="list-group">
+                                        {% if lectures|count  > 0 %}
+                                            {% for item in lectures %}
+                                                {% if item['Day'] == "Friday" %}
+                                                    <li class="list-group-item"> {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }} </li>
+
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if timetabled_days['Friday'] == False %}
+
+                            <div class=class=mx-1>
+
+                                <h5 class="card-title">Friday</h5>
+                                <div class=card-body >
+                                    <ul class="list-group">
+
+                                        <li class="list-group-item"> No lectures planned</li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+
+
+                    </div>
+
+
+
                 </div>
             </div>
         </div>

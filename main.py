@@ -1,10 +1,15 @@
 import datetime
+import re
+
+import isodate
 import random
 import pandas as pd
 import pyodbc
 import string
 import logging
 from os import path
+from datetime import date
+
 import sys
 import os
 from logging import handlers
@@ -68,7 +73,15 @@ def index():
 def lecturerhomepage():
 
     if g.user:
-        return render_template('lecturerhome.html')
+
+        set_week()
+
+        query = "SELECT * FROM Lectures WHERE Week=?"
+        result = pd.read_sql(query, conn, params=(get_week(),))
+        lectures = result.to_dict('records')
+
+        return render_template('lecturerhome.html',
+                               next_lecture=get_next_lecture(get_week()), timetabled_days=check_timetabled_days(lectures), lectures=lectures)
 
     return redirect(url_for('lecturersignin'))
 
@@ -175,6 +188,18 @@ def signup():
             cursor.execute(query, (idnum, fname, lname, password))
             conn.commit()
 
+            json_string = str('{ "MatricNum" : ' + str(idnum) + ', "FirstName" : "' + str(fname) + '", "LastName" : "' + str(lname) + '" }')
+            print(json_string)
+
+            if (check_path_exists("SOC_Students.txt")):
+
+                with open("SOC_Students.txt", "a") as f:
+
+                    f.write('\n' + json_string)
+            else:
+
+                logger.info("Problem with SOC_student file")
+
             notification = "account successfully created"
             logger.info("Student account successfully created")
 
@@ -236,7 +261,6 @@ def module_options():
         lecture_id = request.form['Lecture']
         logger.info("Lecture deleted")
         delete_lecture(lecture_id)
-        print(session['moduleid'])
         getmoduleinfo(session['moduleid'])
         updatemanagedmodules()
         modulelectures = get_lectures(session['moduleid'])
@@ -252,12 +276,79 @@ def module_options():
             session['moduleid'] = module_id
             getmoduleinfo(session['moduleid'])
             updatemanagedmodules()
-            modulelectures = get_lectures(module_id)
+            modulelectures = sort_lectures(get_week(), get_lectures(session['moduleid']), "Weekly")
 
             return render_template('module_options.html', moduleid=module_id, lectures=modulelectures,
                                    timetabled_days=check_timetabled_days(modulelectures))
 
         return redirect(url_for('lecturersignin'))
+
+
+@app.route("/sort_timetable", methods=['POST'])
+def sort_timetable():
+
+    if "semester1" in request.form:
+
+        getmoduleinfo(session['moduleid'])
+        updatemanagedmodules()
+        modulelectures = sort_lectures(12, get_lectures(session['moduleid']), "Semester1")
+        print(modulelectures)
+
+        return render_template('module_options.html', moduleid=session['moduleid'], lectures=modulelectures,
+                               timetabled_days=check_timetabled_days(modulelectures))
+
+    if "semester2" in request.form:
+
+        getmoduleinfo(session['moduleid'])
+        updatemanagedmodules()
+        modulelectures = sort_lectures(13, get_lectures(session['moduleid']), "Semester2")
+        print(modulelectures)
+
+        return render_template('module_options.html', moduleid=session['moduleid'], lectures=modulelectures,
+                               timetabled_days=check_timetabled_days(modulelectures))
+
+    if "currentweek" in request.form:
+
+        getmoduleinfo(session['moduleid'])
+        updatemanagedmodules()
+        modulelectures = sort_lectures(get_week(), get_lectures(session['moduleid']), "Weekly")
+        print(modulelectures)
+
+        return render_template('module_options.html', moduleid=session['moduleid'], lectures=modulelectures,
+                               timetabled_days=check_timetabled_days(modulelectures))
+
+
+def sort_lectures(week, lectures, type):
+
+    if type == "Weekly":
+
+        week = int(week)
+        filtered_lectures = []
+        for item in lectures:
+
+            if item['Week'] == week:
+
+                filtered_lectures.append(item)
+
+    if type == "Semester1":
+
+        week = int(week)
+        filtered_lectures = []
+        for item in lectures:
+
+            if item['Week'] <= week:
+                filtered_lectures.append(item)
+
+    if type == "Semester2":
+
+        week = int(week)
+        filtered_lectures = []
+        for item in lectures:
+
+            if item['Week'] >= week:
+                filtered_lectures.append(item)
+
+    return filtered_lectures
 
 
 def delete_lecture(lecture_id):
@@ -324,6 +415,186 @@ def getmoduleinfo(module_id):
     #result.sort_values(by=3, ascending=True)
     session['moduleinfo'] = result.to_dict('records')[0]
     print(session['moduleinfo'])
+
+
+@app.route("/class_list_management", methods=['GET', 'POST'])
+def class_list_management():
+
+    if request.method == 'POST':
+
+        f_name = request.form['f_name']
+        l_name = request.form['l_name']
+        matric_num = request.form['matric_num']
+
+        print("Attempting to add " + f_name + ' ' + l_name + ' to class list: ' + session['module_id'])
+
+        if path.exists(create_path('class_list', session['module_id'])) is True and check_if_in_file(matric_num, create_path('class_list', session['module_id'])) is True:
+
+            error = "Error, this student is already in the class list!"
+            print(error)
+            session['class_list'] = retrieve_class_list(session['module_id'])
+            return render_template('class_list_management.html',
+                                   exists=check_path_exists(create_path('class_list', session['module_id'])), error=error,class_list=session['class_list'])
+
+        else:
+            print(1)
+            create_class_list(f_name, l_name, matric_num, session['module_id'])
+            session['class_list'] = retrieve_class_list(session['module_id'])
+            return render_template('class_list_management.html', exists=check_path_exists(create_path('class_list', session['module_id'])), class_list=session['class_list'])
+
+    else:
+
+        if g.user:
+
+            if 'class_list' in session:
+                session.pop('class_list')
+
+            module_id = request.args['module_id']
+            session['module_id'] = module_id
+
+            if check_path_exists(create_path('class_list', module_id)):
+
+                exists = True
+                class_list = retrieve_class_list(module_id)
+                session['class_list'] = class_list
+            else:
+
+                exists = False
+                class_list = None
+
+            return render_template('class_list_management.html', exists=exists, class_list=class_list)
+
+        return redirect(url_for('lecturersignin'))
+
+
+def retrieve_class_list(module_id):
+
+    class_list = []
+    with open(create_path('class_list', module_id),"r") as f:
+
+        for line in f:
+            line = line.strip()
+            class_list.append(get_student_info(line))
+
+    return class_list
+
+
+def create_class_list(f_name, l_name, matric_num, module_id):
+
+    file_path = create_path('class_list', module_id)
+
+    if check_path_exists(file_path):
+
+        print("File exists, attempting to updating student info then attempting to append to file...")
+        student = update_student_info(get_student_info_doc(matric_num), module_id)
+
+        with open(create_path('class_list', module_id), 'a') as f:
+
+            f.write('\n' + student['MatricNum'])
+
+    else:
+
+        print("File does not exist, creating file...")
+
+        print("File created, updating student info...")
+        student = update_student_info(get_student_info_doc(matric_num), module_id)
+        print("File created, adding student to file...")
+        file = open(file_path, 'w+')
+        file.write(student['MatricNum'])
+        file.close()
+
+
+def update_student_info(student, module_id):
+
+    for x in get_lectures(module_id):
+
+        if x['LectureID'] in student:
+
+            pass
+
+        else:
+
+            student.update({x['LectureID']: "Absent"})
+
+    update_soc_data(student)
+    print("Student Information Updated")
+
+    return student
+
+
+def update_soc_data(student):
+
+    school_list = []
+    print(len(student))
+
+    with open('SOC_Students.txt', 'r') as file:
+
+        for line in file:
+
+            line = line.replace("\'", "\"")
+            school_list.append(json.loads(line))
+
+    print(school_list)
+
+    for item in school_list:
+
+        if item.get('MatricNum') == student['MatricNum']:
+
+            school_list.remove(item)
+
+    school_list.append(student)
+    print(len(student))
+    with open('SOC_Students.txt', 'w') as f:
+
+            for item in school_list:
+
+                f.write("%s\n" % item)
+
+
+def get_student_info(matric_num):
+
+    query = "SELECT * FROM Students WHERE MatricNum=?"
+    result = pd.read_sql(query, conn, params=(matric_num,))
+    print(result)
+    student = result.to_dict('records')
+
+    return student[0]
+
+
+def get_student_info_doc(matric_num):
+
+    with open('SOC_Students.txt', 'r') as f:
+        student_list = []
+        for line in f:
+
+            line = line.replace("\'", "\"")
+            student_list.append(json.loads(line))
+
+    for item in student_list:
+
+        if item['MatricNum'] == matric_num:
+
+            return item
+
+
+def create_path(type, filename):
+
+    if type == "class_list":
+
+        filename = ('/Class_Lists/%s.txt' % filename)
+        current_path = os.path.abspath(os.path.dirname(__file__))
+        return current_path + filename
+
+
+def check_path_exists(path):
+
+    if os.path.exists(path):
+
+        return True
+
+    else:
+
+        return False
 
 
 @app.route("/modulemanagement", methods=['GET', 'POST'])
@@ -402,7 +673,7 @@ def lecturesignin():
 
             if os.path.exists(path):
 
-                if check_if_signed_in(matriculationnumber, path):
+                if check_if_in_file(matriculationnumber, path):
                     error = "Your attendance has already been recorded for this lecture."
                     logger.info("Error, student attendance has already been recorded")
                     return render_template('lecturesignin.html', error=error)
@@ -430,7 +701,7 @@ def lecturesignin():
         return render_template('lecturesignin.html', date=date)
 
 
-def check_if_signed_in(matriculation_number, path):
+def check_if_in_file(matriculation_number, path):
 
     with open(path) as f:
         if matriculation_number in f.read():
@@ -459,7 +730,7 @@ def selectmodule():
 
     module = request.form['module']
 
-    return render_template('gencode.html', lectures=get_lectures(module), moduleselected=True, lectureselected=False)
+    return render_template('gencode.html', lectures=sort_lectures(get_week(), get_lectures(module), "Weekly"), moduleselected=True, lectureselected=False)
 
 
 @app.route("/selectlecture", methods=['GET', 'POST'])
@@ -514,6 +785,72 @@ def check_duplicate(table_name, field, unique_key):
         return False
 
 
+def get_week():
+
+    today = datetime.datetime.today()
+
+    for key, value in session['weeks'].items():
+
+        if value.isocalendar()[1] == today.isocalendar()[1] and value.year == today.year:
+
+            return key
+
+
+def set_week():
+
+    dict_of_weeks = {}
+
+    dict_of_weeks[1] = datetime.datetime.strptime("16-09-2019", "%d-%m-%Y")
+
+    for i in range(2, 13):
+        dict_of_weeks[i] = dict_of_weeks[i - 1] + datetime.timedelta(days=7)
+
+    dict_of_weeks[13] = datetime.datetime.strptime("20-01-2020", "%d-%m-%Y")
+    for i in range(14, 25):
+        dict_of_weeks[i] = dict_of_weeks[i - 1] + datetime.timedelta(days=7)
+
+    session['weeks'] = dict_of_weeks
+
+
+def get_next_lecture(week):
+
+    updatemanagedmodules()
+    week_lectures = []
+
+    for x in session['supervisedmodules']:
+
+        week_lectures = week_lectures + get_lectures(x['ModuleID'])
+
+    week_lectures = sort_lectures(get_week(), week_lectures, "Weekly")
+
+    for x in week_lectures:
+
+        if x['Day'] == 'Monday':
+            x['index'] = 0
+
+        if x['Day'] == 'Tuesday':
+            x['index'] = 1
+
+        if x['Day'] == 'Wednesday':
+            x['index'] = 2
+
+        if x['Day'] == 'Thursday':
+            x['index'] = 3
+
+        if x['Day'] == 'Friday':
+            x['index'] = 4
+
+    week_lectures = sorted(week_lectures, key=lambda k: k['index'])
+
+    for x in week_lectures:
+
+        x['Time '] = re.sub(':', '', x['Time '])
+
+    week_lectures = sorted(week_lectures, key=lambda k: k['Time '])
+
+    return week_lectures
+
+
 @app.route('/sign_out')
 def sign_out():
     session.pop('user', None)
@@ -525,4 +862,3 @@ def sign_out():
 if __name__ == "__main__":
 
     app.run(host='0.0.0.0', threaded=True, debug=True, port=5000)
-
