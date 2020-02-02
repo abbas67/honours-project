@@ -1,4 +1,5 @@
 import datetime
+import fileinput
 import re
 
 import isodate
@@ -35,12 +36,13 @@ fh.setLevel(logging.INFO)
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)
 # create formatter and add it to the handlers
-formatter = logging.Formatter("%(asctime)s:%(levelname)s:%(message)s")
+formatter = logging.Formatter("%(asctime)s:%(levelname)s: %(message)s", "%Y-%m-%d %H:%M")
 fh.setFormatter(formatter)
 ch.setFormatter(formatter)
 # add the handlers to the logger
 logger.addHandler(fh)
 logger.addHandler(ch)
+
 
 drivers = [item for item in pyodbc.drivers()]
 driver = drivers[-1]
@@ -75,13 +77,11 @@ def lecturerhomepage():
     if g.user:
 
         set_week()
-
-        query = "SELECT * FROM Lectures WHERE Week=?"
-        result = pd.read_sql(query, conn, params=(get_week(),))
-        lectures = result.to_dict('records')
+        lectures = get_next_lecture(get_week())
 
         return render_template('lecturerhome.html',
-                               next_lecture=get_next_lecture(get_week()), timetabled_days=check_timetabled_days(lectures), lectures=lectures)
+
+                               next_lecture=lectures, timetabled_days=check_timetabled_days(lectures), lectures=lectures)
 
     return redirect(url_for('lecturersignin'))
 
@@ -191,11 +191,16 @@ def signup():
             json_string = str('{ "MatricNum" : ' + str(idnum) + ', "FirstName" : "' + str(fname) + '", "LastName" : "' + str(lname) + '" }')
             print(json_string)
 
-            if (check_path_exists("SOC_Students.txt")):
+            if check_path_exists("SOC_Students.txt"):
 
                 with open("SOC_Students.txt", "a") as f:
+                    if os.stat("SOC_Students.txt").st_size == 0:
+                        f.write(json_string)
 
-                    f.write('\n' + json_string)
+                    else:
+
+                        f.write('\n' + json_string)
+
             else:
 
                 logger.info("Problem with SOC_student file")
@@ -276,7 +281,8 @@ def module_options():
             session['moduleid'] = module_id
             getmoduleinfo(session['moduleid'])
             updatemanagedmodules()
-            modulelectures = sort_lectures(get_week(), get_lectures(session['moduleid']), "Weekly")
+            modulelectures = sort_lectures(get_week(), get_lectures(module_id), "Weekly")
+            logger.info("Retrieving module lectures from " + str(module_id) + " for the current week...")
 
             return render_template('module_options.html', moduleid=module_id, lectures=modulelectures,
                                    timetabled_days=check_timetabled_days(modulelectures))
@@ -292,8 +298,8 @@ def sort_timetable():
         getmoduleinfo(session['moduleid'])
         updatemanagedmodules()
         modulelectures = sort_lectures(12, get_lectures(session['moduleid']), "Semester1")
-        print(modulelectures)
 
+        logger.info("Sorting lectures in " + str(session['moduleid']) + " by Semester 1")
         return render_template('module_options.html', moduleid=session['moduleid'], lectures=modulelectures,
                                timetabled_days=check_timetabled_days(modulelectures))
 
@@ -302,7 +308,7 @@ def sort_timetable():
         getmoduleinfo(session['moduleid'])
         updatemanagedmodules()
         modulelectures = sort_lectures(13, get_lectures(session['moduleid']), "Semester2")
-        print(modulelectures)
+        logger.info("Sorting lectures in " + str(session['moduleid']) + " by Semester 2")
 
         return render_template('module_options.html', moduleid=session['moduleid'], lectures=modulelectures,
                                timetabled_days=check_timetabled_days(modulelectures))
@@ -312,7 +318,7 @@ def sort_timetable():
         getmoduleinfo(session['moduleid'])
         updatemanagedmodules()
         modulelectures = sort_lectures(get_week(), get_lectures(session['moduleid']), "Weekly")
-        print(modulelectures)
+        logger.info("Sorting lectures in " + str(session['moduleid']) + " by current week")
 
         return render_template('module_options.html', moduleid=session['moduleid'], lectures=modulelectures,
                                timetabled_days=check_timetabled_days(modulelectures))
@@ -361,7 +367,7 @@ def delete_lecture(lecture_id):
 def delete_module():
 
     module_id = request.form['Module']
-    print("issues")
+
     cursor.execute("DELETE FROM Modules WHERE ModuleID=?", (module_id,))
     cursor.commit()
 
@@ -393,7 +399,7 @@ def check_timetabled_days(modulelectures):
         if x['Day'] == 'Monday':
             timetabled_days['Monday'] = True
 
-        if x['Day'] == 'Tueday':
+        if x['Day'] == 'Tuesday':
             timetabled_days['Tuesday'] = True
 
         if x['Day'] == 'Wednesday':
@@ -414,7 +420,7 @@ def getmoduleinfo(module_id):
     result = pd.read_sql(query, conn, params=(module_id,))
     #result.sort_values(by=3, ascending=True)
     session['moduleinfo'] = result.to_dict('records')[0]
-    print(session['moduleinfo'])
+# print(session['moduleinfo'])
 
 
 @app.route("/class_list_management", methods=['GET', 'POST'])
@@ -437,7 +443,7 @@ def class_list_management():
                                    exists=check_path_exists(create_path('class_list', session['module_id'])), error=error,class_list=session['class_list'])
 
         else:
-            print(1)
+
             create_class_list(f_name, l_name, matric_num, session['module_id'])
             session['class_list'] = retrieve_class_list(session['module_id'])
             return render_template('class_list_management.html', exists=check_path_exists(create_path('class_list', session['module_id'])), class_list=session['class_list'])
@@ -467,13 +473,111 @@ def class_list_management():
         return redirect(url_for('lecturersignin'))
 
 
+@app.route("/remove_from_class_list", methods=['POST'])
+def remove_from_class_list():
+
+
+    student_id = request.form['Student']
+    #print(student_id)
+
+    logger.info("attempting to remove " + str(student_id) + " from class list...")
+
+    temp_list = pull_soc_list()
+
+    for item in temp_list:
+
+        if str(item['MatricNum']) == str(student_id):
+
+            student = item
+            temp_list.remove(item)
+            break
+
+
+    get_lectures(session['module_id'])
+
+    logger.info("removing expected lectures for module...")
+
+    logger.info(str(student_id) + " currently has " + str(len(student) - 3) + " expected lectures")
+
+    for x in get_lectures(session['module_id']):
+
+        if x['LectureID'] in student:
+
+            student.pop(x['LectureID'])
+
+    logger.info(str(student_id) + " now has " + str(len(student) - 3) + " expected lectures")
+
+    logger.info("updating SOC document")
+
+    temp_list.append(student)
+
+    push_to_soc(temp_list)
+
+    logger.info("removing from class list document...")
+
+    file_contents = []
+
+    with open(create_path('class_list', session['module_id']), 'r') as f:
+
+        file_contents = f.readlines()
+
+    for item in file_contents:
+
+        if str(item).strip() == str(student_id):
+
+            file_contents.remove(item)
+
+    print(file_contents)
+    with open(create_path('class_list', session['module_id']), 'w') as f:
+
+        for item in file_contents:
+
+            f.write(item.strip())
+
+    logger.info("student removed from class list document.")
+
+    if check_path_exists(create_path('class_list', session['module_id'])):
+
+        exists = True
+        class_list = retrieve_class_list(session['module_id'])
+        session['class_list'] = class_list
+
+    else:
+
+        exists = False
+        class_list = None
+
+    return render_template('class_list_management.html', exists=exists, class_list=class_list)
+
+
+def pull_soc_list():
+
+    school_list = []
+
+    with open('SOC_Students.txt', 'r') as file:
+
+        for line in file:
+            line = line.replace("\'", "\"")
+            school_list.append(json.loads(line))
+
+    return school_list
+
+
+def push_to_soc(school_list):
+
+    with open('SOC_Students.txt', 'w') as f:
+
+        for item in school_list:
+            f.write("%s\n" % item)
+
+
 def retrieve_class_list(module_id):
 
     class_list = []
-    with open(create_path('class_list', module_id),"r") as f:
+    with open(create_path('class_list', module_id), "r") as f:
 
         for line in f:
-            line = line.strip()
+
             class_list.append(get_student_info(line))
 
     return class_list
@@ -490,7 +594,13 @@ def create_class_list(f_name, l_name, matric_num, module_id):
 
         with open(create_path('class_list', module_id), 'a') as f:
 
-            f.write('\n' + student['MatricNum'])
+            if os.stat(create_path('class_list', module_id)).st_size == 0:
+
+                f.write(str(student['MatricNum']))
+
+            else:
+
+                f.write('\n' + str(student['MatricNum']))
 
     else:
 
@@ -500,7 +610,7 @@ def create_class_list(f_name, l_name, matric_num, module_id):
         student = update_student_info(get_student_info_doc(matric_num), module_id)
         print("File created, adding student to file...")
         file = open(file_path, 'w+')
-        file.write(student['MatricNum'])
+        file.write(str(student['MatricNum']))
         file.close()
 
 
@@ -525,7 +635,7 @@ def update_student_info(student, module_id):
 def update_soc_data(student):
 
     school_list = []
-    print(len(student))
+
 
     with open('SOC_Students.txt', 'r') as file:
 
@@ -534,7 +644,6 @@ def update_soc_data(student):
             line = line.replace("\'", "\"")
             school_list.append(json.loads(line))
 
-    print(school_list)
 
     for item in school_list:
 
@@ -543,19 +652,18 @@ def update_soc_data(student):
             school_list.remove(item)
 
     school_list.append(student)
-    print(len(student))
     with open('SOC_Students.txt', 'w') as f:
 
-            for item in school_list:
+        for item in school_list:
 
-                f.write("%s\n" % item)
+            f.write("%s\n" % item)
 
 
 def get_student_info(matric_num):
 
+
     query = "SELECT * FROM Students WHERE MatricNum=?"
-    result = pd.read_sql(query, conn, params=(matric_num,))
-    print(result)
+    result = pd.read_sql(query, conn, params=(int(matric_num),))
     student = result.to_dict('records')
 
     return student[0]
@@ -569,10 +677,10 @@ def get_student_info_doc(matric_num):
 
             line = line.replace("\'", "\"")
             student_list.append(json.loads(line))
-
+    print(student_list)
     for item in student_list:
 
-        if item['MatricNum'] == matric_num:
+        if str(item['MatricNum']) == str(matric_num):
 
             return item
 
@@ -671,25 +779,29 @@ def lecturesignin():
             path = current_path + filename
             attendance_info = ('Matriculation_Number: '+ studentinfo[0]['MatricNum'] + ', First_Name: ' + studentinfo[0]['FirstName'] + ', Last_Name: '+ studentinfo[0]['LastName'] + ';' )
 
-            if os.path.exists(path):
+            with open('SOC_Students.txt', 'r') as f:
 
-                if check_if_in_file(matriculationnumber, path):
-                    error = "Your attendance has already been recorded for this lecture."
-                    logger.info("Error, student attendance has already been recorded")
-                    return render_template('lecturesignin.html', error=error)
+                student_list = []
+                for line in f:
+                    line = line.replace("\'", "\"")
+                    student_list.append(json.loads(line))
+            print(student_list)
 
-                logger.info("Lecture attendance file exists, appending to file...")
-                with open(path, 'a') as file:
-                    file.write('\n' + attendance_info)
-            else:
+            for item in student_list:
+                print(matriculationnumber)
+                print(item['MatricNum'])
 
-                logger.info("Lecture attendance file does not exist yet, creating new file...")
-                file = open(path, 'w+')
-                file.write(attendance_info)
-                file.close()
+                if str(item['MatricNum']) == str(matriculationnumber):
 
-            logger.info("Successfully signed into lecture")
-            return render_template('signedin.html', lecturedata=lectureinfo[0])
+                    item[lecturecode] = "Present"
+
+                    update_soc_data(item)
+
+                    logger.info("Successfully signed into lecture")
+                    return render_template('signedin.html', lecturedata=lectureinfo[0])
+
+            error = "Wrong lecture code, or you are not in the class list, speak to your lecturer."
+            return render_template('lecturesignin.html', error=error)
 
         else:
             error = "Wrong Password or Lecture Code"
@@ -762,7 +874,7 @@ def hash_password(password):
     """Hash a password for storing."""
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
     pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'),
-                                salt, 100000)
+                                  salt, 100000)
     pwdhash = binascii.hexlify(pwdhash)
     return (salt + pwdhash).decode('ascii')
 

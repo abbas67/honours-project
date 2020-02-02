@@ -92,11 +92,15 @@
             {% for item in class_list %}
 
                 <div class="card bg-primary mx-3">
-                    <img class="card-img-top" src="/static/anon.jpg.png" alt="Card image cap">
+{#                    <img class="card-img-top" src="/static/anon.jpg.png" alt="Card image cap">#}
                     <div class="card-body">
                         <h5 class="card-title">{{ item['FirstName'] }} {{ item['LastName'] }}</h5>
-                        <a href="#" class="btn btn-primary">Remove</a>
-                        <a href="#" class="btn btn-primary">View Attendance</a>
+
+                        <form action="{{ url_for('remove_from_class_list') }}" method="post">
+                            <button name="Student" type="submit" class="btn btn-primary" value="{{ item['MatricNum'] }}" >Remove</button>
+                            <a href="#" class="btn btn-primary">View Attendance</a>
+                        </form>
+
                     </div>
                 </div>
 
