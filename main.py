@@ -1,7 +1,10 @@
+import csv
 import datetime
 import fileinput
 import re
 
+import requests
+from werkzeug.utils import secure_filename
 import isodate
 import random
 import pandas as pd
@@ -21,11 +24,13 @@ import hashlib, binascii, os
 app = Flask(__name__)
 
 app.secret_key = "supersecretkey"
+UPLOAD_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/Uploads"
+ALLOWED_EXTENSIONS = {'csv'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 if path.exists('logger.log'):
     os.remove('logger.log')
     print("Log file rotated.")
-
 
 logger = logging.getLogger('logger')
 logger.setLevel(logging.DEBUG)
@@ -420,7 +425,64 @@ def getmoduleinfo(module_id):
     result = pd.read_sql(query, conn, params=(module_id,))
     #result.sort_values(by=3, ascending=True)
     session['moduleinfo'] = result.to_dict('records')[0]
-# print(session['moduleinfo'])
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/upload_file', methods=['POST'])
+def upload_file():
+
+    print(request.files)
+    # check if the post request has the file part
+    if "file" not in request.files:
+        flash('No file part')
+        print('No file part')
+        return redirect(url_for('class_list_management', module_id=session['module_id']))
+
+    file = request.files['file']
+    # if user does not select file, browser also
+    # submit an empty part without filename
+    if file.filename == '':
+        flash('No selected file')
+        print('No selected file')
+
+        return redirect(url_for('class_list_management', module_id=session['module_id']))
+
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        students = []
+
+        #with open(os.path.join(app.config['UPLOAD_FOLDER'], filename), mode='r') as infile:
+
+        with open(os.path.join(app.config['UPLOAD_FOLDER'], filename),'r') as csvfile, open(os.path.join(app.config['UPLOAD_FOLDER'], 'temp_file.json'), 'w') as jsonfile:
+            fieldnames = ("MatricNum", "FirstName", "LastName")
+            reader = csv.DictReader(csvfile, fieldnames)
+            for row in reader:
+                json.dump(row, jsonfile)
+                jsonfile.write('\n')
+
+        with open(os.path.join(app.config['UPLOAD_FOLDER'], 'temp_file.json'), 'r') as jsonfile:
+
+            for line in jsonfile:
+                students.append(json.loads(line))
+
+        students.pop(0)
+
+        for item in students:
+
+            url = 'https://www.w3schools.com/python/demopage.php'
+            myobj = {'f_name': item['FirstName'], 'l_name': item['LastName'], 'matric_num': item['MatricNum']}
+
+
+
+        return redirect(url_for('class_list_management', module_id=session['module_id']))
+
+    return redirect(url_for('class_list_management', module_id=session['module_id']))
 
 
 @app.route("/class_list_management", methods=['GET', 'POST'])
@@ -436,11 +498,10 @@ def class_list_management():
 
         if path.exists(create_path('class_list', session['module_id'])) is True and check_if_in_file(matric_num, create_path('class_list', session['module_id'])) is True:
 
-            error = "Error, this student is already in the class list!"
-            print(error)
+            flash("Error, this student is already in the class list!")
             session['class_list'] = retrieve_class_list(session['module_id'])
             return render_template('class_list_management.html',
-                                   exists=check_path_exists(create_path('class_list', session['module_id'])), error=error,class_list=session['class_list'])
+                                   exists=check_path_exists(create_path('class_list', session['module_id'])), class_list=session['class_list'])
 
         else:
 

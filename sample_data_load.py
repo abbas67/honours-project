@@ -61,11 +61,16 @@ def insert_students(cursor, sample_data):
     json_string = str('{ "MatricNum" : ' + str(sample_data['MatricNum']) + ', "FirstName" : "' + str(sample_data['first_name']) + '", "LastName" : "' + str(sample_data['last_name']) + '" }')
     print(json_string)
 
-    with open("SOC_Students.txt", "a") as f:
-
-        f.write('\n' + json_string)
-
     # #cursor.commit()
+    with open("SOC_Students.txt", "a") as f:
+        print(os.stat("SOC_Students.txt").st_size)
+        if os.stat("SOC_Students.txt").st_size == 0:
+
+            f.write(json_string)
+
+        else:
+
+            f.write('\n' + json_string)
 
 
 def insert_lecturers(cursor, sample_data):
