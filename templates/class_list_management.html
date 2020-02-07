@@ -22,14 +22,14 @@
         <div class="d-flex justify-content-center" >
             <div class="my-5">
                 {% if messages %}
-                <div class="card-body">
+                    <div class="card-body">
 
                         {% for message in messages %}
                             {{ message }}
                         {% endfor %}
 
-                </div>
-            {% endif %}
+                    </div>
+                {% endif %}
             </div>
         </div>
     {% endwith %}
@@ -78,7 +78,11 @@
         <div class="card">
             <div class="card-body">
 
-
+                <form action="{{ url_for('upload_file') }}" method="post" enctype=multipart/form-data >
+                    Select a file: <input type="file"  name="file"><br><br>
+                    <input class = "btn btn-primary" type="submit" value="Upload">
+                </form>
+                <p> </p>
                 <form name="myform" action="{{ url_for('class_list_management') }}" method="post" >
 
                     <label for="f_name"> First Name:</label>
@@ -100,23 +104,26 @@
     <div class="flex-container">
 
         <div class="row">
-            {% for item in class_list %}
+            <ul class="list-unstyled card-columns">
+                {% for item in class_list %}
+                    <li>
+                        <div class="card">
 
-                <div class="card bg-primary mx-3">
-                    {#                    <img class="card-img-top" src="/static/anon.jpg.png" alt="Card image cap">#}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ item['FirstName'] }} {{ item['LastName'] }}</h5>
+                            <div class="card-body">
+                                <h5> {{ item['FirstName'] }} {{ item['LastName'] }} </h5>
+{#                                <form action="{{ url_for('remove_from_class_list') }}" method="post">#}
+{#                                    <button name="Student" type="submit" class="btn btn-primary" value="{{ item['MatricNum'] }}" >Remove</button>#}
+{#                                </form>#}
 
-                        <form action="{{ url_for('remove_from_class_list') }}" method="post">
-                            <button name="Student" type="submit" class="btn btn-primary" value="{{ item['MatricNum'] }}" >Remove</button>
-                            <a href="#" class="btn btn-primary">View Attendance</a>
-                        </form>
+                                <form action="{{ url_for('student_stats') }}" method="get">
+                                    <button name="Student" type="submit" class="btn btn-primary" value="{{ item['MatricNum'] }}" >View Details</button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
 
-                    </div>
-                </div>
-
-            {% endfor %}
-
+            </ul>
         </div>
     </div>
 {% endif %}

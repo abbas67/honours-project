@@ -194,7 +194,7 @@ def signup():
             conn.commit()
 
             json_string = str('{ "MatricNum" : ' + str(idnum) + ', "FirstName" : "' + str(fname) + '", "LastName" : "' + str(lname) + '" }')
-            print(json_string)
+
 
             if check_path_exists("SOC_Students.txt"):
 
@@ -368,6 +368,74 @@ def delete_lecture(lecture_id):
     cursor.commit()
 
 
+@app.route("/student_stats", methods=['GET', 'POST'])
+def student_stats():
+
+    if request.method == 'POST':
+
+        pass
+
+    else:
+
+        matric_num = request.args['Student']
+        session['Student'] = get_student_info_doc(matric_num)
+        session['labels'] = [1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
+
+        session['graph_data'] = get_graph_info(matric_num)
+        return render_template('student_stats.html')
+
+
+def get_graph_info(matric_num):
+
+    student = get_student_info_doc(matric_num)
+
+    graph_data = []
+
+    lectures = get_lectures(session['moduleid'])
+
+    for x in range(min(get_lectures(session['moduleid']), key=lambda d: d.get("Week", float('inf')))["Week"], max(get_lectures(session['moduleid']), key=lambda d: d.get("Week", float('inf')))["Week"]):
+
+        graph_data.append(get_class_attendance(student, x, lectures ))
+
+    return graph_data
+
+
+def get_class_attendance(student, week, module_lectures):
+
+    sorted_lectures = []
+    print(week)
+    lectures = []
+
+
+    for item in module_lectures:
+
+        if item['Week'] <= week:
+          #  print(item)
+            lectures.append(item)
+
+    #print(*lectures, sep="\n")
+
+    for item in lectures:
+
+        if item['LectureID'] not in student:
+            continue
+
+        else:
+            sorted_lectures.append(item)
+
+    attended_classes = 0
+
+    for item in sorted_lectures:
+
+        if student[item['LectureID']] == "Present":
+
+            attended_classes = attended_classes + 1
+    print(attended_classes)
+    percentage = attended_classes/(len(sorted_lectures)) * 100
+    print(percentage)
+    return percentage
+
+
 @app.route("/delete_module", methods=['POST'])
 def delete_module():
 
@@ -435,12 +503,11 @@ def allowed_file(filename):
 @app.route('/upload_file', methods=['POST'])
 def upload_file():
 
-    print(request.files)
     # check if the post request has the file part
     if "file" not in request.files:
         flash('No file part')
         print('No file part')
-        return redirect(url_for('class_list_management', module_id=session['module_id']))
+        return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
     file = request.files['file']
     # if user does not select file, browser also
@@ -449,15 +516,13 @@ def upload_file():
         flash('No selected file')
         print('No selected file')
 
-        return redirect(url_for('class_list_management', module_id=session['module_id']))
+        return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         students = []
-
-        #with open(os.path.join(app.config['UPLOAD_FOLDER'], filename), mode='r') as infile:
 
         with open(os.path.join(app.config['UPLOAD_FOLDER'], filename),'r') as csvfile, open(os.path.join(app.config['UPLOAD_FOLDER'], 'temp_file.json'), 'w') as jsonfile:
             fieldnames = ("MatricNum", "FirstName", "LastName")
@@ -475,14 +540,15 @@ def upload_file():
 
         for item in students:
 
-            url = 'https://www.w3schools.com/python/demopage.php'
-            myobj = {'f_name': item['FirstName'], 'l_name': item['LastName'], 'matric_num': item['MatricNum']}
+            if path.exists(create_path('class_list', session['moduleid'])) is True and check_if_in_file(item['MatricNum'], create_path('class_list', session['moduleid'])) is True:
+                logger.info("Error, this student is already in the class list, skipping")
+                continue
 
+            else:
 
+                create_class_list(item['MatricNum'], session['moduleid'])
 
-        return redirect(url_for('class_list_management', module_id=session['module_id']))
-
-    return redirect(url_for('class_list_management', module_id=session['module_id']))
+    return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
 
 @app.route("/class_list_management", methods=['GET', 'POST'])
@@ -493,21 +559,27 @@ def class_list_management():
         f_name = request.form['f_name']
         l_name = request.form['l_name']
         matric_num = request.form['matric_num']
+        print(session['moduleid'])
+        logger.info("Attempting to add " + f_name + ' ' + l_name + ' to class list: ' + session['moduleid'])
 
-        print("Attempting to add " + f_name + ' ' + l_name + ' to class list: ' + session['module_id'])
+        if check_if_in_file(matric_num, 'SOC_Students.txt') is False:
 
-        if path.exists(create_path('class_list', session['module_id'])) is True and check_if_in_file(matric_num, create_path('class_list', session['module_id'])) is True:
+            flash("Error, this student does not seem to exist.")
+            logger.info("Error, this student does not seem to exist.")
 
+            return redirect(url_for('class_list_management', module_id=session['moduleid']))
+
+        if path.exists(create_path('class_list', session['moduleid'])) is True and check_if_in_file(matric_num, create_path('class_list', session['moduleid'])) is True:
+
+            logger.info("Abandoning... student is already in the class list")
             flash("Error, this student is already in the class list!")
-            session['class_list'] = retrieve_class_list(session['module_id'])
-            return render_template('class_list_management.html',
-                                   exists=check_path_exists(create_path('class_list', session['module_id'])), class_list=session['class_list'])
+            session['class_list'] = retrieve_class_list(session['moduleid'])
+            return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
         else:
 
-            create_class_list(f_name, l_name, matric_num, session['module_id'])
-            session['class_list'] = retrieve_class_list(session['module_id'])
-            return render_template('class_list_management.html', exists=check_path_exists(create_path('class_list', session['module_id'])), class_list=session['class_list'])
+            create_class_list(matric_num, session['moduleid'])
+            return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
     else:
 
@@ -517,7 +589,8 @@ def class_list_management():
                 session.pop('class_list')
 
             module_id = request.args['module_id']
-            session['module_id'] = module_id
+            session['moduleid'] = module_id
+            print(session['moduleid'])
 
             if check_path_exists(create_path('class_list', module_id)):
 
@@ -537,9 +610,7 @@ def class_list_management():
 @app.route("/remove_from_class_list", methods=['POST'])
 def remove_from_class_list():
 
-
     student_id = request.form['Student']
-    #print(student_id)
 
     logger.info("attempting to remove " + str(student_id) + " from class list...")
 
@@ -553,14 +624,13 @@ def remove_from_class_list():
             temp_list.remove(item)
             break
 
-
-    get_lectures(session['module_id'])
+    get_lectures(session['moduleid'])
 
     logger.info("removing expected lectures for module...")
 
-    logger.info(str(student_id) + " currently has " + str(len(student) - 3) + " expected lectures")
+    logger.info(str(student_id) + " currently has " + str(len(get_student_info_doc(student_id)) - 3) + " expected lectures")
 
-    for x in get_lectures(session['module_id']):
+    for x in get_lectures(session['moduleid']):
 
         if x['LectureID'] in student:
 
@@ -578,9 +648,11 @@ def remove_from_class_list():
 
     file_contents = []
 
-    with open(create_path('class_list', session['module_id']), 'r') as f:
+    with open(create_path('class_list', session['moduleid']), 'r') as f:
 
-        file_contents = f.readlines()
+        for line in f:
+
+            file_contents.append(json.loads(line))
 
     for item in file_contents:
 
@@ -588,27 +660,17 @@ def remove_from_class_list():
 
             file_contents.remove(item)
 
-    print(file_contents)
-    with open(create_path('class_list', session['module_id']), 'w') as f:
+    with open(create_path('class_list', session['moduleid']), 'w') as f:
 
-        for item in file_contents:
+        f.write(str(file_contents[0]))
 
-            f.write(item.strip())
+        for item in file_contents[1:(len(file_contents) + 1)]:
+
+            f.write('\n' + str(item))
 
     logger.info("student removed from class list document.")
 
-    if check_path_exists(create_path('class_list', session['module_id'])):
-
-        exists = True
-        class_list = retrieve_class_list(session['module_id'])
-        session['class_list'] = class_list
-
-    else:
-
-        exists = False
-        class_list = None
-
-    return render_template('class_list_management.html', exists=exists, class_list=class_list)
+    return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
 
 def pull_soc_list():
@@ -635,22 +697,25 @@ def push_to_soc(school_list):
 def retrieve_class_list(module_id):
 
     class_list = []
+    attendance = []
     with open(create_path('class_list', module_id), "r") as f:
 
         for line in f:
 
             class_list.append(get_student_info(line))
 
+    print(class_list)
+
     return class_list
 
 
-def create_class_list(f_name, l_name, matric_num, module_id):
+def create_class_list(matric_num, module_id):
 
     file_path = create_path('class_list', module_id)
 
     if check_path_exists(file_path):
 
-        print("File exists, attempting to updating student info then attempting to append to file...")
+        logger.info("File exists, attempting to updating student info then attempting to append to file...")
         student = update_student_info(get_student_info_doc(matric_num), module_id)
 
         with open(create_path('class_list', module_id), 'a') as f:
@@ -665,11 +730,9 @@ def create_class_list(f_name, l_name, matric_num, module_id):
 
     else:
 
-        print("File does not exist, creating file...")
-
-        print("File created, updating student info...")
+        logger.info("File does not exist, creating file...")
+        logger.info("File created, updating student info...")
         student = update_student_info(get_student_info_doc(matric_num), module_id)
-        print("File created, adding student to file...")
         file = open(file_path, 'w+')
         file.write(str(student['MatricNum']))
         file.close()
@@ -677,7 +740,7 @@ def create_class_list(f_name, l_name, matric_num, module_id):
 
 def update_student_info(student, module_id):
 
-    for x in get_lectures(module_id):
+    for x in get_lectures(session['moduleid']):
 
         if x['LectureID'] in student:
 
@@ -688,7 +751,6 @@ def update_student_info(student, module_id):
             student.update({x['LectureID']: "Absent"})
 
     update_soc_data(student)
-    print("Student Information Updated")
 
     return student
 
@@ -697,14 +759,12 @@ def update_soc_data(student):
 
     school_list = []
 
-
     with open('SOC_Students.txt', 'r') as file:
 
         for line in file:
 
             line = line.replace("\'", "\"")
             school_list.append(json.loads(line))
-
 
     for item in school_list:
 
@@ -722,7 +782,6 @@ def update_soc_data(student):
 
 def get_student_info(matric_num):
 
-
     query = "SELECT * FROM Students WHERE MatricNum=?"
     result = pd.read_sql(query, conn, params=(int(matric_num),))
     student = result.to_dict('records')
@@ -738,7 +797,7 @@ def get_student_info_doc(matric_num):
 
             line = line.replace("\'", "\"")
             student_list.append(json.loads(line))
-    print(student_list)
+
     for item in student_list:
 
         if str(item['MatricNum']) == str(matric_num):
