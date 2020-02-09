@@ -1,9 +1,11 @@
-2020-01-23 14:33:12,591:INFO:Lecturer account successfully created
-2020-01-23 14:33:12,898:INFO:Successfully Signed Into Lecturer Account
-2020-01-23 14:33:13,296:INFO:Lecturer account successfully created
-2020-01-23 14:33:13,506:INFO:The ID already exists, Account Creation failed
-2020-01-23 14:33:13,881:INFO:Student account successfully created
-2020-01-23 14:33:14,112:INFO:Student account successfully created
-2020-01-23 14:33:14,469:INFO:Student account successfully created
-2020-01-23 14:33:14,666:INFO:Invalid Matriculation Number
-2020-01-23 14:33:14,873:INFO:Error, ID already exists
+2020-02-09 13:21:INFO: Lecturer account successfully created
+2020-02-09 13:21:INFO: Successfully Signed Into Lecturer Account
+2020-02-09 13:21:INFO: AC12345 : Test Module successfully created.
+2020-02-09 13:21:INFO: Error, module names cannot be duplicated...
+2020-02-09 13:21:INFO: Error, module ID already exists, please choose another.
+2020-02-09 13:21:INFO: Lecturer account successfully created
+2020-02-09 13:21:INFO: Successfully Signed Into Lecturer Account
+2020-02-09 13:21:INFO: Lecturer account successfully created
+2020-02-09 13:21:INFO: Successfully Signed Into Lecturer Account
+2020-02-09 13:21:INFO: Lecturer account successfully created
+2020-02-09 13:21:INFO: The ID already exists, Account Creation failed

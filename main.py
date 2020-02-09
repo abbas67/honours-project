@@ -193,22 +193,19 @@ def signup():
             cursor.execute(query, (idnum, fname, lname, password))
             conn.commit()
 
+            logger.info("Student uploaded to database")
+
             json_string = str('{ "MatricNum" : ' + str(idnum) + ', "FirstName" : "' + str(fname) + '", "LastName" : "' + str(lname) + '" }')
+            logger.info("attempting to add " + json_string + " to SOC file.")
 
+            with open("SOC_Students.txt", "a") as f:
+                if os.stat("SOC_Students.txt").st_size == 0:
+                    f.write(json_string)
+                    logger.info("Student added to SOC file")
+                else:
 
-            if check_path_exists("SOC_Students.txt"):
-
-                with open("SOC_Students.txt", "a") as f:
-                    if os.stat("SOC_Students.txt").st_size == 0:
-                        f.write(json_string)
-
-                    else:
-
-                        f.write('\n' + json_string)
-
-            else:
-
-                logger.info("Problem with SOC_student file")
+                    f.write('\n' + json_string)
+                    logger.info("Student added to SOC file")
 
             notification = "account successfully created"
             logger.info("Student account successfully created")
@@ -233,16 +230,20 @@ def createlecture():
 
     if request.method == 'POST':
 
+        print("wassup")
         time = request.form['time']
         duration = request.form['duration']
         name = request.form['name']
         location = request.form['location']
         module = session['selected_module_lecture']
+        print("wassup")
         weekday = request.form['weekday']
         first = request.form['first']
         first = int(first)
         last = request.form['last']
         last = int(last)
+
+        print("wassup")
 
         for x in range(first, last + 1):
 
@@ -250,15 +251,16 @@ def createlecture():
 
             cursor.execute(query, (generatenewcode(), module, name, location, duration, x, weekday, time))
             conn.commit()
-
-        logger.info("Lecture set successfully created.")
+        print("Lecture set" + weekday + "from week" + str(first) + "to " + str(last) + "at " + location + "at " + time +" successfully created.")
+        logger.info("Lecture set" + weekday + "from week" + str(first) + "to " + str(last) + "at " + location + "at " + time +" successfully created.")
+        updatemanagedmodules()
         #flash("Lecture successfully timetabled.")
         return redirect(url_for('createlecture'))
 
     else:
 
         if g.user:
-
+            print(1)
             return render_template('createlecture.html', modules=session['supervisedmodules'], moduleselected=False)
 
         return redirect(url_for('lecturersignin'))
@@ -839,11 +841,19 @@ def modulemanagement():
             flash("Error, module ID already exists, please choose another.")
             return render_template('modulemanager.html', modules=session['supervisedmodules'], Notification=error)
 
+        if check_duplicate('Modules', 'ModuleName', modulename):
+            error = "Error, module ID already exists, please choose another."
+            logger.info("Error, module names cannot be duplicated...")
+            flash("Error, module name already exists, please choose another")
+            return render_template('modulemanager.html', modules=session['supervisedmodules'], Notification=error)
+
         query = "INSERT INTO Modules(ModuleID, ModuleName, LecturerID) VALUES (?, ?, ?);"
         cursor.execute(query, (moduleid, modulename, session['user']))
         conn.commit()
         updatemanagedmodules()
-        logger.info("Module Created")
+
+        logger.info(str(moduleid) + " : " + str(modulename) + " successfully created.")
+
         return render_template('modulemanager.html', modules=session['supervisedmodules'])
 
     else:
@@ -1002,11 +1012,9 @@ def hash_password(password):
 def check_duplicate(table_name, field, unique_key):
 
     query = ("SELECT * FROM %s WHERE %s=?" % (table_name, field))
-    print(query)
     # filename = ('/Attendance_Docs/%s.txt' % lecturecode)
     result = pd.read_sql(query, conn, params=(unique_key,))
     tableinfo = result.to_dict('records')
-    print(tableinfo)
 
     if len(tableinfo) > 0:
 
