@@ -1,11 +1,25 @@
-2020-02-09 13:21:INFO: Lecturer account successfully created
-2020-02-09 13:21:INFO: Successfully Signed Into Lecturer Account
-2020-02-09 13:21:INFO: AC12345 : Test Module successfully created.
-2020-02-09 13:21:INFO: Error, module names cannot be duplicated...
-2020-02-09 13:21:INFO: Error, module ID already exists, please choose another.
-2020-02-09 13:21:INFO: Lecturer account successfully created
-2020-02-09 13:21:INFO: Successfully Signed Into Lecturer Account
-2020-02-09 13:21:INFO: Lecturer account successfully created
-2020-02-09 13:21:INFO: Successfully Signed Into Lecturer Account
-2020-02-09 13:21:INFO: Lecturer account successfully created
-2020-02-09 13:21:INFO: The ID already exists, Account Creation failed
+2020-02-10 21:51:INFO: Lecturer account successfully created
+2020-02-10 21:51:INFO: Successfully Signed Into Lecturer Account
+2020-02-10 21:51:INFO: AC12345 : Test Module 1 successfully created.
+2020-02-10 21:51:INFO: Lecture set: Monday from week 1 to 24 at Dalhousie at 14:00 successfully created.
+2020-02-10 21:51:INFO: Student uploaded to database
+2020-02-10 21:51:INFO: attempting to add { "MatricNum" : 160012345, "FirstName" : "Draco", "LastName" : "Malfoy" } to SOC file.
+2020-02-10 21:51:INFO: Student added to SOC file
+2020-02-10 21:51:INFO: Student account successfully created
+2020-02-10 21:51:INFO: Attempting to add Draco Malfoy to class list: AC12345
+2020-02-10 21:51:INFO: File does not exist, creating file...
+2020-02-10 21:51:INFO: File created, updating student info...
+2020-02-10 21:51:INFO: Draco Malfoy SOC data updated along with class list
+2020-02-10 21:51:INFO: Draco Malfoy SOC data updated along with class list
+2020-02-10 21:51:INFO: Draco Malfoy has been successfully signed into lecture
+2020-02-10 21:51:INFO: Draco Malfoy SOC data updated along with class list
+2020-02-10 21:51:INFO: Draco Malfoy has been successfully signed into lecture
+2020-02-10 21:51:INFO: Draco Malfoy SOC data updated along with class list
+2020-02-10 21:51:INFO: Draco Malfoy has been successfully signed into lecture
+2020-02-10 21:51:INFO: Draco Malfoy SOC data updated along with class list
+2020-02-10 21:51:INFO: Draco Malfoy has been successfully signed into lecture
+2020-02-10 21:51:INFO: Draco Malfoy SOC data updated along with class list
+2020-02-10 21:51:INFO: Draco Malfoy has been successfully signed into lecture
+2020-02-10 21:51:INFO: Draco Malfoy has already been signed in.
+2020-02-10 21:51:INFO: Matriculation Number or password is incorrect
+2020-02-10 21:51:INFO: Incorrect lecture code, attempt made by: 160012345

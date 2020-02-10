@@ -105,7 +105,7 @@ def lecturersignin():
         if len(lecturerinfo) != 1:
             error = "Account does not exist"
             logger.info("Account does not exist")
-            print("failing")
+
             return render_template('lecturersignin.html', error=error)
 
         actualpass = lecturerinfo[0]['Password']
@@ -123,7 +123,7 @@ def lecturersignin():
 
                 if x['LecturerID'].strip() == session['user']:
                     session['moduleinfo'].append(x['ModuleID'])
-                    print("passing")
+
             logger.info("Successfully Signed Into Lecturer Account")
             return redirect(url_for('lecturerhomepage'))
 
@@ -131,7 +131,7 @@ def lecturersignin():
 
             error = "LecturerID or password is incorrect"
             logger.info("LecturerID or password is incorrect")
-            print("failing because password")
+
             return render_template('lecturersignin.html', error=error)
 
     else:
@@ -230,20 +230,17 @@ def createlecture():
 
     if request.method == 'POST':
 
-        print("wassup")
+
         time = request.form['time']
         duration = request.form['duration']
         name = request.form['name']
         location = request.form['location']
         module = session['selected_module_lecture']
-        print("wassup")
         weekday = request.form['weekday']
         first = request.form['first']
         first = int(first)
         last = request.form['last']
         last = int(last)
-
-        print("wassup")
 
         for x in range(first, last + 1):
 
@@ -251,16 +248,17 @@ def createlecture():
 
             cursor.execute(query, (generatenewcode(), module, name, location, duration, x, weekday, time))
             conn.commit()
-        print("Lecture set" + weekday + "from week" + str(first) + "to " + str(last) + "at " + location + "at " + time +" successfully created.")
-        logger.info("Lecture set" + weekday + "from week" + str(first) + "to " + str(last) + "at " + location + "at " + time +" successfully created.")
+
+        logger.info("Lecture set: " + weekday + " from week " + str(first) + " to " + str(last) + " at " + location + " at " + time +" successfully created.")
         updatemanagedmodules()
-        #flash("Lecture successfully timetabled.")
+        flash("Lecture successfully timetabled.")
+
         return redirect(url_for('createlecture'))
 
     else:
 
         if g.user:
-            print(1)
+
             return render_template('createlecture.html', modules=session['supervisedmodules'], moduleselected=False)
 
         return redirect(url_for('lecturersignin'))
@@ -378,11 +376,14 @@ def student_stats():
         pass
 
     else:
-
+        print("okay")
         matric_num = request.args['Student']
         session['Student'] = get_student_info_doc(matric_num)
         session['labels'] = [1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
 
+        student = get_student_info_doc(matric_num)
+
+        logger.info("Student Total attendance is: " + str(get_class_attendance(student, 24, get_lectures(session['moduleid']))))
         session['graph_data'] = get_graph_info(matric_num)
         return render_template('student_stats.html')
 
@@ -405,17 +406,17 @@ def get_graph_info(matric_num):
 def get_class_attendance(student, week, module_lectures):
 
     sorted_lectures = []
-    print(week)
+
     lectures = []
 
 
     for item in module_lectures:
 
         if item['Week'] <= week:
-          #  print(item)
+
             lectures.append(item)
 
-    #print(*lectures, sep="\n")
+
 
     for item in lectures:
 
@@ -432,9 +433,9 @@ def get_class_attendance(student, week, module_lectures):
         if student[item['LectureID']] == "Present":
 
             attended_classes = attended_classes + 1
-    print(attended_classes)
+
     percentage = attended_classes/(len(sorted_lectures)) * 100
-    print(percentage)
+
     return percentage
 
 
@@ -508,7 +509,7 @@ def upload_file():
     # check if the post request has the file part
     if "file" not in request.files:
         flash('No file part')
-        print('No file part')
+
         return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
     file = request.files['file']
@@ -516,7 +517,7 @@ def upload_file():
     # submit an empty part without filename
     if file.filename == '':
         flash('No selected file')
-        print('No selected file')
+
 
         return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
@@ -561,7 +562,6 @@ def class_list_management():
         f_name = request.form['f_name']
         l_name = request.form['l_name']
         matric_num = request.form['matric_num']
-        print(session['moduleid'])
         logger.info("Attempting to add " + f_name + ' ' + l_name + ' to class list: ' + session['moduleid'])
 
         if check_if_in_file(matric_num, 'SOC_Students.txt') is False:
@@ -589,10 +589,8 @@ def class_list_management():
 
             if 'class_list' in session:
                 session.pop('class_list')
-
             module_id = request.args['module_id']
             session['moduleid'] = module_id
-            print(session['moduleid'])
 
             if check_path_exists(create_path('class_list', module_id)):
 
@@ -706,7 +704,6 @@ def retrieve_class_list(module_id):
 
             class_list.append(get_student_info(line))
 
-    print(class_list)
 
     return class_list
 
@@ -745,7 +742,7 @@ def update_student_info(student, module_id):
     for x in get_lectures(session['moduleid']):
 
         if x['LectureID'] in student:
-
+            print("okay")
             pass
 
         else:
@@ -775,11 +772,14 @@ def update_soc_data(student):
             school_list.remove(item)
 
     school_list.append(student)
+
     with open('SOC_Students.txt', 'w') as f:
 
         for item in school_list:
 
             f.write("%s\n" % item)
+
+    logger.info(student['FirstName'] + " " + student['LastName'] + " SOC data updated along with class list" )
 
 
 def get_student_info(matric_num):
@@ -873,6 +873,18 @@ def updatemanagedmodules():
     session['supervisedmodules'] = result.to_dict('records')
 
 
+@app.route("/update_managed_modules", methods=['POST'])
+def update_managed_modules():
+
+    user_id = request.form['user_id']
+
+    query = "SELECT * FROM Modules WHERE LecturerID=?"
+    result = pd.read_sql(query, conn, params=(user_id,))
+    session['supervisedmodules'] = result.to_dict('records')
+
+    return json.dumps(True)
+
+
 @app.route("/lecturesignin", methods=['GET', 'POST'])
 def lecturesignin():
 
@@ -887,12 +899,15 @@ def lecturesignin():
         result = pd.read_sql(query, conn, params=(matriculationnumber,))
         studentinfo = result.to_dict('records')
 
+        if len(studentinfo) != 1:
+
+            error = "Matriculation Number or password is incorrect"
+            logger.info("Matriculation Number or password is incorrect")
+
+            return render_template('lecturesignin.html', error=error)
+
         actualpassword = studentinfo[0]['Password']
         error = None
-
-        if len(studentinfo) != 1:
-            error = "Matriculation Number or password is incorrect"
-            return render_template('lecturesignin.html', error=error)
 
         query = "SELECT * FROM Lectures WHERE LectureID=?"
         result = pd.read_sql(query, conn, params=(lecturecode,))
@@ -900,6 +915,8 @@ def lecturesignin():
 
         if len(lectureinfo) != 1:
             error = "Incorrect lecture code, please try again"
+            logger.info("Incorrect lecture code, attempt made by: " + str(matriculationnumber))
+
             return render_template('lecturesignin.html', error=error)
 
         if checkpass(actualpassword, password) is True and len(lectureinfo) is 1:
@@ -907,7 +924,7 @@ def lecturesignin():
             filename = ('/Attendance_Docs/%s.txt' % lecturecode)
             current_path = os.path.abspath(os.path.dirname(__file__))
             path = current_path + filename
-            attendance_info = ('Matriculation_Number: '+ studentinfo[0]['MatricNum'] + ', First_Name: ' + studentinfo[0]['FirstName'] + ', Last_Name: '+ studentinfo[0]['LastName'] + ';' )
+            attendance_info = ('Matriculation_Number: ' + studentinfo[0]['MatricNum'] + ', First_Name: ' + studentinfo[0]['FirstName'] + ', Last_Name: '+ studentinfo[0]['LastName'] + ';' )
 
             with open('SOC_Students.txt', 'r') as f:
 
@@ -915,19 +932,24 @@ def lecturesignin():
                 for line in f:
                     line = line.replace("\'", "\"")
                     student_list.append(json.loads(line))
-            print(student_list)
 
             for item in student_list:
-                print(matriculationnumber)
-                print(item['MatricNum'])
 
                 if str(item['MatricNum']) == str(matriculationnumber):
 
-                    item[lecturecode] = "Present"
+                    if item[lecturecode] == "Present":
+
+                        logger.info(studentinfo[0]['FirstName'] + ' ' + studentinfo[0]['LastName'] + " has already been signed in.")
+                        error = studentinfo[0]['FirstName'] + ' ' + studentinfo[0]['LastName'] + " has already been signed in."
+                        return render_template('lecturesignin.html', error=error)
+
+                    else:
+
+                        item[lecturecode] = "Present"
 
                     update_soc_data(item)
 
-                    logger.info("Successfully signed into lecture")
+                    logger.info(studentinfo[0]['FirstName'] + ' ' + studentinfo[0]['LastName'] + " has been successfully signed into lecture")
                     return render_template('signedin.html', lecturedata=lectureinfo[0])
 
             error = "Wrong lecture code, or you are not in the class list, speak to your lecturer."
