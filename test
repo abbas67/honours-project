@@ -1,18 +1,23 @@
-import json,  os
+import json,  os, csv
 import fileinput
 student_list = []
 
-
-with open('SOC_Students.txt', 'r+') as file:
+school_list = []
+path = os.path.abspath(os.path.dirname(__file__)) + '/SOC_Students.txt'
+with open(path, 'r') as file:
     for line in file:
+        line = line.replace("\'", "\"")
+        school_list.append(json.loads(line))
 
-        line.rstrip("\n")
+print(school_list)
 
-# with open('/Users/abbaslawal/Desktop/honours-project/SOC_Students.txt', "r") as file:
-#
-#     for line in file:
-#         student_list.append(json.loads(line))
-#         print(line)
+path = os.path.abspath(os.path.dirname(__file__)) + '/testfile.csv'
+with open(path, 'w') as f:  # Just use 'w' mode in 3.x
 
+    w = csv.DictWriter(f, school_list[0].keys())
+    w.writeheader()
+    for item in school_list:
 
+        w = csv.DictWriter(f, item.keys())
 
+        w.writerow(item)

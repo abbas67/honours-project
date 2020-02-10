@@ -12,4 +12,5 @@ def connect():
 
     params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
     conn = pyodbc.connect(params)
+
     return conn.cursor()
