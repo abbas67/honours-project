@@ -16,83 +16,69 @@
         <a href="{{ url_for('sign_out') }}">Sign Out</a>
     </div>
 
-
 {% endblock head %}
 
 {% block content %}
 
-    <h1 class="text-center"> {{ session['Student']['FirstName'] }} {{ session['Student']['LastName']}} - Attendance Information </h1>
+    <h1 class="text-center"> {{ session['Student']['FirstName'] }} {{ session['Student']['LastName']}} - Attendance Information - {{ session['moduleid'] }}</h1>
 
-    <div class="container ">
-        <form action="{{ url_for('remove_from_class_list') }}" method="post">
-            <button name="Student" type="submit" class="btn btn-primary" value="{{ session['Student']['MatricNum'] }}" >Remove From Class</button>
-        </form>
+    {% if show_graph == True %}
 
-    </div>
+        <div class="flex-container">
 
-    <canvas id="speedChart" > </canvas>
-    <script>
+            <form action="{{ url_for('remove_from_class_list') }}" method="post">
+                <button name="Student" type="submit" class="btn btn-primary my-5" value="{{ session['Student']['MatricNum'] }}" >Remove From Class</button>
+            </form>
 
-        var speedCanvas = document.getElementById("speedChart");
+            <form action="{{ url_for('class_list_management') }}" method="get">
+                <button name="module_id" type="submit" class="btn btn-primary" value="{{ session['moduleinfo']['ModuleID'] }}" >Back</button>
+            </form>
 
-        Chart.defaults.global.defaultFontFamily = "Lato";
-        Chart.defaults.global.defaultFontSize = 18;
+        </div>
+    {% endif %}
+    {% if show_stats == False %}
 
-        var speedData = {
-            labels: {{ session['labels'] }},
-            datasets: [
+        <div class="card" >
+            <img class="card-img-top" src="/static/qmb.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Nothing To Show!</h5>
+                <p class="card-text">Unfortunately, this student has no attendance data to date. </p>
+                <form action="{{ url_for('class_list_management') }}" method="get">
+                    <button name="module_id" type="submit" class="btn btn-primary" value="{{ session['moduleinfo']['ModuleID'] }}" >Back</button>
+                </form>
+                <p> </p>
+                <form action="{{ url_for('remove_from_class_list') }}" method="post">
+                    <button name="Student" type="submit" class="btn btn-primary" value="{{ session['Student']['MatricNum'] }}" >Remove From Class</button>
+                </form>
+            </div>
+        </div>
 
-                {
-                    label: "{{ session['moduleinfo']['ModuleID'] }} : {{ session['moduleinfo']['ModuleName'] }}",
-                    data: {{session['graph_data']}},
-                    lineTension: 0,
-                    fill: false,
-                    borderColor: 'blue',
-                    backgroundColor: 'transparent',
-                    borderDash: [5, 5],
-                    pointBorderColor: 'white',
-                    pointBackgroundColor: 'black',
-                    pointRadius: 5,
-                    pointHoverRadius: 10,
-                    pointHitRadius: 30,
-                    pointBorderWidth: 2,
-                    pointStyle: 'rectRounded'
-                }
+    {% endif %}
 
+    {% if show_stats == True %}
 
+        <ul class="list-group mx-5">
 
-            ]
-        };
+            <li class="list-group-item active">Attendance Overview</li>
 
-        var chartOptions = {
-            legend: {
-                display: true,
-                position: 'top',
-                labels: {
-                    boxWidth: 80,
-                    fontColor: 'black'
-                }
-            }
-        };
+            {% for item in attendance_info %}
 
-        var lineChart = new Chart(speedCanvas, {
-            type: 'line',
-            data: speedData,
-            options: chartOptions
-        });
+                <li class="list-group-item "> {{ item['LectureName'] }} {{ item['Day'] }}  Week: {{ item['Week'] }} Attendance:  {{ item['Attendance'] }} </li>
 
+            {% endfor %}
 
+        </ul>
 
-        Resources
+    {% endif %}
 
-    </script>
+    <p> </p>
 
+    <h1 class="text-center"> {{ student_statement }} </h1>
 
 {% endblock content %}
 
 {% block scripts %}
 
     {{ super() }}
-
 
 {% endblock scripts %}

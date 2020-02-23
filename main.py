@@ -1,25 +1,18 @@
+import binascii
 import csv
 import datetime
-import fileinput
-import re
-
-import requests
-from werkzeug.utils import secure_filename
-import isodate
+import hashlib
+import logging
+import os
 import random
+import re
+import string
+import collections
+from os import path
 import pandas as pd
 import pyodbc
-import string
-import logging
-from os import path
-from datetime import date
-
-import sys
-import os
-from logging import handlers
-
 from flask import Flask, render_template, request, redirect, url_for, flash, session, g, json
-import hashlib, binascii, os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -48,7 +41,6 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
-
 drivers = [item for item in pyodbc.drivers()]
 driver = drivers[-1]
 server = 'Zeno.computing.dundee.ac.uk'
@@ -59,7 +51,6 @@ pwd = 'abc2019ABL123..'
 params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
 conn = pyodbc.connect(params)
 cursor = conn.cursor()
-
 
 @app.before_request
 def before_request():
@@ -84,11 +75,116 @@ def lecturerhomepage():
         set_week()
         lectures = get_next_lecture(get_week())
 
+        messages = attendance_flagging()
+
+        if len(messages) == 0:
+
+            show_messages = False
+
+        else:
+
+            show_messages = True
+
         return render_template('lecturerhome.html',
 
-                               next_lecture=lectures, timetabled_days=check_timetabled_days(lectures), lectures=lectures)
+                               next_lecture=lectures, timetabled_days=check_timetabled_days(lectures), lectures=lectures, show_messages=show_messages, student_messages=messages)
 
     return redirect(url_for('lecturersignin'))
+
+
+def attendance_flagging():
+    messages = []
+
+    for item in session['supervisedmodules']:
+
+        filename = create_path('attendance_docs', item['ModuleID'])
+
+        create_module_atttendance_doc(item['ModuleID'])
+
+        with open(filename, 'r') as file:
+            temp_list = []
+            for line in file:
+
+                line = line.replace("\'", "\"")
+                temp_list.append(json.loads(line.strip()))
+
+        for student in temp_list:
+
+            print(int(float(student['Attendance'])))
+            if int(float(student['Attendance'])) < int(float(50)):
+
+                print(str(int(float(student['Attendance']))) + " Is too low " + student['FirstName'] +  " " + item['ModuleID'] )
+                messages.append(tuple((student['FirstName'] + " " + student['LastName'] + " Has less than 50% attendance for " + item['ModuleID'], student['MatricNum'], item['ModuleID'] )))
+        print(len(messages))
+
+    return messages
+
+
+@app.route("/redirect_to_student", methods=['POST'])
+def redirect_to_student():
+
+    session['moduleid'] = request.form['module_id']
+
+    return redirect(url_for('student_stats', Student=request.form['student']))
+
+
+def create_module_atttendance_doc(module_id):
+
+    student_json = []
+    lectures = get_lectures(module_id)
+    student_list = pull_soc_list()
+
+    if len(lectures) == 0:
+
+        for student in student_list:
+
+            class_attendance = 101
+
+            json_string = str('{ "MatricNum" : ' + str(student['MatricNum']) + ', "FirstName" : "' + str(
+                student['FirstName']) + '", "LastName" : "' + str(student['LastName']) + '", "Attendance" : "' + str(
+                class_attendance) + '" }')
+            student_json.append(json_string)
+
+    else:
+
+        for student in student_list:
+
+            total = 0
+            attended = 0
+
+            for lecture in lectures:
+
+                if lecture['Week'] > int(get_week()) + 1:
+
+                    lectures.remove(lecture)
+
+                if lecture['LectureID'] in student:
+
+                    total = total + 1
+
+                    if student[lecture['LectureID']] == 'Present':
+                        attended = attended + 1
+
+            class_attendance = round((attended / total) * 100, 2)
+
+            json_string = str('{ "MatricNum" : ' + str(student['MatricNum']) + ', "FirstName" : "' + str(
+                student['FirstName']) + '", "LastName" : "' + str(student['LastName']) + '", "Attendance" : "' + str(
+                class_attendance) + '" }')
+
+            student_json.append(json_string)
+
+    filename = create_path('attendance_docs', module_id)
+
+    open(filename, 'w').close()
+
+    with open(filename, 'w') as file:
+
+        file.write(student_json[0])
+
+        for x in range(1, len(student_json)):
+            file.write('\n' + student_json[x])
+
+    logger.info("Attendance Doc created for " + str(module_id))
 
 
 @app.route("/lecturersignin", methods=['POST', 'GET'])
@@ -161,6 +257,8 @@ def signup():
             result = pd.read_sql(query, conn, params=(idnum,))
             resultdict = result.to_dict('records')
 
+            print(resultdict)
+
             if len(resultdict) > 0:
                 notification = "The ID already exists"
                 logger.info("The ID already exists, Account Creation failed")
@@ -175,6 +273,13 @@ def signup():
 
         else:
 
+            if len(idnum) != 9:
+                notification = "Please enter a valid matriculation number"
+                logger.info("Invalid Matriculation Number")
+                return render_template('signup.html', notification=notification)
+
+
+
             query = "SELECT * FROM Students WHERE MatricNum=?"
             result = pd.read_sql(query, conn, params=(idnum,))
             resultdict = result.to_dict('records')
@@ -184,10 +289,6 @@ def signup():
                 logger.info("Error, ID already exists")
                 return render_template('signup.html', notification=notification)
 
-            if len(idnum) != 9:
-                notification = "Please enter a valid matriculation number"
-                logger.info("Invalid Matriculation Number")
-                return render_template('signup.html', notification=notification)
 
             query = "INSERT INTO Students (MatricNum, FirstName, LastName, Password) VALUES (?, ?, ? ,?);"
             cursor.execute(query, (idnum, fname, lname, password))
@@ -251,6 +352,8 @@ def createlecture():
 
         logger.info("Lecture set: " + weekday + " from week " + str(first) + " to " + str(last) + " at " + location + " at " + time +" successfully created.")
         updatemanagedmodules()
+
+        update_soc_students_lectures(module)
         flash("Lecture successfully timetabled.")
 
         return redirect(url_for('createlecture'))
@@ -262,6 +365,57 @@ def createlecture():
             return render_template('createlecture.html', modules=session['supervisedmodules'], moduleselected=False)
 
         return redirect(url_for('lecturersignin'))
+
+
+def get_graph_info(module_id):
+
+    graph_data = []
+
+    lectures = get_lectures(module_id)
+
+    week = int(get_week())
+
+    if week < 13:
+
+        session['labels'] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        for x in range(0, 12):
+
+            pass
+
+        return graph_data
+
+    if week >= 13:
+
+        session['labels'] = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+        for x in range(13, 25):
+
+            pass
+
+        return graph_data
+
+
+def get_lecture_attendance(lecture_id, total_students):
+
+    student_list = pull_soc_list()
+
+    students_present = 0
+
+    for student in student_list:
+
+        if lecture_id not in student:
+            continue
+
+        else:
+
+            if student[lecture_id] == 'Present':
+
+                students_present = students_present + 1
+
+    print(students_present)
+    print((students_present / total_students) * 100)
+
+    return round((students_present / total_students) * 100, 2)
+
 
 
 @app.route("/module_options", methods=['GET', 'POST'])
@@ -286,13 +440,76 @@ def module_options():
             session['moduleid'] = module_id
             getmoduleinfo(session['moduleid'])
             updatemanagedmodules()
-            modulelectures = sort_lectures(get_week(), get_lectures(module_id), "Weekly")
+            lectures = get_lectures(module_id)
+            modulelectures = sort_lectures(get_week(), lectures, "Weekly")
             logger.info("Retrieving module lectures from " + str(module_id) + " for the current week...")
+            session['graph_datasets'] = []
+            session['labels'] = []
+            session['lecture_details'] = []
+
+            get_graph_data(module_id)
+
+            if int(get_week()) >= 13:
+
+                session['labels'] = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+
+            else:
+
+                session['labels'] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+            update_soc_students_lectures(module_id)
 
             return render_template('module_options.html', moduleid=module_id, lectures=modulelectures,
                                    timetabled_days=check_timetabled_days(modulelectures))
 
         return redirect(url_for('lecturersignin'))
+
+
+def update_soc_students_lectures(module_id):
+
+    student_list = pull_soc_list()
+
+    lectures = get_lectures(module_id)
+
+    for student in student_list:
+
+        for lecture in lectures:
+
+            if lecture['LectureID'] not in student:
+
+                student[lecture['LectureID']] = 'Absent'
+
+    push_to_soc(student_list)
+    logger.info("Student expected lectures updated.")
+
+
+def get_graph_data(module_id):
+
+    # https://stackoverflow.com/questions/4091680/splitting-a-list-of-dictionaries-into-several-lists-of-dictionaries
+
+    lectures = get_lectures(module_id)
+
+    result = collections.defaultdict(list)
+
+    for d in lectures:
+        result[d['Day']].append(d)
+
+    result_list = list(result.values())
+
+    for item in result_list:
+
+        temp_dict = {}
+        temp_dict['graph_data'] = []
+
+        for lecture in item:
+
+            temp_dict['graph_data'].append(get_lecture_attendance(lecture['LectureID'], sum(1 for line in open(create_path('class_list', module_id)))))
+
+        temp_dict['Day'] = item[0]['Day']
+        session['graph_datasets'].append(temp_dict)
+
+    for x in session['graph_datasets']:
+        print(x)
 
 
 @app.route("/sort_timetable", methods=['POST'])
@@ -376,39 +593,67 @@ def student_stats():
         pass
 
     else:
-        print("okay")
+
         matric_num = request.args['Student']
-        session['Student'] = get_student_info_doc(matric_num)
-        session['labels'] = [1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
+        session['Student'] = get_student_info(matric_num)
 
         student = get_student_info_doc(matric_num)
+        expected_lectures = get_expected_lectures(student, session['moduleid'])
 
-        logger.info("Student Total attendance is: " + str(get_class_attendance(student, 24, get_lectures(session['moduleid']))))
-        session['graph_data'] = get_graph_info(matric_num)
-        return render_template('student_stats.html')
+        print(expected_lectures)
+        if len(expected_lectures) < 1:
+
+            return render_template('student_stats.html', show_stats=False)
+        else:
+            average = get_class_attendance(student, int(get_week()), get_lectures(session['moduleid']))
+
+            if average >= 80:
+
+                note = "This students attendance is " + str(average) + " and is no cause for concern."
+
+            else:
+
+                note = "This students attendance is " + str(average) + " and is cause for concern."
+
+            return render_template('student_stats.html', show_stats=True, attendance_info=expected_lectures, student_statement=note)
 
 
-def get_graph_info(matric_num):
+def get_expected_lectures(student, module_id):
 
-    student = get_student_info_doc(matric_num)
+    lectures = get_lectures(module_id)
+    expected_lectures = []
 
-    graph_data = []
+    for item in lectures:
 
-    lectures = get_lectures(session['moduleid'])
+        if item['Week'] < int(get_week()) + 1:
 
-    for x in range(min(get_lectures(session['moduleid']), key=lambda d: d.get("Week", float('inf')))["Week"], max(get_lectures(session['moduleid']), key=lambda d: d.get("Week", float('inf')))["Week"]):
+            expected_lectures.append(item)
 
-        graph_data.append(get_class_attendance(student, x, lectures ))
+    for lecture in expected_lectures:
 
-    return graph_data
+        if lecture['LectureID'] not in student:
+
+            logger.info("Error, lecture not associated with student.")
+
+        else:
+
+            if student[lecture['LectureID']] == 'Present':
+
+                lecture['Attendance'] = 'Present'
+
+            else:
+
+                lecture['Attendance'] = 'Absent'
+
+    return expected_lectures
 
 
 def get_class_attendance(student, week, module_lectures):
 
+
     sorted_lectures = []
 
     lectures = []
-
 
     for item in module_lectures:
 
@@ -416,27 +661,30 @@ def get_class_attendance(student, week, module_lectures):
 
             lectures.append(item)
 
-
-
     for item in lectures:
 
         if item['LectureID'] not in student:
+
             continue
 
         else:
+
             sorted_lectures.append(item)
 
     attended_classes = 0
 
     for item in sorted_lectures:
 
-        if student[item['LectureID']] == "Present":
+        if student[item['LectureID']] == 'Present':
 
             attended_classes = attended_classes + 1
 
+    print(attended_classes)
+    print(len(sorted_lectures))
+
     percentage = attended_classes/(len(sorted_lectures)) * 100
 
-    return percentage
+    return int(percentage)
 
 
 @app.route("/delete_module", methods=['POST'])
@@ -508,8 +756,9 @@ def upload_file():
 
     # check if the post request has the file part
     if "file" not in request.files:
-        flash('No file part')
 
+        flash('No file part')
+        logger.info("no file found")
         return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
     file = request.files['file']
@@ -517,41 +766,97 @@ def upload_file():
     # submit an empty part without filename
     if file.filename == '':
         flash('No selected file')
-
-
+        logger.info('No selected file')
         return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
+    logger.info("File successfully received")
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         students = []
+        try:
 
-        with open(os.path.join(app.config['UPLOAD_FOLDER'], filename),'r') as csvfile, open(os.path.join(app.config['UPLOAD_FOLDER'], 'temp_file.json'), 'w') as jsonfile:
-            fieldnames = ("MatricNum", "FirstName", "LastName")
-            reader = csv.DictReader(csvfile, fieldnames)
-            for row in reader:
-                json.dump(row, jsonfile)
-                jsonfile.write('\n')
+            with open(os.path.join(app.config['UPLOAD_FOLDER'], filename),'r') as csvfile, open(os.path.join(app.config['UPLOAD_FOLDER'], 'temp_file.json'), 'w') as jsonfile:
+                fieldnames = ("MatricNum", "FirstName", "LastName")
+                reader = csv.DictReader(csvfile, fieldnames)
+                for row in reader:
+                    json.dump(row, jsonfile)
+                    jsonfile.write('\n')
 
-        with open(os.path.join(app.config['UPLOAD_FOLDER'], 'temp_file.json'), 'r') as jsonfile:
+        except:
 
-            for line in jsonfile:
-                students.append(json.loads(line))
+            logger.info("Error, abandoning file upload")
+            flash("something went wrong when trying to load the data, are you sure the data is in the right format?")
+            return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
-        students.pop(0)
+        try:
+
+            with open(os.path.join(app.config['UPLOAD_FOLDER'], 'temp_file.json'), 'r') as jsonfile:
+
+                for line in jsonfile:
+                    students.append(json.loads(line))
+
+            students.pop(0)
+
+        except:
+
+                logger.info("Error, abandoning file upload")
+                flash("something went wrong when trying to load the data, are you sure the data is in the right format?")
+                return redirect(url_for('class_list_management', module_id=session['moduleid']))
+
+        try:
+
+            for item in students:
+
+                if path.exists(create_path('class_list', session['moduleid'])) is True and check_if_in_file(item['MatricNum'], create_path('class_list', session['moduleid'])) is True:
+                    logger.info("Error, this student is already in the class list, skipping")
+                    continue
+
+                else:
+
+                    create_class_list(item['MatricNum'], session['moduleid'])
+
+            logger.info("all students successfully added to class list.")
+        except:
+
+            logger.info("Error, abandoning file upload, problem with student.")
+            flash("something went wrong with a student, are you sure all of the students are registered?")
+            return redirect(url_for('class_list_management', module_id=session['moduleid']))
+
+    return redirect(url_for('class_list_management', module_id=session['moduleid']))
+
+
+@app.route("/search_class_list", methods=['POST'])
+def search_class_list():
+
+    keyword = request.form['keyword']
+    students = []
+
+    if str.isdigit(keyword):
+
+        query = "SELECT * FROM Students WHERE MatricNum=?"
+        result = pd.read_sql(query, conn, params=(int(keyword),))
+        students = result.to_dict('records')
+
+    else:
+        query = "SELECT * FROM Students WHERE FirstName=? OR LastName=? "
+        result = pd.read_sql(query, conn, params=(keyword, keyword,))
+        students = result.to_dict('records')
+
+    if len(students) == 0:
+
+        flash("No Student Found")
+        return redirect(url_for('class_list_management', module_id=session['moduleid']))
+    else:
+
+        class_list = []
 
         for item in students:
 
-            if path.exists(create_path('class_list', session['moduleid'])) is True and check_if_in_file(item['MatricNum'], create_path('class_list', session['moduleid'])) is True:
-                logger.info("Error, this student is already in the class list, skipping")
-                continue
+            class_list.append(get_student_info(item['MatricNum']))
 
-            else:
-
-                create_class_list(item['MatricNum'], session['moduleid'])
-
-    return redirect(url_for('class_list_management', module_id=session['moduleid']))
+    return render_template('class_list_management.html', exists=True, class_list=class_list)
 
 
 @app.route("/class_list_management", methods=['GET', 'POST'])
@@ -587,8 +892,6 @@ def class_list_management():
 
         if g.user:
 
-            if 'class_list' in session:
-                session.pop('class_list')
             module_id = request.args['module_id']
             session['moduleid'] = module_id
 
@@ -597,6 +900,8 @@ def class_list_management():
                 exists = True
                 class_list = retrieve_class_list(module_id)
                 session['class_list'] = class_list
+                class_list = update_class_list_attendance(module_id, class_list)
+
             else:
 
                 exists = False
@@ -605,6 +910,41 @@ def class_list_management():
             return render_template('class_list_management.html', exists=exists, class_list=class_list)
 
         return redirect(url_for('lecturersignin'))
+
+
+def update_class_list_attendance(module_id, class_list):
+
+    student_id_list = []
+
+    with open(create_path('class_list', module_id), 'r') as f:
+
+        for line in f:
+            student_id_list.append(line.strip())
+
+    print(get_lectures(module_id))
+    if len(get_lectures(module_id)) == 0:
+
+        for student in student_id_list:
+
+            for item in class_list:
+
+                if str(item['MatricNum']) == str(student):
+
+                    item['Attendance'] = 0
+
+        return class_list
+
+    for student in student_id_list:
+
+        average = get_class_attendance(get_student_info_doc(student), int(get_week()), get_lectures(module_id))
+
+        for item in class_list:
+
+            if str(item['MatricNum']) == str(student):
+
+                item['Attendance'] = average
+
+    return class_list
 
 
 @app.route("/remove_from_class_list", methods=['POST'])
@@ -710,6 +1050,7 @@ def retrieve_class_list(module_id):
 
 def create_class_list(matric_num, module_id):
 
+
     file_path = create_path('class_list', module_id)
 
     if check_path_exists(file_path):
@@ -731,6 +1072,7 @@ def create_class_list(matric_num, module_id):
 
         logger.info("File does not exist, creating file...")
         logger.info("File created, updating student info...")
+
         student = update_student_info(get_student_info_doc(matric_num), module_id)
         file = open(file_path, 'w+')
         file.write(str(student['MatricNum']))
@@ -742,7 +1084,7 @@ def update_student_info(student, module_id):
     for x in get_lectures(session['moduleid']):
 
         if x['LectureID'] in student:
-            print("okay")
+
             pass
 
         else:
@@ -793,12 +1135,15 @@ def get_student_info(matric_num):
 
 def get_student_info_doc(matric_num):
 
-    with open('SOC_Students.txt', 'r') as f:
-        student_list = []
-        for line in f:
+    student_list = []
 
+    with open('SOC_Students.txt', 'r') as f:
+
+        for line in f:
             line = line.replace("\'", "\"")
             student_list.append(json.loads(line))
+
+
 
     for item in student_list:
 
@@ -814,6 +1159,13 @@ def create_path(type, filename):
         filename = ('/Class_Lists/%s.txt' % filename)
         current_path = os.path.abspath(os.path.dirname(__file__))
         return current_path + filename
+
+    if type == "attendance_docs":
+
+        filename = ('/Attendance_Docs/%s.txt' % filename)
+        current_path = os.path.abspath(os.path.dirname(__file__))
+        return current_path + filename
+
 
 
 def check_path_exists(path):
@@ -847,6 +1199,13 @@ def modulemanagement():
             flash("Error, module name already exists, please choose another")
             return render_template('modulemanager.html', modules=session['supervisedmodules'], Notification=error)
 
+        if len(moduleid) != 7:
+
+            error = "Error, module ID is the wrong length."
+            logger.info("Error, module ID is the wrong length")
+            flash("Error, module ID is the wrong length ")
+            return render_template('modulemanager.html', modules=session['supervisedmodules'], Notification=error)
+
         query = "INSERT INTO Modules(ModuleID, ModuleName, LecturerID) VALUES (?, ?, ?);"
         cursor.execute(query, (moduleid, modulename, session['user']))
         conn.commit()
@@ -861,7 +1220,15 @@ def modulemanagement():
         if g.user:
 
             updatemanagedmodules()
-            return render_template('modulemanager.html', modules=session['supervisedmodules'])
+            if len(session['supervisedmodules']) == 0:
+
+                modules_display = False
+
+            else:
+
+                modules_display = True
+
+            return render_template('modulemanager.html', modules=session['supervisedmodules'], modules_display=modules_display)
 
         return redirect(url_for('lecturersignin'))
 
