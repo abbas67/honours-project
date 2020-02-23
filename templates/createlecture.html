@@ -17,165 +17,170 @@
 
     <h1 align="center"> Lecture Planning </h1>
 
-
-
-    <div class="container">
+    <div class="flex-container">
 
         <div class="row">
 
-                <div class="container">
+            <div class="container">
 
-                    <div class="card" style="width: 30rem;">
+                <div class="card mx-5">
 
-                        <div class="card-body">
-                            <h5 class="card-title">Lecture Setup</h5>
+                    <div class="card-body">
+                        {% if moduleselected == True %}
+                        <h5 class="card-title"> Create A lecture Set</h5>
 
-                            {% if moduleselected == False %}
-                                <form name="myform" action="{{ url_for('select_module_lecture') }}" method="post">
+                    {% endif %} 
+                    {% if moduleselected == False %}
 
-                                    <label>Module ID: </label>
-                                    <select name="module" class="select" required>
-                                        <option value="" disabled selected hidden>Module Code</option>
-                                        {% for item in modules %}
-                                            <option value="{{ item['ModuleID'] }}">{{ item['ModuleID'] }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <br>
-                                    <input type="submit" class="btn btn-primary" Select Module >
-                                </form>
-                            {% endif %}
+                        <ul class="list-group mx-5">
+                            <li class="list-group-item active">Select A Module</li>
+                            {% for item in modules %}
+
+                                <li class="list-group">
+                                    <h5> </h5>
+                                    <form name="myform" action="{{ url_for('select_module_lecture') }}" method="post">
+
+                                        <button name="module" type="submit" value="{{ item['ModuleID'] }}" class="list-group-item list-group-item-action"> {{ item['ModuleName'] }} </button>
+                                    </form>
+                                </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                        {% endif %}
+                        {% if moduleselected == True %}
 
 
-                            {% if moduleselected == True %}
+                            <form name="myform" action="{{ url_for('createlecture') }}" method="post">
 
+                            <div class="flex-container">
+                                <label for="name"> Teaching Type:</label>
+                                <select name="name" class="form-control" id="exampleFormControlSelect1" required>
+                                    <option value="" disabled selected hidden>Select Teaching Type</option>
+                                    <option value="Tutorial">Tutorial</option>
+                                    <option value="Lecture">Lecture</option>
+                                    <option value="Lab">Lab</option>
+                                    <option value="Seminar">Seminar</option>
+                                </select>
+                            </div>
+                                <label for="first"> First Week:</label>
+                                <select name="first" class="form-control"  required>
+                                    <option value="" disabled selected hidden>Select First Lecture Week</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="22">23</option>
+                                    <option value="24" >24</option>
+                                </select>
 
-                                <form name="myform" action="{{ url_for('createlecture') }}" method="post">
-                                    <label for="name"> Teaching Type:</label>
-                                    <select name="name" class="form-control" id="exampleFormControlSelect1" required>
-                                        <option value="" disabled selected hidden>Select Teaching Type</option>
-                                        <option value="Tutorial">Tutorial</option>
-                                        <option value="Lecture">Lecture</option>
-                                        <option value="Lab">Lab</option>
-                                        <option value="Seminar">Seminar</option>
-                                    </select>
+                                <label for="last"> Final Week:</label>
+                                <select name="last" class="form-control" id="exampleFormControlSelect1" required>
+                                    <option value="" disabled selected hidden>Select Last Lecture Week</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="22">23</option>
+                                    <option value="24" >24</option>
+                                </select>
 
-                                    <label for="first"> First Week:</label>
-                                    <select name="first" class="form-control" id="exampleFormControlSelect1" required>
-                                        <option value="" disabled selected hidden>Select First Lecture Week</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                        <option value="13">13</option>
-                                        <option value="14">14</option>
-                                        <option value="15">15</option>
-                                        <option value="16">16</option>
-                                        <option value="17">17</option>
-                                        <option value="18">18</option>
-                                        <option value="19">19</option>
-                                        <option value="20">20</option>
-                                        <option value="21">21</option>
-                                        <option value="22">22</option>
-                                        <option value="22">23</option>
-                                        <option value="24" >24</option>
-                                    </select>
+                                <label for="location"> Lecture Location:</label>
+                                <input type="text" name="location" required>
 
-                                    <label for="last"> Final Week:</label>
-                                    <select name="last" class="form-control" id="exampleFormControlSelect1" required>
-                                        <option value="" disabled selected hidden>Select Last Lecture Week</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                        <option value="13">13</option>
-                                        <option value="14">14</option>
-                                        <option value="15">15</option>
-                                        <option value="16">16</option>
-                                        <option value="17">17</option>
-                                        <option value="18">18</option>
-                                        <option value="19">19</option>
-                                        <option value="20">20</option>
-                                        <option value="21">21</option>
-                                        <option value="22">22</option>
-                                        <option value="22">23</option>
-                                        <option value="24" >24</option>
-                                    </select>
+                                <label for="duration"> Lecture Duration (Hours):</label>
+                                <select name="duration" class="form-control" id="exampleFormControlSelect1" required>
+                                    <option value="" disabled selected hidden>Duration</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5" >5</option>
+                                </select>
 
-                                    <label for="location"> Lecture Location:</label>
-                                    <input type="text" name="location" required>
+                                <label for="weekday"> Lecture Day:</label>
+                                <select name="weekday" class="form-control" id="exampleFormControlSelect1" required>
+                                    <option value="" disabled selected hidden>Day</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday" >Friday</option>
+                                </select>
 
-                                    <label for="duration"> Lecture Duration (Hours):</label>
-                                    <select name="duration" class="form-control" id="exampleFormControlSelect1" required>
-                                        <option value="" disabled selected hidden>Duration</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5" >5</option>
-                                    </select>
+                                <label for="time"> Start Time:</label>
+                                <select name="time" class="form-control" id="exampleFormControlSelect1" required>
+                                    <option value="" disabled selected hidden>Time</option>
+                                    <option value="09:00">09.00 AM</option>
+                                    <option value="10:00">10.00 AM</option>
+                                    <option value="11:00">11.00 AM</option>
+                                    <option value="12:00">12.00 PM</option>
+                                    <option value="13:00">01.00 PM</option>
+                                    <option value="14:00">02.00 PM</option>
+                                    <option value="15:00">03.00 PM</option>
+                                    <option value="16:00">04.00 PM</option>
+                                    <option value="17:00">05.00 PM</option>
+                                    <option value="18:00">06.00 PM</option>
+                                </select>
 
-                                    <label for="weekday"> Lecture Day:</label>
-                                    <select name="weekday" class="form-control" id="exampleFormControlSelect1" required>
-                                        <option value="" disabled selected hidden>Day</option>
-                                        <option value="Monday">Monday</option>
-                                        <option value="Tuesday">Tuesday</option>
-                                        <option value="Wednesday">Wednesday</option>
-                                        <option value="Thursday">Thursday</option>
-                                        <option value="Friday" >Friday</option>
-                                    </select>
+                                {% with messages = get_flashed_messages() %}
+                                    {% if messages %}
+                                        <ul class=flashes>
+                                            {% for message in messages %}
+                                                <li>{{ message }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                {% endwith %}
 
-                                    <label for="time"> Start Time:</label>
-                                    <select name="time" class="form-control" id="exampleFormControlSelect1" required>
-                                        <option value="" disabled selected hidden>Time</option>
-                                        <option value="09:00">09.00 AM</option>
-                                        <option value="10:00">10.00 AM</option>
-                                        <option value="11:00">11.00 AM</option>
-                                        <option value="12:00">12.00 PM</option>
-                                        <option value="13:00">01.00 PM</option>
-                                        <option value="14:00">02.00 PM</option>
-                                        <option value="15:00">03.00 PM</option>
-                                        <option value="16:00">04.00 PM</option>
-                                        <option value="17:00">05.00 PM</option>
-                                        <option value="18:00">06.00 PM</option>
-                                    </select>
+                                <br>
+                                <div>
+                                    <input type="submit" class="btn btn-primary" Create Lecture >
+                                    <a  href="{{ url_for('createlecture') }}" class="btn btn-primary"> Back</a>
+                                </div>
+                            </form>
 
-                                    {% with messages = get_flashed_messages() %}
-                                        {% if messages %}
-                                            <ul class=flashes>
-                                                {% for message in messages %}
-                                                    <li>{{ message }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        {% endif %}
-                                    {% endwith %}
-
-                                    <br>
-                                    <div>
-                                        <input type="submit" class="btn btn-primary" Create Lecture >
-                                        <a  href="{{ url_for('createlecture') }}" class="btn btn-primary"> Back</a>
-                                    </div>
-                                </form>
-
-                            {% endif %}
-                        </div>
+                        {% endif %}
                     </div>
                 </div>
+            </div>
 
 
 

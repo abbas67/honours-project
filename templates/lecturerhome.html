@@ -28,27 +28,33 @@
                 <div class="card-body">
                     <h5 class="card-title">Notifications</h5>
 
-{#                    <p class="card-text" style="color: red">Upcoming Lecture:  </p>#}
-{#                    {%if next_lecture %}#}
-{##}
-{#                        {% for item in next_lecture %}#}
-{##}
-{#                            <p class="card-text"> {{ item['ModuleID'] }} {{ item['LectureName'] }}  At {{ item['LectureLocation'] }} - {{ item['Time '] }} </p>#}
-{##}
-{#                        {% endfor %}#}
-{##}
-{#                    {% else %}#}
-{##}
-{#                        <p class="card-text" style="color: red">No Upcoming Lectures </p>#}
-{##}
-{#                    {% endif %}#}
+                    {%if show_messages %}
 
+                        <div class="container-fluid my-3">
 
+                            <ul class="list-group mx-5">
+                                <li class="list-group-item active">Attendance Notifications</li>
+                                {% for item in student_messages %}
+
+                                    <li class="list-group">
+                                        <h5> </h5>
+                                        <form action="{{ url_for('redirect_to_student') }}" method="post">
+                                           <input type="hidden"  name="module_id" value="{{ item[2] }}">
+                                            <button name="student" type="submit" value="{{ item[1] }}" class="list-group-item list-group-item-action"> {{ item[0] }} </button>
+                                        </form>
+                                    </li>
+
+                                {% endfor %}
+
+                            </ul>
+
+                        </div>
+
+                    {% endif %}
 
                 </div>
             </div>
         </div>
-
 
         <div class="my-4">
             <div class="card">
@@ -59,8 +65,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <div class="my-4">
             <div class="card">
@@ -268,6 +272,18 @@
 
     </div>
 
+    <script>
+
+        function myFunction() {
+            var x = document.getElementById("myDIV");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+    </script>
 
 {% endblock content %}
 

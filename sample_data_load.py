@@ -3,7 +3,7 @@ import json
 import hashlib, binascii, os
 import random,string
 from random import randint
-
+from os import path
 from dbconn import connect
 
 
@@ -45,11 +45,11 @@ def insert_data(sample_data):
 
     print("Students Loaded")
 
-   # # for x in sample_data[200:215]:
-   #
-   #      insert_lecturers(cursor, x)
-   #
-   #  print("Lecturers and relevant Modules Loaded")
+    for x in sample_data[200:215]:
+
+        insert_lecturers(cursor, x)
+
+    print("Lecturers and relevant Modules Loaded")
 
 
 def insert_students(cursor, sample_data):
@@ -75,7 +75,7 @@ def insert_students(cursor, sample_data):
 
 def insert_lecturers(cursor, sample_data):
 
-    days = ["Monday", "Tuesday","Wednesday", "Thursday", "Friday"]
+    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
     locations = ["Seminar Room", "QMB", "Dalhousie", "Carnelly", "Harris"]
     time = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00"]
     name = ["Lecture", "Seminar", "Lab", "Tutorial"]
@@ -173,8 +173,20 @@ def clear_table():
     cursor.execute("TRUNCATE TABLE Students")
     cursor.commit()
 
+    cursor.execute("TRUNCATE TABLE Lecturers")
+    cursor.commit()
+
+    cursor.execute("TRUNCATE TABLE Lectures")
+    cursor.commit()
+
+    cursor.execute("TRUNCATE TABLE Modules")
+    cursor.commit()
+
 
 if __name__ == "__main__":
+
+    if path.exists(os.path.abspath(os.path.dirname(__file__)) + '/SOC_Students.txt'):
+        os.remove(os.path.abspath(os.path.dirname(__file__)) + '/SOC_Students.txt')
 
     clear_table()
     sample_data = load_data()

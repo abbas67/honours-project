@@ -1,4 +1,5 @@
 import os
+import io
 import pandas as pd
 from flask import Flask, render_template, request, redirect, url_for, flash, session, g, json
 import requests
@@ -10,6 +11,8 @@ import requests
 from unittest import mock
 
 from main import app, updatemanagedmodules, get_class_attendance
+import tests.load_students_for_test
+
 
 app.testing = True
 
@@ -24,6 +27,7 @@ params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pw
 conn = pyodbc.connect(params)
 cursor = conn.cursor()
 
+
 # Testing that each page returns the required response.
 class BasicTests(unittest.TestCase):
 
@@ -32,23 +36,37 @@ class BasicTests(unittest.TestCase):
         self.app.testing = True
         pass
 
-    def test_main_pages(self):
-
-        ########################
-        #### SPRINT 1 ####
-        ########################
-
-        response = self.app.get('/Home', follow_redirects=True)
-        # checks to see the page loads with no server errors etc.
-        self.assertEqual(response.status_code, 200)
-
-        response = self.app.get('/signup', follow_redirects=True)
-        # checks to see the page loads with no server errors etc.
-        self.assertEqual(response.status_code, 200)
-
-        response = self.app.get('/lecturesignin', follow_redirects=True)
-        # checks to see the page loads with no server errors etc.
-        self.assertEqual(response.status_code, 200)
+    # def test_main_pages(self):
+    #
+    #     # These are basic tests to make sure that there are no crashes as pages are loaded.
+    #
+    #     response = self.app.get('/Home', follow_redirects=True)
+    #     # checks to see the page loads with no server errors etc.
+    #     self.assertEqual(response.status_code, 200)
+    #
+    #     response = self.app.get('/signup', follow_redirects=True)
+    #     # checks to see the page loads with no server errors etc.
+    #     self.assertEqual(response.status_code, 200)
+    #
+    #     response = self.app.get('/lecturerhome', follow_redirects=True)
+    #     # checks to see the page loads with no server errors etc.
+    #     self.assertEqual(response.status_code, 200)
+    #
+    #     response = self.app.get('/lecturesignin', follow_redirects=True)
+    #     # checks to see the page loads with no server errors etc.
+    #     self.assertEqual(response.status_code, 200)
+    #
+    #     response = self.app.get('/class_list_management', follow_redirects=True)
+    #     # checks to see the page loads with no server errors etc.
+    #     self.assertEqual(response.status_code, 200)
+    #
+    #     response = self.app.get('/modulemanagement', follow_redirects=True)
+    #     # checks to see the page loads with no server errors etc.
+    #     self.assertEqual(response.status_code, 200)
+    #
+    #     response = self.app.get('/gencode', follow_redirects=True)
+    #     # checks to see the page loads with no server errors etc.
+    #     self.assertEqual(response.status_code, 200)
 
 
 class AdvancedTests(unittest.TestCase):
@@ -60,7 +78,6 @@ class AdvancedTests(unittest.TestCase):
     signuptype = 'Student'
 
     def setUp(self):
-
 
         self.app = app.test_client()
         self.app.testing = True
@@ -101,10 +118,13 @@ class AdvancedTests(unittest.TestCase):
         cursor.execute("DELETE FROM Lectures WHERE ModuleID=?", ('AC12346',))
         cursor.commit()
 
+        cursor.execute("DELETE FROM Lecturers WHERE LecturerID=?", ('wrong_account',))
+        cursor.commit()
+
+        tests.load_students_for_test.clear_table()
 
 
-
-    # # Testing the account creation functionality for students
+    # Testing the account creation functionality for students
     # def test_student_signup(self):
     #
     #     with self.assertLogs(level='INFO') as cm:
@@ -130,35 +150,42 @@ class AdvancedTests(unittest.TestCase):
     #         # checking that an error is caught and account creation has been failed.
     #         self.assertEqual(['INFO:logger:Error, ID already exists'], cm.output)
 
-    # Testing the account creation functionality for lecturers
-    # def test_lecturer_signup(self):
-    #
-    #     with self.assertLogs(level='INFO') as cm:
-    #         # Sending a post request to the application.
-    #         response = self.app.post('/signup', data=dict(idnum='testaccount123', password='password123', fname="Jane",
-    #                                                       lname="Doe", lecturercheck="Lecturer", follow_redirects=True))
-    #         # Checking that the account has been successfully created.
-    #         self.assertEqual(['INFO:logger:Lecturer account successfully created'], cm.output)
-    #
-    #     # Testing that duplicate accounts cannot be created
-    #
-    #     with self.assertLogs(level='INFO') as cm:
-    #         # Sending a post request to the application
-    #         response = self.app.post('/signup', data=dict(idnum='testaccount123', password='password123', fname="Jane",
-    #                                                       lname="Doe", lecturercheck="Lecturer", follow_redirects=True))
-    #         # checking that the error has been caught and that the account has not been created.
-    #         self.assertEqual(['INFO:logger:The ID already exists, Account Creation failed'], cm.output)
-    #
+   # Testing the account creation functionality for lecturers
+   #  def test_lecturer_signup(self):
+   #
+   #      with self.assertLogs(level='INFO') as cm:
+   #          # Sending a post request to the application.
+   #          response = self.app.post('/signup', data=dict(idnum='testaccount123', password='password123', fname="Jane",
+   #                                                        lname="Doe", lecturercheck="Lecturer", follow_redirects=True))
+   #          # Checking that the account has been successfully created.
+   #          self.assertEqual(['INFO:logger:Lecturer account successfully created'], cm.output)
+   #
+   #      # Testing that duplicate accounts cannot be created
+   #
+   #      with self.assertLogs(level='INFO') as cm:
+   #          # Sending a post request to the application
+   #          response = self.app.post('/signup', data=dict(idnum='testaccount123', password='password123', fname="Jane",
+   #                                                        lname="Doe", lecturercheck="Lecturer", follow_redirects=True))
+   #          # checking that the error has been caught and that the account has not been created.
+   #          self.assertEqual(['INFO:logger:The ID already exists, Account Creation failed'], cm.output)
+
     # def test_lecturer_login(self):
-    #
-    #     with self.assertLogs(level='INFO') as cm:
-    #         # Creating a lecturer account using the helper sign up method.
-    #         self.account_sign_up('testaccount123', 'password123', 'John', 'Doe', 'Lecturer')
-    #         # sending a post request to the application, attempting to log in...
-    #         self.app.post('/lecturersignin',
-    #                       data=dict(lecturerid='testaccount123', Password='password123', follow_redirects=True))
-    #         # 'checks to see if the account has been successfully signed in or not.
-    #         self.assertIn('INFO:logger:Successfully Signed Into Lecturer Account', cm.output)
+
+        # with self.assertLogs(level='INFO') as cm:
+            # # Creating a lecturer account using the helper sign up method.
+            # self.account_sign_up('testaccount123', 'password123', 'John', 'Doe', 'Lecturer')
+            # # sending a post request to the application, attempting to log in...
+            # self.app.post('/lecturersignin',
+            #               data=dict(lecturerid='testaccount123', Password='password123', follow_redirects=True))
+            # # 'checks to see if the account has been successfully signed in or not.
+            # self.assertIn('INFO:logger:Successfully Signed Into Lecturer Account', cm.output)
+
+        # with self.assertLogs(level='INFO') as cm:
+        #     # Sending a post request to the application
+        #     response = self.app.post('/lecturersignin',
+        #                              data=dict(lecturerid='wrong_account', Password='password123',  follow_redirects=True))
+        #     # checking that the error has been caught and that the account has not been signed into.
+        #     self.assertEqual(['INFO:logger:Account does not exist'], cm.output)
     #
     # def test_create_delete_module(self):
     #
@@ -237,85 +264,105 @@ class AdvancedTests(unittest.TestCase):
     #                 for lecture_code in self.get_lectures('AC12345'):
     #
     #                     self.assertTrue(lecture_code in line, str(lecture_code) + " Error, Not found")
-
-    def test_lecture_signin(self):
-
-        # prerequisites such as creating a module, lecture and required accounts.
-
-        path = os.path.abspath(os.path.dirname(__file__)) + '/../Class_Lists/AC12345.txt'
-
-        if os.path.isfile(path):
-            os.remove(path)
-
-        with self.assertLogs(level='INFO') as cm:
-
-            with self.app as client:
-                with client.session_transaction() as sess:
-                                sess['moduleid'] = 'AC12345'
-                                sess.modified = True
-
-            self.account_sign_up('testaccount123', 'password123', 'John', 'Doe', 'Lecturer')
-            self.lecturer_login('testaccount123', 'password123')
-            self.app.post('/update_managed_modules', data=dict(user_id='testaccount123'))
-            self.app.post('/select_module_lecture', data=dict(module='AC12345'))
-            self.create_module('AC12345', 'Test Module 1')
-            self.create_lecture('14:00', 4, 'Seminar', 'AC12345', 'Monday', 1, 12, 'Dalhousie')
-            self.account_sign_up('160012345', 'password123', 'Draco', 'Malfoy', 'Student')
-            self.app.post('/class_list_management', data=dict(f_name='Draco', l_name='Malfoy', matric_num='160012345'))
-
-            # Attempting to sign into a lecture...
-
-            # Sending the required request to the application
-
-            for x in range(0, 5):
-
-                test_lecture = self.get_lectures('AC12345')[x]
-                response = self.app.post('/lecturesignin', data=dict(MatriculationNumber='160012345', LectureCode=test_lecture,
-                                                                     Password='password123', follow_redirects=True))
-
-                with open(os.path.abspath(os.path.dirname(__file__)) + '/SOC_Students.txt', 'r') as f:
-
-                    lines = f.readlines()
-                    self.assertTrue("'" + test_lecture + "'" + ": 'Present'" in lines[0], "Error, not found")
-
-            self.assertTrue(cm.output.count('INFO:logger:Draco Malfoy has been successfully signed into lecture') == 5, "Error")
-
-            # Testing that students cannot be signed into the same lecture twice.
-
-            response = self.app.post('/lecturesignin', data=dict(MatriculationNumber='160012345', LectureCode=test_lecture,
-                                                                 Password='password123', follow_redirects=True))
-
-            self.assertIn('INFO:logger:Draco Malfoy has already been signed in.', cm.output)
-
-            #Making sure students can't sign in with the wrong credentials
-
-            response = self.app.post('/lecturesignin', data=dict(MatriculationNumber='160012349', LectureCode=test_lecture,
-                                                                 Password='password123', follow_redirects=True))
-
-            self.assertIn('INFO:logger:Matriculation Number or password is incorrect', cm.output)
-
-            response = self.app.post('/lecturesignin', data=dict(MatriculationNumber='160012345', LectureCode="wrong lecture code",
-                                                                 Password='password123', follow_redirects=True))
-
-            self.assertIn('INFO:logger:Incorrect lecture code, attempt made by: 160012345', cm.output)
-
-    def test_attendance_percentage(self):
-
-        with self.app as client:
-            with client.session_transaction() as sess:
-                sess['moduleid'] = 'AC12345'
-                sess.modified = True
-
-        with self.assertLogs(level='INFO') as cm:
-
-            response = self.app.get('/student_stats', query_string=dict(Student='160012345'), follow_redirects=True)
-            print(response.status_code)
-            self.assertIn('INFO:logger:Incorrect lecture code, attempt made by: 160012345', cm.output)
+    #
+    # def test_lecture_signin(self):
+    #
+    #     # prerequisites such as creating a module, lecture and required accounts.
+    #
+    #     path = os.path.abspath(os.path.dirname(__file__)) + '/../Class_Lists/AC12345.txt'
+    #
+    #     if os.path.isfile(path):
+    #         os.remove(path)
+    #
+    #     with self.assertLogs(level='INFO') as cm:
+    #
+    #         with self.app as client:
+    #             with client.session_transaction() as sess:
+    #                             sess['moduleid'] = 'AC12345'
+    #                             sess.modified = True
+    #
+    #         self.account_sign_up('testaccount123', 'password123', 'John', 'Doe', 'Lecturer')
+    #         self.lecturer_login('testaccount123', 'password123')
+    #         self.app.post('/update_managed_modules', data=dict(user_id='testaccount123'))
+    #         self.app.post('/select_module_lecture', data=dict(module='AC12345'))
+    #         self.create_module('AC12345', 'Test Module 1')
+    #         self.create_lecture('14:00', 4, 'Seminar', 'AC12345', 'Monday', 1, 24, 'Dalhousie')
+    #         self.account_sign_up('160012345', 'password123', 'Draco', 'Malfoy', 'Student')
+    #         self.app.post('/class_list_management', data=dict(f_name='Draco', l_name='Malfoy', matric_num='160012345'))
+    #
+    #         # Attempting to sign into a lecture...
+    #
+    #         # Sending the required request to the application
+    #
+    #         for x in range(0, 24):
+    #
+    #             test_lecture = self.get_lectures('AC12345')[x]
+    #             response = self.app.post('/lecturesignin', data=dict(MatriculationNumber='160012345', LectureCode=test_lecture,
+    #                                                                  Password='password123', follow_redirects=True))
+    #
+    #             with open(os.path.abspath(os.path.dirname(__file__)) + '/SOC_Students.txt', 'r') as f:
+    #
+    #                 lines = f.readlines()
+    #                 self.assertTrue("'" + test_lecture + "'" + ": 'Present'" in lines[0], "Error, not found")
+    #
+    #         self.assertTrue(cm.output.count('INFO:logger:Draco Malfoy has been successfully signed into lecture') == 24, "Error")
+    #
+    #         # Testing that students cannot be signed into the same lecture twice.
+    #
+    #         response = self.app.post('/lecturesignin', data=dict(MatriculationNumber='160012345', LectureCode=test_lecture,
+    #                                                              Password='password123', follow_redirects=True))
+    #
+    #         self.assertIn('INFO:logger:Draco Malfoy has already been signed in.', cm.output)
+    #
+    #         #Making sure students can't sign in with the wrong credentials
+    #
+    #         response = self.app.post('/lecturesignin', data=dict(MatriculationNumber='160012349', LectureCode=test_lecture,
+    #                                                              Password='password123', follow_redirects=True))
+    #
+    #         self.assertIn('INFO:logger:Matriculation Number or password is incorrect', cm.output)
+    #
+    #         response = self.app.post('/lecturesignin', data=dict(MatriculationNumber='160012345', LectureCode="wrong lecture code",
+    #                                                              Password='password123', follow_redirects=True))
+    #
+    #         self.assertIn('INFO:logger:Incorrect lecture code, attempt made by: 160012345', cm.output)
+    #
+    #
+    # def test_file_upload(self):
+    #
+    #     tests.load_students_for_test.prepare()
+    #
+    #     with self.app as client:
+    #         with client.session_transaction() as sess:
+    #             sess['moduleid'] = 'AC12345'
+    #             sess.modified = True
+    #
+    #     self.account_sign_up('testaccount123', 'password123', 'John', 'Doe', 'Lecturer')
+    #     self.lecturer_login('testaccount123', 'password123')
+    #     self.app.post('/update_managed_modules', data=dict(user_id='testaccount123'))
+    #     self.app.post('/select_module_lecture', data=dict(module='AC12345'))
+    #     self.create_module('AC12345', 'Test Module 1')
+    #
+    #     filepath = os.path.abspath(os.path.dirname(__file__)) + '/testfile.csv'
+    #
+    #     with self.assertLogs(level='INFO') as cm:
+    #
+    #         response = self.app.post('/upload_file', content_type='multipart/form-data',
+    #                                  data=dict(file=open(filepath, 'rb')))
+    #
+    #         self.assertIn('INFO:logger:all students successfully added to class list.', cm.output)
+    #
+    #     with self.assertLogs(level='INFO') as cm:
+    #
+    #         response = self.app.post('/upload_file', content_type='multipart/form-data',
+    #                                  data=dict())
+    #
+    #         self.assertIn('INFO:logger:no file found', cm.output)
 
 
     ########################
     #### helper methods ####
     ########################
+
 
     def account_sign_up(self, idnum, password, fname, lname, type):
         response = self.app.post('/signup', data=dict(idnum=idnum, password=password, fname=fname,

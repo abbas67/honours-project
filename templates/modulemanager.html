@@ -10,7 +10,7 @@
     <title>Module Management</title>
 
     <div class="topnav1">
-          <a href="{{ url_for('sign_out') }}">Sign Out</a>
+        <a href="{{ url_for('sign_out') }}">Sign Out</a>
     </div>
 
 {% endblock head %}
@@ -19,26 +19,59 @@
 
     <br>
     <h1 align="center"> Module Manager</h1>
-    {% if notification %}
-        <p class="error"><strong>Notification:</strong> {{ notification}}
-    {% endif %}
+    {% with messages = get_flashed_messages() %}
+        <div class="d-flex justify-content-center" >
+            <div class="my-5">
+                {% if messages %}
+                    <div class="card-body">
+
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endwith %}
     <br>
     <div class="container" style="margin-outside: 100px;">
 
         {% for item in modules %}
             <form action="{{ url_for('module_options') }}" method="get">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ item['ModuleID'] }}</h5>
-                    <p class="card-text">{{ item['ModuleName'] }}</p>
-                    <button name="module" type="submit" class="btn btn-primary" value="{{ item['ModuleID'] }}" >Module Options</button>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item['ModuleID'] }}</h5>
+                        <p class="card-text">{{ item['ModuleName'] }}</p>
+                        <button name="module" type="submit" class="btn btn-primary" value="{{ item['ModuleID'] }}" >Module Options</button>
+                    </div>
                 </div>
-            </div>
-            <br>
+                <br>
             </form>
         {% endfor %}
 
-    <button type="button" class="btn btn-primary" onclick = "myFunction()" >Create New Module </button>
+        {% if modules_display == True %}
+
+            <button type="button" class="btn btn-primary" onclick = "myFunction()" >Create New Module </button>
+
+        {% endif %}
+
+
+        {% if modules_display == False %}
+
+
+            <div>
+                <div class="card mx-5" >
+                    <img class="card-img-top" src="/static/modules.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">You don't have any modules!</h5>
+                        <p class="card-text">Click the button below to get started.</p>
+                        <button type="button" class="btn btn-primary" onclick = "myFunction()" >Create New Module </button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
 
         <br>
         <div id="myDIV" style="display: none">
@@ -54,7 +87,7 @@
                             <input type="text" class="form-control" placeholder="Module Name" name="modulename" required>
                         </div>
 
-                    <button type="submit" class="btn btn-primary">Create Module</button>
+                        <button type="submit" class="btn btn-primary">Create Module</button>
 
 
                     </form>
@@ -65,14 +98,14 @@
     </div>
 
     <script>
-    
+
         function myFunction() {
-          var x = document.getElementById("myDIV");
-          if (x.style.display === "none") {
-            x.style.display = "block";
-          } else {
-            x.style.display = "none";
-          }
+            var x = document.getElementById("myDIV");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
         }
 
     </script>
@@ -80,6 +113,6 @@
 {% endblock content %}
 
 {% block scripts %}
-{{ super() }}
+    {{ super() }}
 
 {% endblock scripts %}

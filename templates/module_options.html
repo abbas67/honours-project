@@ -5,6 +5,8 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturerhome.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <title>Module Management</title>
 
     <div class="topnav1">
@@ -42,7 +44,8 @@
     </div>
 
 
-    <div class="flex-container">
+    <div class="flex-container mx-5">
+
 
         {% if timetabled_days['Monday'] == True %}
 
@@ -212,9 +215,6 @@
                                             <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
                                         </form>
 
-
-
-
                                     </li>
                                 {% endif %}
                             {% endfor %}
@@ -240,10 +240,55 @@
             </div>
         {% endif %}
 
-
-    </div>
     </div>
 
+
+    <canvas id="bar-chart" ></canvas>
+
+    <script>
+
+        // Bar chart
+        new Chart(document.getElementById("bar-chart"), {
+            type: 'line',
+            data: {
+                labels: {{ session['labels']| tojson }},
+
+                datasets: [
+
+                    {% for item in session['graph_datasets'] %}
+                        {
+                            label: {{ item['Day'] | tojson  }},
+                            borderColor: getRandomColor(),
+                            fill: false,
+                            data: {{ item['graph_data'] | tojson }}
+                        },
+
+                    {% endfor %}
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Attendance Stats By Day Of The Week'
+                }
+            }
+        });
+
+        {## https://stackoverflow.com/questions/25594478/different-color-for-each-bar-in-a-bar-chart-chartjs#}
+
+        var colorArray = [["#FF4000", false], ["#81BEF7", false], ["#5882FA", false],
+            ["#04B404", false], ["#A901DB", false], ["#F5A9BC", false]];
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++ ) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+    </script>
 
 
 
