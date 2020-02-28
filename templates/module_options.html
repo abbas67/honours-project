@@ -16,14 +16,16 @@
 
 {% block content %}
 
-    <h1 class="text-center"> {{ session['moduleinfo']['ModuleID'] }} : {{ session['moduleinfo']['ModuleName'] }}</h1>
+    <h1 class="text-center"> {{ session['moduleinfo']['ModuleID'] }} : {{ session['moduleinfo']['ModuleName'] }} - {{ attendance }}% Attendance</h1>
 
 
     <div class="flex-container ">
         <form action="{{ url_for('delete_module') }}" method="post" class="mx-2">
-            <a  href="{{ url_for('createlecture') }}" class="btn btn-primary">Add Lecture </a>
+
             <button name="Module" type="submit" class="btn btn-primary" value="{{ session['moduleinfo']['ModuleID'] }}" >Delete Module</button>
         </form>
+
+        <a  href="{{ url_for('createlecture') }}" class="btn btn-primary mx-2">Add Lecture </a>
 
         <form action="{{ url_for('sort_timetable') }}" method="post" class="mx-2">
             <button name="semester1" type="submit" class="btn btn-primary" value="12" >View Semester 1</button>
@@ -41,257 +43,276 @@
             <button name="module_id" type="submit" class="btn btn-primary" value="{{ session['moduleinfo']['ModuleID'] }}" >Edit Class List</button>
         </form>
 
-    </div>
-
-
-    <div class="flex-container mx-5">
-
-
-        {% if timetabled_days['Monday'] == True %}
-
-            <div class=mx-2>
-
-                <h5 class="card-title" text-align="centre">Monday</h5>
-                <div class=card-body >
-                    <ul class="list-group">
-
-                        {% if lectures|count  > 0 %}
-                            {% for item in lectures %}
-                                {% if item['Day'] == "Monday" %}
-                                    <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
-
-                                        <form action="{{ url_for('module_options') }}" method="post">
-                                            <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
-                                        </form>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-
-                    </ul>
-
-                </div>
-            </div>
-        {% endif %}
-
-        {% if timetabled_days['Monday'] == False %}
-
-            <div class=class=mx-1>
-
-                <h5 class="card-title">Monday</h5>
-                <div class=card-body >
-                    <ul class="list-group">
-
-                        <li class="list-group-item"> No lectures planned</li>
-
-                    </ul>
-                </div>
-            </div>
-        {% endif %}
-
-        {% if timetabled_days['Tuesday'] == True %}
-
-            <div class=class=mx-1>
-                <h5 class="card-title">Tuesday</h5>
-                <div class=card-body >
-                    <ul class="list-group">
-                        {% if lectures|count  > 0 %}
-                            {% for item in lectures %}
-                                {% if item['Day'] == "Tuesday" %}
-                                    <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
-                                        <form action="{{ url_for('module_options') }}" method="post">
-                                            <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
-                                        </form>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        {% endif %}
-
-        {% if timetabled_days['Tuesday'] == False %}
-
-            <div class=class=mx-1>
-
-                <h5 class="card-title">Tuesday</h5>
-                <div class=card-body >
-                    <ul class="list-group">
-
-                        <li class="list-group-item"> No lectures planned</li>
-
-                    </ul>
-                </div>
-            </div>
-        {% endif %}
-
-        {% if timetabled_days['Wednesday'] == True %}
-            <div class=class=mx-1>
-                <h5 class="card-title">Wednesday</h5>
-                <div class=card-body >
-                    <ul class="list-group">
-                        {% if lectures|count  > 0 %}
-                            {% for item in lectures %}
-                                {% if item['Day'] == "Wednesday" %}
-                                    <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
-                                        <form action="{{ url_for('module_options') }}" method="post">
-                                            <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
-                                        </form>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        {% endif %}
-
-        {% if timetabled_days['Wednesday'] == False %}
-
-            <div class=class=mx-1>
-
-                <h5 class="card-title">Wednesday</h5>
-                <div class=card-body >
-                    <ul class="list-group">
-
-                        <li class="list-group-item"> No lectures planned</li>
-
-                    </ul>
-                </div>
-            </div>
-        {% endif %}
-
-        {% if timetabled_days['Thursday'] == True %}
-            <div class=class=mx-1>
-
-                <h5 class="card-title">Thursday</h5>
-                <div class=card-body >
-                    <ul class="list-group">
-                        {% if lectures|count  > 0 %}
-                            {% for item in lectures %}
-                                {% if item['Day'] == "Thursday" %}
-                                    <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
-                                        <form action="{{ url_for('module_options') }}" method="post">
-                                            <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
-                                        </form>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </ul>
-                </div>
-
-            </div>
-        {% endif %}
-
-        {% if timetabled_days['Thursday'] == False %}
-
-            <div class=class=mx-1>
-
-                <h5 class="card-title">Thursday</h5>
-                <div class=card-body >
-                    <ul class="list-group">
-
-                        <li class="list-group-item"> No lectures planned</li>
-
-                    </ul>
-                </div>
-            </div>
-        {% endif %}
-
-        {% if timetabled_days['Friday'] == True %}
-            <div class=class=mx-1>
-
-                <h5 class="card-title">Friday</h5>
-                <div class=card-body >
-                    <ul class="list-group">
-                        {% if lectures|count  > 0 %}
-                            {% for item in lectures %}
-                                {% if item['Day'] == "Friday" %}
-                                    <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
-
-                                        <form action="{{ url_for('module_options') }}" method="post">
-                                            <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
-                                        </form>
-
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </ul>
-
-                </div>
-            </div>
-        {% endif %}
-
-        {% if timetabled_days['Friday'] == False %}
-
-            <div class=class=mx-1>
-
-                <h5 class="card-title">Friday</h5>
-                <div class=card-body >
-                    <ul class="list-group">
-
-                        <li class="list-group-item"> No lectures planned</li>
-
-                    </ul>
-                </div>
-            </div>
-        {% endif %}
+        <form action="{{ url_for('update_office_docs') }}" method="post" class="mx-2">
+            <button name="module_id" type="submit" class="btn btn-primary" value="{{ session['moduleinfo']['ModuleID'] }}" >Update Docs</button>
+        </form>
 
     </div>
 
 
-    <canvas id="bar-chart" ></canvas>
+    <div class="flex-container">
 
-    <script>
+        <div class="card mx-5">
 
-        // Bar chart
-        new Chart(document.getElementById("bar-chart"), {
-            type: 'line',
-            data: {
-                labels: {{ session['labels']| tojson }},
+            <div class="card-body">
 
-                datasets: [
+                <h2 class="card-title">Timetable</h2>
+                {% if timetabled_days['Monday'] == True %}
 
-                    {% for item in session['graph_datasets'] %}
-                        {
-                            label: {{ item['Day'] | tojson  }},
-                            borderColor: getRandomColor(),
-                            fill: false,
-                            data: {{ item['graph_data'] | tojson }}
-                        },
+                    <div class=mx-2>
 
-                    {% endfor %}
-                ]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: 'Attendance Stats By Day Of The Week'
+                        <h5 class="card-title" text-align="centre">Monday</h5>
+                        <div class=card-body >
+                            <ul class="list-group">
+
+                                {% if lectures|count  > 0 %}
+                                    {% for item in lectures %}
+                                        {% if item['Day'] == "Monday" %}
+                                            <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+
+                                                <form action="{{ url_for('module_options') }}" method="post">
+                                                    <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
+                                                </form>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+
+                            </ul>
+
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if timetabled_days['Monday'] == False %}
+
+                    <div class=class=mx-1>
+
+                        <h5 class="card-title">Monday</h5>
+                        <div class=card-body >
+                            <ul class="list-group">
+
+                                <li class="list-group-item"> No lectures planned</li>
+
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if timetabled_days['Tuesday'] == True %}
+
+                    <div class=class=mx-1>
+                        <h5 class="card-title">Tuesday</h5>
+                        <div class=card-body >
+                            <ul class="list-group">
+                                {% if lectures|count  > 0 %}
+                                    {% for item in lectures %}
+                                        {% if item['Day'] == "Tuesday" %}
+                                            <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+                                                <form action="{{ url_for('module_options') }}" method="post">
+                                                    <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
+                                                </form>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if timetabled_days['Tuesday'] == False %}
+
+                    <div class=class=mx-1>
+
+                        <h5 class="card-title">Tuesday</h5>
+                        <div class=card-body >
+                            <ul class="list-group">
+
+                                <li class="list-group-item"> No lectures planned</li>
+
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if timetabled_days['Wednesday'] == True %}
+                    <div class=class=mx-1>
+                        <h5 class="card-title">Wednesday</h5>
+                        <div class=card-body >
+                            <ul class="list-group">
+                                {% if lectures|count  > 0 %}
+                                    {% for item in lectures %}
+                                        {% if item['Day'] == "Wednesday" %}
+                                            <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+                                                <form action="{{ url_for('module_options') }}" method="post">
+                                                    <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
+                                                </form>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if timetabled_days['Wednesday'] == False %}
+
+                    <div class=class=mx-1>
+
+                        <h5 class="card-title">Wednesday</h5>
+                        <div class=card-body >
+                            <ul class="list-group">
+
+                                <li class="list-group-item"> No lectures planned</li>
+
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if timetabled_days['Thursday'] == True %}
+                    <div class=class=mx-1>
+
+                        <h5 class="card-title">Thursday</h5>
+                        <div class=card-body >
+                            <ul class="list-group">
+                                {% if lectures|count  > 0 %}
+                                    {% for item in lectures %}
+                                        {% if item['Day'] == "Thursday" %}
+                                            <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+                                                <form action="{{ url_for('module_options') }}" method="post">
+                                                    <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
+                                                </form>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+
+                    </div>
+                {% endif %}
+
+                {% if timetabled_days['Thursday'] == False %}
+
+                    <div class=class=mx-1>
+
+                        <h5 class="card-title">Thursday</h5>
+                        <div class=card-body >
+                            <ul class="list-group">
+
+                                <li class="list-group-item"> No lectures planned</li>
+
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if timetabled_days['Friday'] == True %}
+                    <div class=class=mx-1>
+
+                        <h5 class="card-title">Friday</h5>
+                        <div class=card-body >
+                            <ul class="list-group">
+                                {% if lectures|count  > 0 %}
+                                    {% for item in lectures %}
+                                        {% if item['Day'] == "Friday" %}
+                                            <li class="list-group-item"> Week: {{ item['Week'] }} - {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+
+                                                <form action="{{ url_for('module_options') }}" method="post">
+                                                    <button name="Lecture" type="submit" class="btn btn-primary" value="{{ item['LectureID'] }}" >Remove</button>
+                                                </form>
+
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if timetabled_days['Friday'] == False %}
+
+                    <div class=class=mx-1>
+
+                        <h5 class="card-title">Friday</h5>
+                        <div class=card-body >
+                            <ul class="list-group">
+
+                                <li class="list-group-item"> No lectures planned</li>
+
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% if show_graph == False%}
+
+        <div class="card m-5">
+            <img class="card-img-top" src="/static/campus.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Graph</h5>
+                <p class="card-text">Currently No Graph Data To Be Displayed</p>
+            </div>
+        </div>
+    {% endif %}
+    {% if show_graph == True%}
+
+        <canvas id="bar-chart" ></canvas>
+
+        <script>
+
+            // Bar chart
+            new Chart(document.getElementById("bar-chart"), {
+                type: 'line',
+                data: {
+                    labels: {{ session['labels']| tojson }},
+
+                    datasets: [
+
+                        {% for item in session['graph_datasets'] %}
+                            {
+                                label: {{ item['Day'] | tojson  }},
+                                borderColor: getRandomColor(),
+                                fill: false,
+                                data: {{ item['graph_data'] | tojson }}
+                            },
+
+                        {% endfor %}
+                    ]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Attendance Stats By Day Of The Week'
+                    }
                 }
+            });
+
+            {## https://stackoverflow.com/questions/25594478/different-color-for-each-bar-in-a-bar-chart-chartjs#}
+
+            var colorArray = [["#FF4000", false], ["#81BEF7", false], ["#5882FA", false],
+                ["#04B404", false], ["#A901DB", false], ["#F5A9BC", false]];
+
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF'.split('');
+                var color = '#';
+                for (var i = 0; i < 6; i++ ) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
             }
-        });
 
-        {## https://stackoverflow.com/questions/25594478/different-color-for-each-bar-in-a-bar-chart-chartjs#}
-
-        var colorArray = [["#FF4000", false], ["#81BEF7", false], ["#5882FA", false],
-            ["#04B404", false], ["#A901DB", false], ["#F5A9BC", false]];
-
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF'.split('');
-            var color = '#';
-            for (var i = 0; i < 6; i++ ) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
-
-    </script>
+        </script>
 
 
-
+    {% endif %}
 
 {% endblock content %}
 

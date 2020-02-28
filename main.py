@@ -99,7 +99,14 @@ def attendance_flagging():
 
         filename = create_path('attendance_docs', item['ModuleID'])
 
-        create_module_atttendance_doc(item['ModuleID'])
+        try:
+            create_module_atttendance_doc(item['ModuleID'])
+
+        except:
+
+            logger.info("Module attendance doc creation failed.")
+
+            return messages
 
         with open(filename, 'r') as file:
             temp_list = []
@@ -116,6 +123,10 @@ def attendance_flagging():
                 print(str(int(float(student['Attendance']))) + " Is too low " + student['FirstName'] +  " " + item['ModuleID'] )
                 messages.append(tuple((student['FirstName'] + " " + student['LastName'] + " Has less than 50% attendance for " + item['ModuleID'], student['MatricNum'], item['ModuleID'] )))
         print(len(messages))
+
+    if len(messages)/2 > 20:
+
+        messages.clear()
 
     return messages
 
@@ -257,8 +268,6 @@ def signup():
             result = pd.read_sql(query, conn, params=(idnum,))
             resultdict = result.to_dict('records')
 
-            print(resultdict)
-
             if len(resultdict) > 0:
                 notification = "The ID already exists"
                 logger.info("The ID already exists, Account Creation failed")
@@ -277,8 +286,6 @@ def signup():
                 notification = "Please enter a valid matriculation number"
                 logger.info("Invalid Matriculation Number")
                 return render_template('signup.html', notification=notification)
-
-
 
             query = "SELECT * FROM Students WHERE MatricNum=?"
             result = pd.read_sql(query, conn, params=(idnum,))
@@ -411,11 +418,37 @@ def get_lecture_attendance(lecture_id, total_students):
 
                 students_present = students_present + 1
 
-    print(students_present)
-    print((students_present / total_students) * 100)
-
     return round((students_present / total_students) * 100, 2)
 
+
+@app.route("/update_office_docs", methods=['POST'])
+def update_office_docs():
+
+    module_id = request.form['module_id']
+    school_list = pull_soc_list()
+    for lecture in get_lectures(module_id):
+
+        filename = ('/School_Office_Docs/%s.txt' % (lecture['LectureID']))
+        current_path = os.path.abspath(os.path.dirname(__file__))
+        path = current_path + filename
+
+        with open(path, 'w') as file:
+
+            moduleinfo = return_module_info(module_id)
+
+            file.write("Register For " + moduleinfo['ModuleName'] + " - " + str(module_id) + " " + lecture['Day'] + " Week " + str(lecture['Week']) )
+            for student in school_list:
+
+                if lecture['LectureID'] not in student:
+
+                    continue
+                else:
+
+                    if student[lecture['LectureID']] == 'Absent':
+
+                        file.write('\n' + str(get_student_info(student['MatricNum'])))
+
+    return redirect(url_for('module_options', module=session['moduleid']))
 
 
 @app.route("/module_options", methods=['GET', 'POST'])
@@ -429,9 +462,7 @@ def module_options():
         updatemanagedmodules()
         modulelectures = get_lectures(session['moduleid'])
 
-        return render_template('module_options.html', moduleid=session['moduleid'], lectures=modulelectures,
-                               timetabled_days=check_timetabled_days(modulelectures))
-
+        return redirect(url_for('module_options', module=session['moduleid']))
     else:
 
         if g.user:
@@ -440,8 +471,29 @@ def module_options():
             session['moduleid'] = module_id
             getmoduleinfo(session['moduleid'])
             updatemanagedmodules()
-            lectures = get_lectures(module_id)
-            modulelectures = sort_lectures(get_week(), lectures, "Weekly")
+            modulelectures = []
+
+            if 'sorted_lectures' in request.args:
+
+                if request.args['sorted_lectures'] == 'Wrong_Semester':
+
+                    modulelectures = []
+
+                else:
+
+                    lectures = request.args.getlist('sorted_lectures')
+
+                    for item in lectures:
+
+                        item = item.replace("\'", "\"")
+                        modulelectures.append(json.loads(item))
+
+            else:
+
+                lectures = get_lectures(module_id)
+
+                modulelectures = sort_lectures(get_week(), lectures, "Weekly")
+
             logger.info("Retrieving module lectures from " + str(module_id) + " for the current week...")
             session['graph_datasets'] = []
             session['labels'] = []
@@ -451,18 +503,53 @@ def module_options():
 
             if int(get_week()) >= 13:
 
-                session['labels'] = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+                for item in modulelectures:
 
-            else:
+                    if item['Week'] > 12:
+
+                        item['Week'] = item['Week'] - 12
 
                 session['labels'] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
             update_soc_students_lectures(module_id)
 
+            if session['graph_datasets'] == []:
+
+                show_graph = False
+
+            else:
+
+                show_graph = True
+
             return render_template('module_options.html', moduleid=module_id, lectures=modulelectures,
-                                   timetabled_days=check_timetabled_days(modulelectures))
+                                   timetabled_days=check_timetabled_days(modulelectures), attendance=calculate_overall_attendance(module_id), show_graph=show_graph)
 
         return redirect(url_for('lecturersignin'))
+
+
+def calculate_overall_attendance(module_id):
+
+    filename = create_path('attendance_docs', module_id)
+    attendance = 0
+    attendance_list = []
+
+    if path.exists(filename):
+
+        with open(filename, 'r') as file:
+
+            for line in file:
+
+                line = line.replace("\'", "\"")
+                student = json.loads(line)
+                attendance_list.append(int(float(student['Attendance'])))
+
+        attendance = int(sum(attendance_list)/len(attendance_list))
+
+        return attendance
+
+    else:
+
+        return attendance
 
 
 def update_soc_students_lectures(module_id):
@@ -489,6 +576,12 @@ def get_graph_data(module_id):
 
     lectures = get_lectures(module_id)
 
+    # for item in lectures:
+    #
+    #     if item['Week'] < 13:
+    #
+    #         lectures.remove(item)
+
     result = collections.defaultdict(list)
 
     for d in lectures:
@@ -496,20 +589,33 @@ def get_graph_data(module_id):
 
     result_list = list(result.values())
 
-    for item in result_list:
+    if path.exists(create_path('class_list', module_id)):
 
-        temp_dict = {}
-        temp_dict['graph_data'] = []
+        for item in result_list:
 
-        for lecture in item:
+            temp_dict = {}
+            temp_dict['graph_data'] = []
 
-            temp_dict['graph_data'].append(get_lecture_attendance(lecture['LectureID'], sum(1 for line in open(create_path('class_list', module_id)))))
+            for lecture in item:
 
-        temp_dict['Day'] = item[0]['Day']
-        session['graph_datasets'].append(temp_dict)
+                temp_dict['graph_data'].append(get_lecture_attendance(lecture['LectureID'], sum(1 for line in open(create_path('class_list', module_id)))))
+                print(get_lecture_attendance(lecture['LectureID'], sum(1 for line in open(create_path('class_list', module_id)))))
 
-    for x in session['graph_datasets']:
-        print(x)
+            temp_dict['Day'] = item[0]['Day']
+            session['graph_datasets'].append(temp_dict)
+
+
+            # for dict in session['graph_datasets']:
+            #     print(dict)
+            #     if len(dict['graph_data']) == len(get_lectures(module_id)):
+            #         for stat in dict['graph_data']:
+            #             new_item = int(stat/2)
+            #             stat = new_item
+            #             print(new_item)
+
+    else:
+
+        session['graph_datasets'] = []
 
 
 @app.route("/sort_timetable", methods=['POST'])
@@ -520,10 +626,13 @@ def sort_timetable():
         getmoduleinfo(session['moduleid'])
         updatemanagedmodules()
         modulelectures = sort_lectures(12, get_lectures(session['moduleid']), "Semester1")
-
         logger.info("Sorting lectures in " + str(session['moduleid']) + " by Semester 1")
-        return render_template('module_options.html', moduleid=session['moduleid'], lectures=modulelectures,
-                               timetabled_days=check_timetabled_days(modulelectures))
+
+        if len(modulelectures) == 0:
+
+            modulelectures = "Wrong_Semester"
+
+        return redirect(url_for('module_options', module=session['moduleid'], sorted_lectures=modulelectures))
 
     if "semester2" in request.form:
 
@@ -532,8 +641,7 @@ def sort_timetable():
         modulelectures = sort_lectures(13, get_lectures(session['moduleid']), "Semester2")
         logger.info("Sorting lectures in " + str(session['moduleid']) + " by Semester 2")
 
-        return render_template('module_options.html', moduleid=session['moduleid'], lectures=modulelectures,
-                               timetabled_days=check_timetabled_days(modulelectures))
+        return redirect(url_for('module_options', module=session['moduleid'], sorted_lectures=modulelectures))
 
     if "currentweek" in request.form:
 
@@ -542,11 +650,12 @@ def sort_timetable():
         modulelectures = sort_lectures(get_week(), get_lectures(session['moduleid']), "Weekly")
         logger.info("Sorting lectures in " + str(session['moduleid']) + " by current week")
 
-        return render_template('module_options.html', moduleid=session['moduleid'], lectures=modulelectures,
-                               timetabled_days=check_timetabled_days(modulelectures))
+        return redirect(url_for('module_options', module=session['moduleid'], sorted_lectures=modulelectures))
 
 
 def sort_lectures(week, lectures, type):
+
+    filtered_lectures = []
 
     if type == "Weekly":
 
@@ -561,16 +670,16 @@ def sort_lectures(week, lectures, type):
     if type == "Semester1":
 
         week = int(week)
-        filtered_lectures = []
+
         for item in lectures:
 
-            if item['Week'] <= week:
+            if int(item['Week']) <= week:
                 filtered_lectures.append(item)
 
     if type == "Semester2":
 
         week = int(week)
-        filtered_lectures = []
+
         for item in lectures:
 
             if item['Week'] >= week:
@@ -600,7 +709,6 @@ def student_stats():
         student = get_student_info_doc(matric_num)
         expected_lectures = get_expected_lectures(student, session['moduleid'])
 
-        print(expected_lectures)
         if len(expected_lectures) < 1:
 
             return render_template('student_stats.html', show_stats=False)
@@ -650,7 +758,6 @@ def get_expected_lectures(student, module_id):
 
 def get_class_attendance(student, week, module_lectures):
 
-
     sorted_lectures = []
 
     lectures = []
@@ -679,8 +786,7 @@ def get_class_attendance(student, week, module_lectures):
 
             attended_classes = attended_classes + 1
 
-    print(attended_classes)
-    print(len(sorted_lectures))
+
 
     percentage = attended_classes/(len(sorted_lectures)) * 100
 
@@ -691,6 +797,20 @@ def get_class_attendance(student, week, module_lectures):
 def delete_module():
 
     module_id = request.form['Module']
+
+    lectures = get_lectures(module_id)
+
+    school_list = pull_soc_list()
+
+    for student in school_list:
+
+        for lecture in lectures:
+
+            if lecture['LectureID'] in student:
+
+                student.pop(lecture['LectureID'], None)
+
+    push_to_soc()
 
     cursor.execute("DELETE FROM Modules WHERE ModuleID=?", (module_id,))
     cursor.commit()
@@ -712,10 +832,13 @@ def get_lectures(module):
     query = "SELECT * FROM Lectures WHERE ModuleID=? ORDER BY Week ASC"
 
     result = pd.read_sql(query, conn, params=(module,))
+
     return result.to_dict('records')
 
 
 def check_timetabled_days(modulelectures):
+
+
     timetabled_days = {'Monday': False, 'Tuesday': False, 'Wednesday': False, 'Thursday': False, 'Friday': False}
 
     for x in modulelectures:
@@ -738,11 +861,19 @@ def check_timetabled_days(modulelectures):
     return timetabled_days
 
 
+def return_module_info(module_id):
+
+    query = "SELECT * FROM Modules WHERE ModuleID=?"
+    result = pd.read_sql(query, conn, params=(module_id,))
+
+    return result.to_dict('records')[0]
+
+
 def getmoduleinfo(module_id):
 
     query = "SELECT * FROM Modules WHERE ModuleID=?"
     result = pd.read_sql(query, conn, params=(module_id,))
-    #result.sort_values(by=3, ascending=True)
+
     session['moduleinfo'] = result.to_dict('records')[0]
 
 
@@ -921,7 +1052,7 @@ def update_class_list_attendance(module_id, class_list):
         for line in f:
             student_id_list.append(line.strip())
 
-    print(get_lectures(module_id))
+
     if len(get_lectures(module_id)) == 0:
 
         for student in student_id_list:
@@ -1143,8 +1274,6 @@ def get_student_info_doc(matric_num):
             line = line.replace("\'", "\"")
             student_list.append(json.loads(line))
 
-
-
     for item in student_list:
 
         if str(item['MatricNum']) == str(matric_num):
@@ -1165,7 +1294,6 @@ def create_path(type, filename):
         filename = ('/Attendance_Docs/%s.txt' % filename)
         current_path = os.path.abspath(os.path.dirname(__file__))
         return current_path + filename
-
 
 
 def check_path_exists(path):

@@ -4,11 +4,9 @@
     background-color: #3476b7;
 }
 
-
-
 .card{
 
-    margin-top: 100px;
+    margin-top: auto;
     margin-bottom: auto;
     width: auto;
     background-color: ghostwhite !important;
@@ -26,6 +24,12 @@ input, label {
 select, label {
     display:block;
 }
+
+
+
+
+
+
 
 select:invalid { color: gray; }
 
