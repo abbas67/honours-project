@@ -6,7 +6,7 @@ school_list = pull_soc_list()
 def randomise_attendance():
 
     for student in school_list:
-        counter = 18
+
         for lecture in student:
 
             if student[lecture] == 'Present':
@@ -15,7 +15,7 @@ def randomise_attendance():
 
     for student in school_list:
 
-        for x in range(0, 55):
+        for x in range(0, 150):
 
             selected = random.choice(list(student))
 
@@ -28,3 +28,7 @@ def randomise_attendance():
 
     push_to_soc(school_list)
 
+
+if __name__ == "__main__":
+
+    randomise_attendance()

@@ -1,0 +1,20 @@
+Introduction to Programming
+Introduction to Programming Logic
+Object Oriented Software Design
+Object-oriented programming
+Dynamic programming
+Introduction to Algorithms
+Theory of programming languages
+Compilers and language theory
+Information theory
+Data compression
+Information security
+Cryptography
+Networking
+Wireless systems
+Information security
+Server administration
+Data Management
+Kernel internals
+Natural Language Processing
+Introductory Discrete Mathematics for Computer Science
