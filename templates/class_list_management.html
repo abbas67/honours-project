@@ -38,7 +38,7 @@
 
 
 
-    {% if exists == False %}
+    {% if exists == False and lectures_exist == True%}
 
         <div class="my-5">
 
@@ -71,7 +71,7 @@
         </div>
     {% endif %}
 
-{% if exists == True %}
+{% if exists == True and lectures_exist == True%}
 
     <p> </p>
     <div class="d-flex justify-content-center" >
@@ -142,7 +142,19 @@
 
 {% endif %}
 
+{% if lectures_exist == False %}
 
+<div class="card mx-5" >
+  <img class="card-img-top" src="/static/qmb.jpg" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Not So Fast!</h5>
+    <p class="card-text">It Seems like you don't have any lectures scheduled yet, please schedule some before handling your class list.</p>
+    <a href="{{ url_for('createlecture') }}" class="btn btn-primary">Go</a>
+  </div>
+</div>
+
+
+{% endif %}
 
 {% endblock content %}
 
