@@ -24,19 +24,30 @@
 
 
 
-
     {% if show_stats == True %}
 
         <div class="card mx-10">
             <img class="card-img-top" src="/static/qmb.jpg" alt="Card image cap">
             <div class="card-body">
                 <form action="{{ url_for('remove_from_class_list') }}" method="post">
-                <button name="Student" type="submit" class="btn btn-primary" value="{{ session['Student']['MatricNum'] }}" >Remove From Class</button>
-            </form>
+                    <button name="Student" type="submit" class="btn btn-primary" value="{{ session['Student']['MatricNum'] }}" >Remove From Class</button>
+                </form>
 
-            <form action="{{ url_for('class_list_management') }}" method="get">
-                <button name="module_id" type="submit" class="btn btn-primary my-2" value="{{ session['moduleinfo']['ModuleID'] }}" >Back</button>
-            </form>
+                {% if from_home == False %}
+
+                    <form action="{{ url_for('class_list_management') }}" method="get">
+                        <button name="module_id" type="submit" class="btn btn-primary my-2" value="{{ session['moduleid']}}" >Back</button>
+                    </form>
+                    {{ session['moduleinfo']['ModuleID'] }}
+
+                {% endif %}
+
+                {% if from_home == True %}
+
+                    <a  class="btn btn-primary my-2" href="{{ url_for('lecturerhomepage') }}" >Back</a>
+
+                {% endif %}
+
 
             </div>
         </div>
@@ -45,10 +56,10 @@
 
 
 
-     <p> </p>
+    <p> </p>
     <h1 class="text-center"> {{ student_statement }} </h1>
 
-     <p> </p>
+    <p> </p>
 
 
     {% if show_stats == False %}

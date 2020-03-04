@@ -208,12 +208,10 @@ def insert_module(cursor, sample_data, students):
         add_to_class_list(student, module_ID)
 
 
-
-
 def add_to_class_list(student, module_id):
 
     lectures = get_lectures(module_id)
-    x = [0, 1]
+    x = [0, 1, 1]
 
 
     query = 'INSERT INTO {}(MatricNum, Attendance) VALUES (?, ?);'.format(module_id)
@@ -273,25 +271,6 @@ def hash_password(password):
     pwdhash = binascii.hexlify(pwdhash)
     return (salt + pwdhash).decode('ascii')
 
-
-def create_test_file():
-
-    school_list = []
-    path = os.path.abspath(os.path.dirname(__file__)) + '/SOC_Students.txt'
-    with open(path, 'r') as file:
-        for line in file:
-            line = line.replace("\'", "\"")
-            school_list.append(json.loads(line))
-
-    path = os.path.abspath(os.path.dirname(__file__)) + '/testfile.csv'
-    with open(path, 'w') as f:  # Just use 'w' mode in 3.x
-
-        w = csv.DictWriter(f, school_list[0].keys())
-        w.writeheader()
-        for item in school_list[:45]:
-            w = csv.DictWriter(f, item.keys())
-
-            w.writerow(item)
 
 
 def gen_id():
