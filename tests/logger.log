@@ -1,0 +1,247 @@
+2020-03-04 12:14:INFO: Lecturer account successfully created
+2020-03-04 12:14:INFO: Successfully Signed Into Lecturer Account
+2020-03-04 12:14:INFO: AC10000 : Test Module 1 successfully created.
+2020-03-04 12:14:INFO: Lecture set: Monday from week 1 to 12 at Dalhousie at 2019-12-02 14:00:00 successfully created.
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Attempting to add Harry Potter to class list: AC10000
+2020-03-04 12:14:INFO: Harry Potter Added To Class list
+2020-03-04 12:14:INFO: Attempting to add Draco Malfoy to class list: AC10000
+2020-03-04 12:14:INFO: Draco Malfoy Added To Class list
+2020-03-04 12:14:INFO: AC12345 : Test Module 2 successfully created.
+2020-03-04 12:14:INFO: Lecture set: Tuesday from week 1 to 12 at Dalhousie at 2019-12-03 14:00:00 successfully created.
+2020-03-04 12:14:INFO: Attempting to add Harry Potter to class list: AC12345
+2020-03-04 12:14:INFO: Harry Potter Added To Class list
+2020-03-04 12:14:INFO: Attempting to add Draco Malfoy to class list: AC12345
+2020-03-04 12:14:INFO: Draco Malfoy Added To Class list
+2020-03-04 12:14:INFO: attempting to remove 160012345 from class list...
+2020-03-04 12:14:INFO: Draco Malfoy Removed From AC10000
+2020-03-04 12:14:INFO: attempting to remove 160012346 from class list...
+2020-03-04 12:14:INFO: Harry Potter Removed From AC10000
+2020-03-04 12:14:INFO: Lecturer account successfully created
+2020-03-04 12:14:INFO: Successfully Signed Into Lecturer Account
+2020-03-04 12:14:INFO: AC12345 : Test Module successfully created.
+2020-03-04 12:14:INFO: Error, module names cannot be duplicated...
+2020-03-04 12:14:INFO: Error, module ID already exists, please choose another.
+2020-03-04 12:14:INFO: Lecturer account successfully created
+2020-03-04 12:14:INFO: Successfully Signed Into Lecturer Account
+2020-03-04 12:14:INFO: Lecture set: Monday from week 1 to 12 at Dalhousie at 2019-12-02 14:00:00 successfully created.
+2020-03-04 12:14:INFO: Lecturer account successfully created
+2020-03-04 12:14:INFO: Successfully Signed Into Lecturer Account
+2020-03-04 12:14:INFO: AC12345 : Test Module 1 successfully created.
+2020-03-04 12:14:INFO: Lecture set: Monday from week 1 to 12 at Dalhousie at 2019-12-02 14:00:00 successfully created.
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Error, ID already exists
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Error, ID already exists
+2020-03-04 12:14:INFO: Error, ID already exists
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Error, ID already exists
+2020-03-04 12:14:INFO: Error, ID already exists
+2020-03-04 12:14:INFO: Error, ID already exists
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Error, ID already exists
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Student uploaded to database
+2020-03-04 12:14:INFO: Student account successfully created
+2020-03-04 12:14:INFO: Error, ID already exists
+2020-03-04 12:15:INFO: Student uploaded to database
+2020-03-04 12:15:INFO: Student account successfully created
+2020-03-04 12:15:INFO: Error, ID already exists
+2020-03-04 12:15:INFO: Student uploaded to database
+2020-03-04 12:15:INFO: Student account successfully created
+2020-03-04 12:15:INFO: Error, ID already exists
+2020-03-04 12:15:INFO: Error, ID already exists
+2020-03-04 12:15:INFO: Student uploaded to database
+2020-03-04 12:15:INFO: Student account successfully created
+2020-03-04 12:15:INFO: Error, ID already exists
+2020-03-04 12:15:INFO: Student uploaded to database
+2020-03-04 12:15:INFO: Student account successfully created
+2020-03-04 12:15:INFO: Error, ID already exists
+2020-03-04 12:15:INFO: Student uploaded to database
+2020-03-04 12:15:INFO: Student account successfully created
+2020-03-04 12:15:INFO: Student uploaded to database
+2020-03-04 12:15:INFO: Student account successfully created
+2020-03-04 12:15:INFO: Student uploaded to database
+2020-03-04 12:15:INFO: Student account successfully created
+2020-03-04 12:15:INFO: Error, ID already exists
+2020-03-04 12:15:INFO: Error, ID already exists
+2020-03-04 12:15:INFO: Student uploaded to database
+2020-03-04 12:15:INFO: Student account successfully created
+2020-03-04 12:15:INFO: Student uploaded to database
+2020-03-04 12:15:INFO: Student account successfully created
+2020-03-04 12:15:INFO: Error, ID already exists
+2020-03-04 12:15:INFO: Error, ID already exists
+2020-03-04 12:15:INFO: File successfully received
+2020-03-04 12:15:INFO: adding Ashien Weatherdonto AC12345
+2020-03-04 12:15:INFO: Ashien Weatherdon Added To Class list
+2020-03-04 12:15:INFO: adding Arman Akittto AC12345
+2020-03-04 12:15:INFO: Arman Akitt Added To Class list
+2020-03-04 12:15:INFO: adding Frederigo Gravestonto AC12345
+2020-03-04 12:15:INFO: Frederigo Graveston Added To Class list
+2020-03-04 12:15:INFO: adding Rodney Youngloveto AC12345
+2020-03-04 12:15:INFO: Rodney Younglove Added To Class list
+2020-03-04 12:15:INFO: adding Hildegaard Scotchmoreto AC12345
+2020-03-04 12:15:INFO: Hildegaard Scotchmore Added To Class list
+2020-03-04 12:15:INFO: adding Bertina Dishmanto AC12345
+2020-03-04 12:15:INFO: Bertina Dishman Added To Class list
+2020-03-04 12:15:INFO: adding Jacquenetta Culbertto AC12345
+2020-03-04 12:15:INFO: Jacquenetta Culbert Added To Class list
+2020-03-04 12:15:INFO: adding Maximo Klulicekto AC12345
+2020-03-04 12:15:INFO: Maximo Klulicek Added To Class list
+2020-03-04 12:15:INFO: adding Tim Baribalto AC12345
+2020-03-04 12:15:INFO: Tim Baribal Added To Class list
+2020-03-04 12:15:INFO: adding Allyson Lastto AC12345
+2020-03-04 12:15:INFO: Allyson Last Added To Class list
+2020-03-04 12:15:INFO: adding Maximo Hollingsbeeto AC12345
+2020-03-04 12:15:INFO: Maximo Hollingsbee Added To Class list
+2020-03-04 12:15:INFO: adding Enrika Tofaninito AC12345
+2020-03-04 12:15:INFO: Enrika Tofanini Added To Class list
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: adding Samara Coleiroto AC12345
+2020-03-04 12:15:INFO: Samara Coleiro Added To Class list
+2020-03-04 12:15:INFO: adding Fae Auklandto AC12345
+2020-03-04 12:15:INFO: Fae Aukland Added To Class list
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: adding Renate Kingsnorthto AC12345
+2020-03-04 12:15:INFO: Renate Kingsnorth Added To Class list
+2020-03-04 12:15:INFO: adding Mair Yuto AC12345
+2020-03-04 12:15:INFO: Mair Yu Added To Class list
+2020-03-04 12:15:INFO: adding Ashley Ruppelto AC12345
+2020-03-04 12:15:INFO: Ashley Ruppel Added To Class list
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: adding Diann Sarfatito AC12345
+2020-03-04 12:15:INFO: Diann Sarfati Added To Class list
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: adding Meredithe Raceto AC12345
+2020-03-04 12:15:INFO: Meredithe Race Added To Class list
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: adding Pedro Vidoto AC12345
+2020-03-04 12:15:INFO: Pedro Vido Added To Class list
+2020-03-04 12:15:INFO: adding Jude Athersmithto AC12345
+2020-03-04 12:15:INFO: Jude Athersmith Added To Class list
+2020-03-04 12:15:INFO: adding Celestyn Peadento AC12345
+2020-03-04 12:15:INFO: Celestyn Peaden Added To Class list
+2020-03-04 12:15:INFO: adding Kath Dorlingto AC12345
+2020-03-04 12:15:INFO: Kath Dorling Added To Class list
+2020-03-04 12:15:INFO: adding Farica Jearyto AC12345
+2020-03-04 12:15:INFO: Farica Jeary Added To Class list
+2020-03-04 12:15:INFO: adding Caryl Eddiesto AC12345
+2020-03-04 12:15:INFO: Caryl Eddies Added To Class list
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: adding Martainn Foystonto AC12345
+2020-03-04 12:15:INFO: Martainn Foyston Added To Class list
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: adding Milty Redrupto AC12345
+2020-03-04 12:15:INFO: Milty Redrup Added To Class list
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: adding Reg Taysbilto AC12345
+2020-03-04 12:15:INFO: Reg Taysbil Added To Class list
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: adding Terri Winwoodto AC12345
+2020-03-04 12:15:INFO: Terri Winwood Added To Class list
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: adding Anastassia Bewsheato AC12345
+2020-03-04 12:15:INFO: Anastassia Bewshea Added To Class list
+2020-03-04 12:15:INFO: adding Goddard De Wolfeto AC12345
+2020-03-04 12:15:INFO: Goddard De Wolfe Added To Class list
+2020-03-04 12:15:INFO: adding Karmen Garretsonto AC12345
+2020-03-04 12:15:INFO: Karmen Garretson Added To Class list
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: adding Axel Sentanceto AC12345
+2020-03-04 12:15:INFO: Axel Sentance Added To Class list
+2020-03-04 12:15:INFO: adding Maressa Cresseyto AC12345
+2020-03-04 12:15:INFO: Maressa Cressey Added To Class list
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: Error, this student is already in the class list, skipping
+2020-03-04 12:15:INFO: all students successfully added to class list.
+2020-03-04 12:15:INFO: no file found
+2020-03-04 12:15:INFO: Lecturer account successfully created
+2020-03-04 12:15:INFO: Successfully Signed Into Lecturer Account
+2020-03-04 12:15:INFO: AC12345 : Test Module 1 successfully created.
+2020-03-04 12:15:INFO: Lecture set: Monday from week 1 to 12 at Dalhousie at 2019-12-02 14:00:00 successfully created.
+2020-03-04 12:15:INFO: Student uploaded to database
+2020-03-04 12:15:INFO: Student account successfully created
+2020-03-04 12:15:INFO: Attempting to add Draco Malfoy to class list: AC12345
+2020-03-04 12:15:INFO: Draco Malfoy Added To Class list
+2020-03-04 12:15:INFO: Draco Malfoy Successfully Signed into 7WVFR0
+2020-03-04 12:15:INFO: Error, Student has already been signed in.
+2020-03-04 12:15:INFO: Draco Malfoy Successfully Signed into 81009Q
+2020-03-04 12:15:INFO: Error, Student has already been signed in.
+2020-03-04 12:15:INFO: Draco Malfoy Successfully Signed into AMT7EZ
+2020-03-04 12:15:INFO: Error, Student has already been signed in.
+2020-03-04 12:15:INFO: Draco Malfoy Successfully Signed into C5IMIW
+2020-03-04 12:15:INFO: Error, Student has already been signed in.
+2020-03-04 12:15:INFO: Draco Malfoy Successfully Signed into DJ0BB6
+2020-03-04 12:15:INFO: Error, Student has already been signed in.
+2020-03-04 12:15:INFO: Draco Malfoy Successfully Signed into DJ2Y6X
+2020-03-04 12:15:INFO: Error, Student has already been signed in.
+2020-03-04 12:15:INFO: Draco Malfoy Successfully Signed into HMX7KC
+2020-03-04 12:15:INFO: Error, Student has already been signed in.
+2020-03-04 12:15:INFO: Draco Malfoy Successfully Signed into JRLSE8
+2020-03-04 12:15:INFO: Error, Student has already been signed in.
+2020-03-04 12:15:INFO: Draco Malfoy Successfully Signed into LYFPC8
+2020-03-04 12:15:INFO: Error, Student has already been signed in.
+2020-03-04 12:15:INFO: Draco Malfoy Successfully Signed into SGIQHJ
+2020-03-04 12:15:INFO: Error, Student has already been signed in.
+2020-03-04 12:15:INFO: Draco Malfoy Successfully Signed into TMW2ZE
+2020-03-04 12:15:INFO: Error, Student has already been signed in.
+2020-03-04 12:15:INFO: Draco Malfoy Successfully Signed into TN4R62
+2020-03-04 12:15:INFO: Error, Student has already been signed in.
+2020-03-04 12:15:INFO: Matriculation Number or password is incorrect
+2020-03-04 12:15:INFO: Incorrect lecture code, attempt made by: 160012345
+2020-03-04 12:16:INFO: Lecturer account successfully created
+2020-03-04 12:16:INFO: Successfully Signed Into Lecturer Account
+2020-03-04 12:16:INFO: Account does not exist
+2020-03-04 12:16:INFO: Lecturer account successfully created
+2020-03-04 12:16:INFO: The ID already exists, Account Creation failed
+2020-03-04 12:16:INFO: Student uploaded to database
+2020-03-04 12:16:INFO: Student account successfully created
+2020-03-04 12:16:INFO: Invalid Matriculation Number
+2020-03-04 12:16:INFO: Error, ID already exists
