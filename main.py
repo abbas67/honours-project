@@ -515,6 +515,8 @@ def update_office_docs():
 @app.route("/module_options", methods=['GET', 'POST'])
 def module_options():
 
+    """ Endpoint used to manage module details such as class list etc."""
+
     if request.method == 'POST':
         lecture_id = request.form['Lecture']
         logger.info("Lecture deleted")
