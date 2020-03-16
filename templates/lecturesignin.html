@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturesignin.css') }}">
 
+            <div class="topnav" >
+            <div class="active">
+                <a href="{{ url_for('index') }}">
+                    <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
+                </a>
+                <ul id="nav">
+                    <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
+                    <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
+
+
+                </ul>
+
+            </div>
+        </div>
 
     <title>Login Page</title>
 
@@ -24,8 +38,8 @@
         <form action="{{ url_for('lecturesignin') }}" method="post">
             <div class="d-flex justify-content-center h-100">
                 <div class="card">
-                    <div class="card-header">
-                        <h3>Sign In</h3>
+                    <div class="card-header" style="color: ghostwhite;background-color:#4365E2">
+                        <h3 style="color: ghostwhite;">Sign In</h3>
 
                     </div>
                     <div class="card-body">
@@ -52,11 +66,8 @@
                                 </div>
                                 <input type="text" class="form-control" placeholder="LectureCode" name="LectureCode" required>
                             </div>
-                            <div class="row align-items-center remember">
-                                <input type="checkbox">Remember Me
-                            </div>
                             <div class="form-group">
-                                <input type="submit" value="Login" class="btn float-right login_btn">
+                                <input type="submit" value="Login" class="btn btn-primary" style="background-color:ghostwhite;color: #4365E2;">
                             </div>
                         </form>
 
@@ -64,13 +75,11 @@
                             <p class="error"><strong>Error:</strong> {{ error }}
                         {% endif %}
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer" style="color: ghostwhite;background-color:#4365E2" >
                         <div class="d-flex justify-content-center links">
-                            <a href="{{ url_for('signup') }}" style="color:dodgerblue" >Don't have an account? Sign Up</a>
+                            <a href="{{ url_for('signup') }}" style="color:ghostwhite;background-color:#4365E2" >Don't have an account? Sign Up</a>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <a href="#" style="color:dodgerblue">Forgot your password?</a>
-                        </div>
+
                     </div>
                 </div>
             </div>

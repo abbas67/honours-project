@@ -8,6 +8,21 @@
 
     <script src="http://yui.yahooapis.com/3.18.1/build/yui/yui-min.js"></script>
 
+            <div class="topnav" >
+            <div class="active">
+                <a href="{{ url_for('index') }}">
+                    <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
+                </a>
+                <ul id="nav">
+                    <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
+                    <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
+                    <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
+
+                </ul>
+
+            </div>
+        </div>
+
     <title>Lecture Management</title>
 
 {% endblock head %}

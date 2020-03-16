@@ -1,2 +1,15 @@
-2020-03-04 11:08:INFO: File successfully received
-2020-03-04 11:08:INFO: all students successfully added to class list.
+2020-03-11 14:41:INFO: Successfully Signed Into Lecturer Account
+2020-03-11 14:41:INFO: Skipping first semester classes
+2020-03-11 14:42:INFO: An email has been sent to Cordelia Storment Regarding worrying attendance.
+2020-03-11 14:43:INFO: Skipping first semester classes
+2020-03-11 14:44:INFO: Retrieving module lectures from AC87154 for the current week...
+2020-03-11 14:45:INFO: Retrieving module lectures from AC87154 for the current week...
+2020-03-11 14:46:INFO: Attempting to add Abbas Lawal to class list: AC87154
+2020-03-11 14:46:INFO: Error, this student does not seem to exist.
+2020-03-11 14:47:INFO: attempting to remove 169196204 from class list...
+2020-03-11 14:47:INFO: Brett Mccullan Removed From AC87154
+2020-03-11 14:48:INFO: Skipping first semester classes
+2020-03-11 14:48:INFO: Retrieving module lectures from AC20914 for the current week...
+2020-03-11 14:49:INFO: Lecture set: Wednesday from week 13 to 24 at QMB 3 at 2020-04-08 14:00:00 successfully created.
+2020-03-11 14:49:INFO: Skipping first semester classes
+2020-03-11 14:50:INFO: Retrieving module lectures from AC20914 for the current week...

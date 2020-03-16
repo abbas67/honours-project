@@ -5,16 +5,28 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='genCode.css') }}">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturerhome.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturer_home.css') }}">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
+        <div class="topnav" >
+            <div class="active">
+                <a href="{{ url_for('index') }}">
+                    <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
+                </a>
+                <ul id="nav">
+                    <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
+                    <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
+                    <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
+
+                </ul>
+
+            </div>
+        </div>
 
     <title>Student Stats</title>
 
-    <div class="topnav1">
-        <a href="{{ url_for('sign_out') }}">Sign Out</a>
-    </div>
+
 
 {% endblock head %}
 
@@ -22,15 +34,36 @@
 
     <h1 class="text-center"> {{ session['Student']['FirstName'] }} {{ session['Student']['LastName']}} - Attendance Information - {{ session['moduleid'] }}</h1>
 
+    {% with messages = get_flashed_messages() %}
+        <div class="d-flex justify-content-center" >
+            <div class="my-5">
+                {% if messages %}
+                    <div class="card-body">
+
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endwith %}
 
 
     {% if show_stats == True %}
 
         <div class="card mx-10">
+
+
             <img class="card-img-top" src="/static/qmb.jpg" alt="Card image cap">
             <div class="card-body">
                 <form action="{{ url_for('remove_from_class_list') }}" method="post">
                     <button name="Student" type="submit" class="btn btn-primary" value="{{ session['Student']['MatricNum'] }}" >Remove From Class</button>
+                </form>
+
+                <form action="{{ url_for('send_email') }}" method="post">
+                    <button name="student" type="submit" class="btn btn-primary my-2" value="{{ session['Student']['MatricNum'] }}" >Send Attendance Report</button>
                 </form>
 
                 {% if from_home == False %}
@@ -38,13 +71,12 @@
                     <form action="{{ url_for('class_list_management') }}" method="get">
                         <button name="module_id" type="submit" class="btn btn-primary my-2" value="{{ session['moduleid']}}" >Back</button>
                     </form>
-                    {{ session['moduleinfo']['ModuleID'] }}
 
                 {% endif %}
 
                 {% if from_home == True %}
 
-                    <a  class="btn btn-primary my-2" href="{{ url_for('lecturerhomepage') }}" >Back</a>
+                    <a  class="btn btn-primary my-2" href="{{ url_for('lecturer_home') }}" >Back</a>
 
                 {% endif %}
 

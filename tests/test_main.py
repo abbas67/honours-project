@@ -3,6 +3,7 @@ import os
 import io
 import pandas as pd
 from flask import Flask, render_template, request, redirect, url_for, flash, session, g, json
+import flask
 import requests
 import unittest
 import logging
@@ -11,9 +12,10 @@ import pyodbc
 import requests
 from unittest import mock
 
-from main import app, updatemanagedmodules, get_class_attendance
-import tests.load_students_for_test
 
+from main import app, updatemanagedmodules, get_class_attendance, get_student_attendance,\
+    update_module_attendance, get_expected_lectures
+import tests.load_students_for_test
 
 app.testing = True
 
@@ -49,7 +51,7 @@ class BasicTests(unittest.TestCase):
         # checks to see the page loads with no server errors etc.
         self.assertEqual(response.status_code, 200)
 
-        response = self.app.get('/lecturerhome', follow_redirects=True)
+        response = self.app.get('/lecturer_home', follow_redirects=True)
         # checks to see the page loads with no server errors etc.
         self.assertEqual(response.status_code, 200)
 
@@ -163,8 +165,6 @@ class AdvancedTests(unittest.TestCase):
 
             cursor.execute('DELETE FROM Students WHERE MatricNum={}'.format(student))
             cursor.commit()
-
-
 
     # Testing the account creation functionality for students
 
@@ -488,6 +488,58 @@ class AdvancedTests(unittest.TestCase):
 
             self.assertIn('INFO:logger:no file found', cm.output)
 
+    def test_attendance(self):
+
+        # testing the attendance flagging function.
+        with self.app as client:
+            with client.session_transaction() as sess:
+                sess['moduleid'] = 'AC12345'
+                sess.modified = True
+
+        # prerequisites such as creating a module, lecture and required accounts etc.
+        self.account_sign_up('testaccount123', 'password123', 'John', 'Doe', 'Lecturer', 'test_email@gmail.com')
+        self.lecturer_login('testaccount123', 'password123')
+        self.app.post('/update_managed_modules', data=dict(user_id='testaccount123'))
+        self.app.post('/select_module_lecture', data=dict(module='AC12345'))
+        self.create_module('AC12345', 'Test Module 1')
+        self.create_lecture('14:00', 4, 'Seminar', 'AC10000', 'Monday', 13, 24, 'Dalhousie')
+
+        filepath = os.path.abspath(os.path.dirname(__file__)) + '/MOCK_DATA.csv'
+        students = []
+        with open(filepath) as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                students.append(dict(row))
+
+        # testing attendance flagging and expected lectures..
+
+        for student in students[:5]:
+            # list of expected attendance.
+            attendance = ["less than 50", "less than 50", "less than 50", "less than 80", "100"]
+            # creating the required students and adding them to a class list.
+            self.account_sign_up(student['MatricNum'], 'password123', student['FirstName'],
+                                 student['LastName'], 'Student', email='test@gmail.com')
+            self.app.post('/class_list_management', data=dict(f_name=student['FirstName'],l_name=student['LastName'],
+                                                              matric_num=student['MatricNum']))
+
+            for x in range(1, 5):
+
+                string = self.get_student(student['MatricNum'])['ModuleString']
+                # changing the number of lectures attended.
+                string = string.replace('-0', '-1', x)
+                # Updating the student in the DB.
+                query = 'UPDATE Students SET ModuleString={} WHERE MatricNum={};'\
+                    .format("'" + string + "'", "'" + student['MatricNum'] + "'")
+                cursor.execute(query)
+                conn.commit()
+                # verifying the correct response has been logged.
+                with self.assertLogs(level='INFO') as cm:
+                    response = self.app.get('/lecturer_home')
+                    response = self.app.get('/module_options', data=dict(module_id='AC12345'))
+                    self.assertIn('INFO:logger:' + student['FirstName'] + " " + student['LastName'] + " Has " + str(
+                        attendance[x]) + "% attendance for AC12345", cm.output)
+
+
 
     ########################
     #### helper methods ####
@@ -553,6 +605,19 @@ class AdvancedTests(unittest.TestCase):
         student = result.to_dict('records')
 
         return len(student) == 1
+
+    def retrieve_class_list(self, module_id):
+
+        class_list = []
+
+        query = 'SELECT {}.MatricNum, {}.Attendance, Students.FirstName,Students.LastName, Students.ModuleString FROM {} INNER JOIN Students ON {}.MatricNum=Students.MatricNum;'.format(
+            module_id, module_id, module_id, module_id)
+
+        result = pd.read_sql(query, conn)
+
+        students = result.to_dict('records')
+
+        return students
 
 
 if __name__ == '__main__':
