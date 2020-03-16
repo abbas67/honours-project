@@ -4,14 +4,29 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='genCode.css') }}">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturerhome.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='module_options.css') }}">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+
+            <div class="topnav" >
+            <div class="active">
+                <a href="{{ url_for('index') }}">
+                    <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
+                </a>
+                <ul id="nav">
+                    <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
+                    <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
+                    <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
+
+                </ul>
+
+            </div>
+        </div>
+
     <title>Module Management</title>
 
-    <div class="topnav1">
-        <a href="{{ url_for('sign_out') }}">Sign Out</a>
-    </div>
+
 {% endblock head %}
 
 {% block content %}
@@ -19,7 +34,7 @@
     <h1 class="text-center"> {{ session['moduleinfo']['ModuleID'] }} : {{ session['moduleinfo']['ModuleName'] }} - {{ attendance }}% Attendance</h1>
 
 
-    <div class="flex-container ">
+    <div class="flex-container m-5">
         <form action="{{ url_for('delete_module') }}" method="post" class="mx-2">
 
             <button name="Module" type="submit" class="btn btn-primary" value="{{ session['moduleinfo']['ModuleID'] }}" >Delete Module</button>
@@ -49,12 +64,9 @@
 
     </div>
 
+        <div class="card m-5" style="background-color:#4365E2;">
 
-    <div class="flex-container">
-
-        <div class="card mx-5">
-
-            <div class="card-body">
+            <div class="card-body" style="background-color:#4365E2;">
 
                 <h2 class="card-title">Timetable</h2>
                 {% if timetabled_days['Monday'] == True %}
@@ -62,7 +74,7 @@
                     <div class=mx-2>
 
                         <h5 class="card-title" text-align="centre">Monday</h5>
-                        <div class=card-body >
+                        <div class=card-body style="background-color:ghostwhite" >
                             <ul class="list-group">
 
                                 {% if lectures|count  > 0 %}
@@ -251,7 +263,7 @@
                 {% endif %}
             </div>
         </div>
-    </div>
+
     {% if show_graph == False%}
 
         <div class="card m-5">

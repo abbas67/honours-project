@@ -1,14 +1,25 @@
-{% extends "layout.html" %}
 
+{% extends "layout.html" %}
 {% block head %}
 
-    <div class="topnav1">
-        <a href="{{ url_for('sign_out') }}">Sign Out</a>
-    </div>
+        <div class="topnav" >
+            <div class="active">
+                <a href="{{ url_for('index') }}">
+                    <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
+                </a>
+                <ul id="nav">
+                    <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
+                    <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
+                    <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
+
+                </ul>
+
+            </div>
+        </div>
+
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturerhome.css') }}">
-    {#      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">#}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturer_home.css') }}">
 
     <title>Home</title>
 
@@ -26,17 +37,17 @@
         <div class="my-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Notifications</h5>
+                    <h5 class="card-title" style="color: #4365E2;">Notifications </h5>
 
                     {%if show_messages %}
 
                         <div class="container-fluid my-3">
 
                             <ul class="list-group mx-5">
-                                <li class="list-group-item active">Attendance Notifications</li>
+                                <li class="list-group-item active" style="color: ghostwhite;background-color: #4365E2;">Attendance Notifications</li>
                                 {% for item in student_messages %}
 
-                                    <li class="list-group">
+                                    <li class="list-group" style="color: ghostwhite;">
                                         <h5> </h5>
                                         <form action="{{ url_for('redirect_to_student') }}" method="post">
                                            <input type="hidden"  name="module_id" value="{{ item[2] }}">
@@ -54,7 +65,7 @@
 
                 {%if show_messages == False %}
 
-                    <p class="card-text">No current Notifications.</p>
+                    <p class="card-text" style="color:#4365E2;">No current Notifications.</p>
 
                 {% endif %}
 
@@ -65,8 +76,8 @@
         <div class="my-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"> Code Generation</h5>
-                    <p class="card-text">Generate and display a code for a lecture.</p>
+                    <h5 class="card-title" style="color:#4365E2;"> Code Generation</h5>
+                    <p class="card-text"  style="color:#4365E2;">Generate and display a code for a lecture.</p>
                     <a href="{{ url_for('gencode') }}" class="btn btn-primary">Go</a>
                 </div>
             </div>
@@ -75,8 +86,8 @@
         <div class="my-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Module Manager</h5>
-                    <p class="card-text">Manage your modules</p>
+                    <h5 class="card-title" style="color:#4365E2;">Module Manager</h5>
+                    <p class="card-text" style="color:#4365E2;">Manage your modules</p>
                     <a href="{{ url_for('modulemanagement') }}" class="btn btn-primary">Go</a>
                 </div>
             </div>
@@ -84,22 +95,22 @@
 
         <div class="my-4">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" style="background-color:#4365E2;">
 
-                    <div class="flex-container">
+                    <div class="flex-container" style="background-color:#4365E2;">
 
                         {% if timetabled_days['Monday'] == True %}
 
                             <div class=mx-2>
 
-                                <h5 class="card-title" text-align="centre">Monday</h5>
-                                <div class=card-body >
-                                    <ul class="list-group">
+                                <h5 class="card-title" style="color: ghostwhite;" text-align="centre">Monday</h5>
+                                <div class="card-body" style="background-color:#4365E2;">
+                                    <ul class="list-group" style="background-color:#4365E2;color: #2b542c">
 
                                         {% if next_lecture|count  > 0 %}
                                             {% for item in lectures %}
                                                 {% if item['Day'] == "Monday" %}
-                                                    <li class="list-group-item"> {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+                                                    <li class="list-group-item" > {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time'] }}
                                                     </li>
                                                 {% endif %}
                                             {% endfor %}
@@ -115,7 +126,7 @@
 
                             <div class=class=mx-1>
 
-                                <h5 class="card-title">Monday</h5>
+                                <h5 class="card-title" style="color: ghostwhite;">Monday</h5>
                                 <div class=card-body >
                                     <ul class="list-group">
 
@@ -129,13 +140,13 @@
                         {% if timetabled_days['Tuesday'] == True %}
 
                             <div class=class=mx-1>
-                                <h5 class="card-title">Tuesday</h5>
+                                <h5 class="card-title" style="color: ghostwhite;">Tuesday</h5>
                                 <div class=card-body >
                                     <ul class="list-group">
                                         {% if next_lecture|count  > 0 %}
                                             {% for item in lectures %}
                                                 {% if item['Day'] == "Tuesday" %}
-                                                    <li class="list-group-item"> {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+                                                    <li class="list-group-item"> {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time'] }}
 
                                                     </li>
                                                 {% endif %}
@@ -150,7 +161,7 @@
 
                             <div class=class=mx-1>
 
-                                <h5 class="card-title">Tuesday</h5>
+                                <h5 class="card-title" style="color: ghostwhite;">Tuesday</h5>
                                 <div class=card-body >
                                     <ul class="list-group">
 
@@ -163,13 +174,13 @@
 
                         {% if timetabled_days['Wednesday'] == True %}
                             <div class=class=mx-1>
-                                <h5 class="card-title">Wednesday</h5>
+                                <h5 class="card-title" style="color: ghostwhite;">Wednesday</h5>
                                 <div class=card-body >
                                     <ul class="list-group">
                                         {% if next_lecture|count  > 0 %}
                                             {% for item in lectures %}
                                                 {% if item['Day'] == "Wednesday" %}
-                                                    <li class="list-group-item"> {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+                                                    <li class="list-group-item"> {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time'] }}
 
                                                     </li>
                                                 {% endif %}
@@ -184,7 +195,7 @@
 
                             <div class=class=mx-1>
 
-                                <h5 class="card-title">Wednesday</h5>
+                                <h5 class="card-title" style="color: ghostwhite;">Wednesday</h5>
                                 <div class=card-body >
                                     <ul class="list-group">
 
@@ -198,13 +209,13 @@
                         {% if timetabled_days['Thursday'] == True %}
                             <div class=class=mx-1>
 
-                                <h5 class="card-title">Thursday</h5>
+                                <h5 class="card-title" style="color: ghostwhite;">Thursday</h5>
                                 <div class=card-body >
                                     <ul class="list-group">
                                         {% if next_lecture|count  > 0 %}
                                             {% for item in lectures %}
                                                 {% if item['Day'] == "Thursday" %}
-                                                    <li class="list-group-item">{{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }}
+                                                    <li class="list-group-item">{{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time'] }}
 
                                                     </li>
                                                 {% endif %}
@@ -220,7 +231,7 @@
 
                             <div class=class=mx-1>
 
-                                <h5 class="card-title">Thursday</h5>
+                                <h5 class="card-title" style="color: ghostwhite;">Thursday</h5>
                                 <div class=card-body >
                                     <ul class="list-group">
 
@@ -234,13 +245,13 @@
                         {% if timetabled_days['Friday'] == True %}
                             <div class=class=mx-1>
 
-                                <h5 class="card-title">Friday</h5>
+                                <h5 class="card-title" style="color: ghostwhite;">Friday</h5>
                                 <div class=card-body >
                                     <ul class="list-group">
                                         {% if next_lecture|count  > 0 %}
                                             {% for item in lectures %}
                                                 {% if item['Day'] == "Friday" %}
-                                                    <li class="list-group-item"> {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time '] }} </li>
+                                                    <li class="list-group-item"> {{ item['LectureName'] }} {{ item['LectureLocation'] }} {{ item['Time'] }} </li>
 
                                                 {% endif %}
                                             {% endfor %}
@@ -255,7 +266,7 @@
 
                             <div class=class=mx-1>
 
-                                <h5 class="card-title">Friday</h5>
+                                <h5 class="card-title" style="color: ghostwhite;">Friday</h5>
                                 <div class=card-body >
                                     <ul class="list-group">
 
@@ -268,8 +279,6 @@
 
 
                     </div>
-
-
 
                 </div>
             </div>
@@ -299,3 +308,4 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 {% endblock scripts %}
+
