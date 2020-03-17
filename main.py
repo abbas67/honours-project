@@ -55,7 +55,7 @@ logger.addHandler(ch)
 #
 # params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
 # conn = pyodbc.connect(params)
-# cursor = conn.cursor()
+
 
 import psycopg2
 import os
@@ -63,7 +63,7 @@ import os
 DATABASE_URL = os.environ['DATABASE_URL']
 
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-
+cursor = conn.cursor()
 
 @app.before_request
 def before_request():
