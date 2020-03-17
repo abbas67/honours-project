@@ -6,7 +6,7 @@ import hashlib
 import logging
 import os
 import random
-
+from flask_sqlalchemy import SQLAlchemy
 import string
 import collections
 from collections import Counter
@@ -56,6 +56,13 @@ logger.addHandler(ch)
 # params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
 # conn = pyodbc.connect(params)
 # cursor = conn.cursor()
+
+import psycopg2
+import os
+
+DATABASE_URL = os.environ['DATABASE_URL']
+
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 
 @app.before_request
