@@ -45,26 +45,17 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
+
 # drivers = [item for item in pyodbc.drivers()]
 # driver = drivers[-1]
-# server = 'tcp:abbaslawal.database.windows.net,1433'
-# database = 'abbaslawal-db'
-# uid = 'alawal98'
-# pwd = 'Hazard1998'
+# server = 'Zeno.computing.dundee.ac.uk'
+# database = 'abbaslawaldb'
+# uid = 'abbaslawal'
+# pwd = 'abc2019ABL123..'
 #
 # params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
 # conn = pyodbc.connect(params)
-# Dynamically selecting a driver based on the machine.
-drivers = [item for item in pyodbc.drivers()]
-driver = drivers[-1]
-server = 'Zeno.computing.dundee.ac.uk'
-database = 'abbaslawaldb'
-uid = 'abbaslawal'
-pwd = 'abc2019ABL123..'
-
-params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
-conn = pyodbc.connect(params)
-cursor = conn.cursor()
+# cursor = conn.cursor()
 
 
 @app.before_request
