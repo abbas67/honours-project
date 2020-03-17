@@ -6,13 +6,13 @@ import hashlib
 import logging
 import os
 import random
-import re
+
 import string
 import collections
 from collections import Counter
 from os import path
 import pandas as pd
-import pyodbc
+
 from flask import Flask, render_template, request, redirect, url_for, flash, session, g, json
 from werkzeug.utils import secure_filename
 import ssl
