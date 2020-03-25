@@ -9,20 +9,20 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-        <div class="topnav" >
-            <div class="active">
-                <a href="{{ url_for('index') }}">
-                    <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
-                </a>
-                <ul id="nav">
-                    <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
-                    <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
-                    <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
+    <div class="topnav" >
+        <div class="active">
+            <a href="{{ url_for('index') }}">
+                <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
+            </a>
+            <ul id="nav">
+                <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
+                <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
+                <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
 
-                </ul>
+            </ul>
 
-            </div>
         </div>
+    </div>
 
     <title>Student Stats</title>
 
@@ -114,19 +114,43 @@
     {% endif %}
 
     {% if show_stats == True %}
+        <div>
+            <canvas id="pie-chart"></canvas>
+            <script>
+                new Chart(document.getElementById("pie-chart"), {
+                    type: 'pie',
+                    data: {
+                        labels: ["Present", "Absent"],
+                        datasets: [{
+                            label: "Attendance",
+                            backgroundColor: ["#3e95cd", "#8e5ea2"],
+                            data: {{chart_data}}
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: ('{{ session['Student']['FirstName'] }}' + 's Lecture Attendance So Far')
+                        }
+                    }
+                });
 
-        <ul class="list-group m-2">
+            </script>
+        </div>
 
-            <li class="list-group-item active">Attendance Overview</li>
+        <div>
+            <ul class="list-group m-2">
 
-            {% for item in attendance_info %}
+                <li class="list-group-item active">Attendance Overview</li>
 
-                <li class="list-group-item "> {{ item['LectureName'] }} {{ item['Day'] }}  Week: {{ item['Week'] }} Attendance:  {{ item['Attendance'] }} </li>
+                {% for item in attendance_info %}
 
-            {% endfor %}
+                    <li class="list-group-item "> {{ item['LectureName'] }} {{ item['Day'] }}  Week: {{ item['Week'] }} Attendance:  {{ item['Attendance'] }} </li>
 
-        </ul>
+                {% endfor %}
 
+            </ul>
+        </div>
     {% endif %}
 
 

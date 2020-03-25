@@ -1,3 +1,13 @@
+
+"""
+Abbas Lawal
+AC40001 Honours Project
+BSc (Hons) Computing Science
+University of Dundee 2019/20
+Supervisor: Dr Craig Ramsay
+All CODE IS ORIGINAL UNLESS STATED SO.
+"""
+# Necessary library imports
 import binascii
 import csv
 import datetime
@@ -6,7 +16,6 @@ import hashlib
 import logging
 import os
 import random
-import re
 import string
 import collections
 from collections import Counter
@@ -18,13 +27,15 @@ from werkzeug.utils import secure_filename
 import ssl
 import smtplib
 
+# Necessary set up so that the application can run properly and be deployed etc.
 app = Flask(__name__)
-
 app.secret_key = "supersecretkey"
+# Setting
 UPLOAD_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/Uploads"
 ALLOWED_EXTENSIONS = {'csv'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+# Wiping the log file every time the application is started.
 if path.exists('logger.log'):
     os.remove('logger.log')
     print("Log file rotated.")
@@ -45,15 +56,6 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
-# drivers = [item for item in pyodbc.drivers()]
-# driver = drivers[-1]
-# server = 'tcp:abbaslawal.database.windows.net,1433'
-# database = 'abbaslawal-db'
-# uid = 'alawal98'
-# pwd = 'Hazard1998'
-#
-# params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
-# conn = pyodbc.connect(params)
 # Dynamically selecting a driver based on the machine.
 drivers = [item for item in pyodbc.drivers()]
 driver = drivers[-1]
@@ -271,8 +273,10 @@ def signup():
         fname = request.form['fname']
         lname = request.form['lname']
         email = request.form['email']
+        print("fail")
         type = request.form['lecturercheck']
 
+        print(idnum, password, fname, lname, email, type)
         if type == 'Lecturer':
 
             query = "SELECT * FROM Lecturers WHERE LecturerID=?"
@@ -762,6 +766,22 @@ def student_stats():
 
                 attendance = get_class_attendance(expected_lectures)
 
+                print(expected_lectures)
+
+                session['labels'] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+                chart_data = [0,0]
+                for lecture in expected_lectures:
+
+                    if lecture['Attendance']:
+
+                        chart_data[0] = chart_data[0] + 1
+                    else:
+
+                        chart_data[1] = chart_data[1] + 1
+
+                print(chart_data)
+
                 if attendance >= 80:
 
                     note = "This students attendance is " + str(attendance) + " and is no cause for concern."
@@ -770,7 +790,7 @@ def student_stats():
 
                     note = "This students attendance is " + str(attendance) + " and is cause for concern."
 
-                return render_template('student_stats.html', show_stats=True, attendance_info=expected_lectures, student_statement=note, from_home=from_home)
+                return render_template('student_stats.html', show_stats=True, attendance_info=expected_lectures, student_statement=note, from_home=from_home, chart_data=chart_data)
         else:
 
             return redirect(url_for('lecturersignin'))
@@ -1538,7 +1558,6 @@ def hash_password(password):
 def check_duplicate(table_name, field, unique_key):
 
     query = ("SELECT * FROM %s WHERE %s=?" % (table_name, field))
-    # filename = ('/Attendance_Docs/%s.txt' % lecturecode)
     result = pd.read_sql(query, conn, params=(unique_key,))
     tableinfo = result.to_dict('records')
 
@@ -1626,4 +1645,4 @@ def sign_out():
 
 if __name__ == "__main__":
 
-    app.run( threaded=True, debug=True)
+    app.run(threaded=True, debug=True)
