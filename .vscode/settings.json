@@ -1,4 +1,0 @@
-{
-    "appService.defaultWebAppToDeploy": "/subscriptions/3ef46094-53d2-4f7b-9cf4-90640852a67f/resourceGroups/Abbas-Honours-Project/providers/Microsoft.Web/sites/HonoursAttendanceSystem",
-    "appService.deploySubpath": ""
-}

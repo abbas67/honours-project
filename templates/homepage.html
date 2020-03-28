@@ -2,21 +2,24 @@
 
 {% block head %}
 
-            <div class="topnav" >
-            <div class="active">
-                <a href="{{ url_for('index') }}">
-                    <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
-                </a>
-                <ul id="nav">
-                    <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
-                    <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
+    {#  Head section of webpage  #}
+
+    {# nav bar#}
+    <div class="topnav" >
+        <div class="active">
+            <a href="{{ url_for('index') }}">
+                <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
+            </a>
+            <ul id="nav">
+                <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
+                <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
 
 
-                </ul>
+            </ul>
 
-            </div>
         </div>
-
+    </div>
+    {# CDN links #}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='homepage.css') }}">
     <title>Home</title>
 
@@ -28,7 +31,7 @@
     <p> </p>
     <h1 align="center"> Dundee University Attendance</h1>
 
-
+{# bootstrap cards used as options for lecturers and students.#}
     <div class ="flex-container">
 
         <div class="card m-5">
@@ -36,7 +39,7 @@
             <div class="card-body" style="color: ghostwhite;background-color:#4365E2">
                 <h5 class="card-title">Tools For Lecturers</h5>
                 <p class="card-text">Important Information For Lecturers</p>
-                <a href="{{ url_for('lecturersignin') }}" class="btn btn-primary" style="background-color:ghostwhite;color:#4365E2;">Go</a>
+                <a href="{{ url_for('lecturer_sign_in') }}" class="btn btn-primary" style="background-color:ghostwhite;color:#4365E2;">Go</a>
             </div>
         </div>
 

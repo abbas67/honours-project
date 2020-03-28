@@ -71,7 +71,7 @@ class BasicTests(unittest.TestCase):
         # checks to see the page loads with no server errors etc.
         self.assertEqual(response.status_code, 200)
 
-        response = self.app.get('/createlecture', follow_redirects=True)
+        response = self.app.get('/create_lecture', follow_redirects=True)
         # checks to see the page loads with no server errors etc.
         self.assertEqual(response.status_code, 200)
 
@@ -203,7 +203,7 @@ class AdvancedTests(unittest.TestCase):
             # checking that an error is caught and account creation has been failed.
             self.assertEqual(['INFO:logger:Error, ID already exists'], cm.output)
 
-    # Testing the account creation functionality for lecturers
+    #Testing the account creation functionality for lecturers
 
     def test_lecturer_signup(self):
 
@@ -240,14 +240,14 @@ class AdvancedTests(unittest.TestCase):
             # Creating a lecturer account using the helper sign up method.
             self.account_sign_up('testaccount123', 'password123', 'John', 'Doe', 'Lecturer', 'testemail@gmail.com')
             # sending a post request to the application, attempting to log in...
-            self.app.post('/lecturersignin',
+            self.app.post('/lecturer_sign_in',
                           data=dict(lecturerid='testaccount123', Password='password123', follow_redirects=True))
             # 'checks to see if the account has been successfully signed in or not.
             self.assertIn('INFO:logger:Successfully Signed Into Lecturer Account', cm.output)
 
         with self.assertLogs(level='INFO') as cm:
             # Sending a post request to the application
-            response = self.app.post('/lecturersignin',
+            response = self.app.post('/lecturer_sign_in',
                                      data=dict(lecturerid='wrong_account', Password='password123',  follow_redirects=True))
             # checking that the error has been caught and that the account has not been signed into.
             self.assertEqual(['INFO:logger:Account does not exist'], cm.output)
@@ -271,7 +271,7 @@ class AdvancedTests(unittest.TestCase):
 
         with self.assertLogs(level='INFO') as cm:
             # sending a post request to the application.
-            response = self.app.post('/modulemanagement', data=dict(moduleid='AC12345', modulename='Another Test Module',follow_redirects=True))
+            response = self.app.post('/modulemanagement', data=dict(moduleid='AC12345', modulename='Another Test Module', follow_redirects=True))
             # checking tha the application does not make duplicate modules.
             self.assertIn('INFO:logger:Error, module ID already exists, please choose another.', cm.output)
 
@@ -286,7 +286,7 @@ class AdvancedTests(unittest.TestCase):
 
         with self.assertLogs(level='INFO') as cm:
 
-            response = self.app.post('/createlecture', data=dict(time='14:00', duration='4', name='Seminar',
+            response = self.app.post('/create_lecture', data=dict(time='14:00', duration='4', name='Seminar',
                                                              selected_module_lecture='AC12345', weekday='Monday', first='1', last='12', location='Dalhousie',
                                                              follow_redirects=True))
             self.assertIn('INFO:logger:Lecture set: Monday from week 1 to 12 at Dalhousie at'
@@ -539,8 +539,6 @@ class AdvancedTests(unittest.TestCase):
                     self.assertIn('INFO:logger:' + student['FirstName'] + " " + student['LastName'] + " Has " + str(
                         attendance[x]) + "% attendance for AC12345", cm.output)
 
-
-
     ########################
     #### helper methods ####
     ########################
@@ -555,12 +553,12 @@ class AdvancedTests(unittest.TestCase):
 
     def create_lecture(self,time, duration, name, module, weekday, first, last,location):
 
-        response = self.app.post('/createlecture', data=dict(time=time, duration=duration, name=name,
+        response = self.app.post('/create_lecture', data=dict(time=time, duration=duration, name=name,
                                                       selected_module_lecture=module, weekday=weekday, first=first, last=last, location=location, follow_redirects=True))
 
     def lecturer_login(self, username, password):
 
-        self.app.post('/lecturersignin',
+        self.app.post('/lecturer_sign_in',
                       data=dict(lecturerid=username, Password=password, follow_redirects=True))
 
     def get_lectures(self, module_id):

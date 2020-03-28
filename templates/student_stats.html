@@ -2,13 +2,14 @@
 
 {% block head %}
 
+    {#CDN Links#}
+
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='genCode.css') }}">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturer_home.css') }}">
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
+    {# nav bar#}
     <div class="topnav" >
         <div class="active">
             <a href="{{ url_for('index') }}">
@@ -34,6 +35,7 @@
 
     <h1 class="text-center"> {{ session['Student']['FirstName'] }} {{ session['Student']['LastName']}} - Attendance Information - {{ session['moduleid'] }}</h1>
 
+    {# Showing any messages pushed to the UI from the Python code...#}
     {% with messages = get_flashed_messages() %}
         <div class="d-flex justify-content-center" >
             <div class="my-5">
@@ -50,11 +52,10 @@
         </div>
     {% endwith %}
 
-
+    {# Only shown if there is stats regarding the student.#}
     {% if show_stats == True %}
-
+        {# options such as sending emails, removing the student from the class list or returning to the previous page. #}
         <div class="card mx-10">
-
 
             <img class="card-img-top" src="/static/qmb.jpg" alt="Card image cap">
             <div class="card-body">
@@ -93,7 +94,7 @@
 
     <p> </p>
 
-
+    {# a message shown if there is no stats regarding the student available.#}
     {% if show_stats == False %}
 
         <div class="card m-5">
@@ -113,6 +114,7 @@
 
     {% endif %}
 
+    {#  pie chart using javascript - chart-js#}
     {% if show_stats == True %}
         <div>
             <canvas id="pie-chart"></canvas>
@@ -137,7 +139,7 @@
 
             </script>
         </div>
-
+        {# list of lectures with details along with if they were attended or not. #}
         <div>
             <ul class="list-group m-2">
 

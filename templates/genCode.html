@@ -1,11 +1,14 @@
 {% extends "layout.html" %}
 
 {% block head %}
+    {#  Head section of webpage  #}
+
+        {# CDN links #}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='genCode.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturer_home.css') }}">
     <title>Code Generation</title>
-
+{# nav bar #}
     <div class="topnav" >
         <div class="active">
             <a href="{{ url_for('index') }}">
@@ -91,6 +94,7 @@
     {% endif %}
 
     <div>
+    {# Showing any messages pushed to the UI from the Python code...#}
         {% with message = get_flashed_messages() %}
             {% if message %}
                 <div class=card>

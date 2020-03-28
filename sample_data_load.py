@@ -1,3 +1,15 @@
+"""
+Abbas Lawal
+AC40001 Honours Project
+BSc (Hons) Computing Science
+University of Dundee 2019/20
+Supervisor: Dr Craig Ramsay
+All CODE IS ORIGINAL UNLESS STATED SO.
+
+The Purpose of this script is to load sample data into the system.
+"""
+
+
 import csv
 import json
 import hashlib, binascii, os

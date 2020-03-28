@@ -3,36 +3,37 @@
 {% block head %}
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturesignin.css') }}">
+    {#nav bar #}
+    <div class="topnav" >
+        <div class="active">
+            <a href="{{ url_for('index') }}">
+                <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
+            </a>
+            <ul id="nav">
+                <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
+                <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
 
-            <div class="topnav" >
-            <div class="active">
-                <a href="{{ url_for('index') }}">
-                    <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
-                </a>
-                <ul id="nav">
-                    <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
-                    <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
 
+            </ul>
 
-                </ul>
-
-            </div>
         </div>
+    </div>
 
     <title>Login Page</title>
 
 
-	<!--Bootsrap 4 CDN-->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!--Bootsrap 4 CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <!--Fontawesome CDN-->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <title>Home</title>
 {% endblock head %}
 
 
 {% block content %}
+    {# form used for students to sign into their lectures. #}
 
     <div class="container">
         <form action="{{ url_for('lecturesignin') }}" method="post">
@@ -91,7 +92,7 @@
 {% endblock content %}
 
 {% block scripts %}
-{{ super() }}
+    {{ super() }}
 
 {% endblock scripts %}
 

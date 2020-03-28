@@ -1,14 +1,16 @@
 {% extends "layout.html" %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='genCode.css') }}">
 
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='genCode.css') }}">
+{#  CDN LINKS  #}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='module_options.css') }}">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-
+    {#nav bar #}
             <div class="topnav" >
             <div class="active">
                 <a href="{{ url_for('index') }}">
@@ -33,14 +35,14 @@
 
     <h1 class="text-center"> {{ session['moduleinfo']['ModuleID'] }} : {{ session['moduleinfo']['ModuleName'] }} - {{ attendance }}% Attendance</h1>
 
-
+{# secondary navbar with options such as sorting, add lectures, edit class list. #}
     <div class="flex-container m-5">
         <form action="{{ url_for('delete_module') }}" method="post" class="mx-2">
 
             <button name="Module" type="submit" class="btn btn-primary" value="{{ session['moduleinfo']['ModuleID'] }}" >Delete Module</button>
         </form>
 
-        <a  href="{{ url_for('createlecture') }}" class="btn btn-primary mx-2">Add Lecture </a>
+        <a  href="{{ url_for('create_lecture') }}" class="btn btn-primary mx-2">Add Lecture </a>
 
         <form action="{{ url_for('sort_timetable') }}" method="post" class="mx-2">
             <button name="semester1" type="submit" class="btn btn-primary" value="12" >View Semester 1</button>
@@ -63,7 +65,7 @@
         </form>
 
     </div>
-
+{# a timetable that is sortable using the secondary navbar above.#}
         <div class="card m-5" style="background-color:#4365E2;">
 
             <div class="card-body" style="background-color:#4365E2;">
@@ -275,7 +277,7 @@
         </div>
     {% endif %}
     {% if show_graph == True%}
-
+{# a bar graph used to show lecturers their module attendance day by day for the semester. #}
         <canvas id="bar-chart" ></canvas>
 
         <script>
@@ -311,7 +313,7 @@
 
             var colorArray = [["#FF4000", false], ["#81BEF7", false], ["#5882FA", false],
                 ["#04B404", false], ["#A901DB", false], ["#F5A9BC", false]];
-
+            {# setting random colours for each line every time.#}
             function getRandomColor() {
                 var letters = '0123456789ABCDEF'.split('');
                 var color = '#';

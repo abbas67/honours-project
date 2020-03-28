@@ -1,8 +1,11 @@
 {% extends "layout.html" %}
 
 {% block head %}
+
+
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='signup.css') }}">
+{# nav bar #}
     <div class="topnav" >
         <div class="active">
             <a href="{{ url_for('index') }}">
@@ -35,7 +38,7 @@
 
     <div class="container">
 
-
+{# form used to allow lecturers and students to sign up for accounts with the system. #}
         <div class="card mx-auto" >
             <div class="card-header" style="color: ghostwhite;background-color:#4365E2">
                 <h3 style="color: ghostwhite;">Sign Up</h3>
@@ -114,7 +117,7 @@
 
     <script>
 
-
+{# javascript to make sure that only one checkbox can be used at a time.#}
         {# sourced from https://stackoverflow.com/questions/9709209/html-select-only-one-checkbox-in-a-group #}
         $('input[type="checkbox"]').on('change', function() {
             $('input[type="checkbox"]').not(this).prop('checked', false);

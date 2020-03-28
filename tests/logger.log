@@ -1,398 +1,399 @@
-2020-03-14 12:17:INFO: Lecturer account successfully created
-2020-03-14 12:17:INFO: Successfully Signed Into Lecturer Account
-2020-03-14 12:17:INFO: AC12345 : Test Module 1 successfully created.
-2020-03-14 12:17:INFO: Lecture set: Monday from week 13 to 24 at Dalhousie at 2020-04-06 14:00:00 successfully created.
-2020-03-14 12:17:INFO: Student uploaded to database
-2020-03-14 12:17:INFO: Student account successfully created
-2020-03-14 12:17:INFO: Attempting to add Ashien Weatherdon to class list: AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Added To Class list
-2020-03-14 12:17:INFO: Ashien Weatherdon Has less than 50% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has less than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has less than 50% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has less than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has less than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Student uploaded to database
-2020-03-14 12:17:INFO: Student account successfully created
-2020-03-14 12:17:INFO: Attempting to add Arman Akitt to class list: AC12345
-2020-03-14 12:17:INFO: Arman Akitt Added To Class list
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has less than 50% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has less than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has less than 50% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has less than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has less than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Student uploaded to database
-2020-03-14 12:17:INFO: Student account successfully created
-2020-03-14 12:17:INFO: Attempting to add Frederigo Graveston to class list: AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Added To Class list
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has less than 50% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has less than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has less than 50% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has less than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has less than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Student uploaded to database
-2020-03-14 12:17:INFO: Student account successfully created
-2020-03-14 12:17:INFO: Attempting to add Rodney Younglove to class list: AC12345
-2020-03-14 12:17:INFO: Rodney Younglove Added To Class list
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Rodney Younglove Has less than 50% attendance for AC12345
-2020-03-14 12:17:INFO: Rodney Younglove Has less than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Rodney Younglove Has less than 50% attendance for AC12345
-2020-03-14 12:17:INFO: Rodney Younglove Has less than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Rodney Younglove Has less than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Rodney Younglove Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Rodney Younglove Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Student uploaded to database
-2020-03-14 12:17:INFO: Student account successfully created
-2020-03-14 12:17:INFO: Attempting to add Hildegaard Scotchmore to class list: AC12345
-2020-03-14 12:17:INFO: Hildegaard Scotchmore Added To Class list
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Rodney Younglove Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Rodney Younglove Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Hildegaard Scotchmore Has less than 50% attendance for AC12345
-2020-03-14 12:17:INFO: Hildegaard Scotchmore Has less than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Arman Akitt Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Frederigo Graveston Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Rodney Younglove Has more than 80% attendance for AC12345
-2020-03-14 12:17:INFO: Rodney Younglove Has 100% attendance for AC12345
-2020-03-14 12:17:INFO: Hildegaard Scotchmore Has less than 50% attendance for AC12345
-2020-03-14 12:17:INFO: Hildegaard Scotchmore Has less than 80% attendance for AC12345
-2020-03-14 12:18:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:18:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:18:INFO: Arman Akitt Has more than 80% attendance for AC12345
-2020-03-14 12:18:INFO: Arman Akitt Has 100% attendance for AC12345
-2020-03-14 12:18:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
-2020-03-14 12:18:INFO: Frederigo Graveston Has 100% attendance for AC12345
-2020-03-14 12:18:INFO: Rodney Younglove Has more than 80% attendance for AC12345
-2020-03-14 12:18:INFO: Rodney Younglove Has 100% attendance for AC12345
-2020-03-14 12:18:INFO: Hildegaard Scotchmore Has less than 80% attendance for AC12345
-2020-03-14 12:18:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-14 12:18:INFO: Ashien Weatherdon Has 100% attendance for AC12345
-2020-03-14 12:18:INFO: Arman Akitt Has more than 80% attendance for AC12345
-2020-03-14 12:18:INFO: Arman Akitt Has 100% attendance for AC12345
-2020-03-14 12:18:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
-2020-03-14 12:18:INFO: Frederigo Graveston Has 100% attendance for AC12345
-2020-03-14 12:18:INFO: Rodney Younglove Has more than 80% attendance for AC12345
-2020-03-14 12:18:INFO: Rodney Younglove Has 100% attendance for AC12345
-2020-03-14 12:18:INFO: Hildegaard Scotchmore Has more than 80% attendance for AC12345
-2020-03-14 12:18:INFO: Hildegaard Scotchmore Has 100% attendance for AC12345
-2020-03-14 12:18:INFO: Lecturer account successfully created
-2020-03-14 12:18:INFO: Successfully Signed Into Lecturer Account
-2020-03-14 12:18:INFO: AC10000 : Test Module 1 successfully created.
-2020-03-14 12:18:INFO: Lecture set: Monday from week 1 to 12 at Dalhousie at 2019-12-02 14:00:00 successfully created.
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Attempting to add Harry Potter to class list: AC10000
-2020-03-14 12:18:INFO: Harry Potter Added To Class list
-2020-03-14 12:18:INFO: Attempting to add Draco Malfoy to class list: AC10000
-2020-03-14 12:18:INFO: Draco Malfoy Added To Class list
-2020-03-14 12:18:INFO: AC12345 : Test Module 2 successfully created.
-2020-03-14 12:18:INFO: Lecture set: Tuesday from week 1 to 12 at Dalhousie at 2019-12-03 14:00:00 successfully created.
-2020-03-14 12:18:INFO: Attempting to add Harry Potter to class list: AC12345
-2020-03-14 12:18:INFO: Harry Potter Added To Class list
-2020-03-14 12:18:INFO: Attempting to add Draco Malfoy to class list: AC12345
-2020-03-14 12:18:INFO: Draco Malfoy Added To Class list
-2020-03-14 12:18:INFO: attempting to remove 160012345 from class list...
-2020-03-14 12:18:INFO: Draco Malfoy Removed From AC10000
-2020-03-14 12:18:INFO: attempting to remove 160012346 from class list...
-2020-03-14 12:18:INFO: Harry Potter Removed From AC10000
-2020-03-14 12:18:INFO: Lecturer account successfully created
-2020-03-14 12:18:INFO: Successfully Signed Into Lecturer Account
-2020-03-14 12:18:INFO: AC12345 : Test Module successfully created.
-2020-03-14 12:18:INFO: Error, module names cannot be duplicated...
-2020-03-14 12:18:INFO: Error, module ID already exists, please choose another.
-2020-03-14 12:18:INFO: Lecturer account successfully created
-2020-03-14 12:18:INFO: Successfully Signed Into Lecturer Account
-2020-03-14 12:18:INFO: Lecture set: Monday from week 1 to 12 at Dalhousie at 2019-12-02 14:00:00 successfully created.
-2020-03-14 12:18:INFO: Lecturer account successfully created
-2020-03-14 12:18:INFO: Successfully Signed Into Lecturer Account
-2020-03-14 12:18:INFO: AC12345 : Test Module 1 successfully created.
-2020-03-14 12:18:INFO: Lecture set: Monday from week 1 to 12 at Dalhousie at 2019-12-02 14:00:00 successfully created.
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: Error, ID already exists
-2020-03-14 12:18:INFO: File successfully received
-2020-03-14 12:18:INFO: adding Ashien Weatherdonto AC12345
-2020-03-14 12:18:INFO: Ashien Weatherdon Added To Class list
-2020-03-14 12:18:INFO: adding Arman Akittto AC12345
-2020-03-14 12:18:INFO: Arman Akitt Added To Class list
-2020-03-14 12:18:INFO: adding Frederigo Gravestonto AC12345
-2020-03-14 12:18:INFO: Frederigo Graveston Added To Class list
-2020-03-14 12:18:INFO: adding Rodney Youngloveto AC12345
-2020-03-14 12:18:INFO: Rodney Younglove Added To Class list
-2020-03-14 12:18:INFO: adding Hildegaard Scotchmoreto AC12345
-2020-03-14 12:18:INFO: Hildegaard Scotchmore Added To Class list
-2020-03-14 12:18:INFO: adding Bertina Dishmanto AC12345
-2020-03-14 12:18:INFO: Bertina Dishman Added To Class list
-2020-03-14 12:18:INFO: adding Jacquenetta Culbertto AC12345
-2020-03-14 12:18:INFO: Jacquenetta Culbert Added To Class list
-2020-03-14 12:18:INFO: adding Maximo Klulicekto AC12345
-2020-03-14 12:18:INFO: Maximo Klulicek Added To Class list
-2020-03-14 12:18:INFO: adding Tim Baribalto AC12345
-2020-03-14 12:18:INFO: Tim Baribal Added To Class list
-2020-03-14 12:18:INFO: adding Allyson Lastto AC12345
-2020-03-14 12:18:INFO: Allyson Last Added To Class list
-2020-03-14 12:18:INFO: adding Maximo Hollingsbeeto AC12345
-2020-03-14 12:18:INFO: Maximo Hollingsbee Added To Class list
-2020-03-14 12:18:INFO: adding Enrika Tofaninito AC12345
-2020-03-14 12:18:INFO: Enrika Tofanini Added To Class list
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: adding Samara Coleiroto AC12345
-2020-03-14 12:18:INFO: Samara Coleiro Added To Class list
-2020-03-14 12:18:INFO: adding Fae Auklandto AC12345
-2020-03-14 12:18:INFO: Fae Aukland Added To Class list
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: adding Renate Kingsnorthto AC12345
-2020-03-14 12:18:INFO: Renate Kingsnorth Added To Class list
-2020-03-14 12:18:INFO: adding Mair Yuto AC12345
-2020-03-14 12:18:INFO: Mair Yu Added To Class list
-2020-03-14 12:18:INFO: adding Ashley Ruppelto AC12345
-2020-03-14 12:18:INFO: Ashley Ruppel Added To Class list
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: adding Diann Sarfatito AC12345
-2020-03-14 12:18:INFO: Diann Sarfati Added To Class list
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: adding Meredithe Raceto AC12345
-2020-03-14 12:18:INFO: Meredithe Race Added To Class list
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: adding Pedro Vidoto AC12345
-2020-03-14 12:18:INFO: Pedro Vido Added To Class list
-2020-03-14 12:18:INFO: adding Jude Athersmithto AC12345
-2020-03-14 12:18:INFO: Jude Athersmith Added To Class list
-2020-03-14 12:18:INFO: adding Celestyn Peadento AC12345
-2020-03-14 12:18:INFO: Celestyn Peaden Added To Class list
-2020-03-14 12:18:INFO: adding Kath Dorlingto AC12345
-2020-03-14 12:18:INFO: Kath Dorling Added To Class list
-2020-03-14 12:18:INFO: adding Farica Jearyto AC12345
-2020-03-14 12:18:INFO: Farica Jeary Added To Class list
-2020-03-14 12:18:INFO: adding Caryl Eddiesto AC12345
-2020-03-14 12:18:INFO: Caryl Eddies Added To Class list
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: adding Martainn Foystonto AC12345
-2020-03-14 12:18:INFO: Martainn Foyston Added To Class list
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: adding Milty Redrupto AC12345
-2020-03-14 12:18:INFO: Milty Redrup Added To Class list
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: adding Reg Taysbilto AC12345
-2020-03-14 12:18:INFO: Reg Taysbil Added To Class list
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: adding Terri Winwoodto AC12345
-2020-03-14 12:18:INFO: Terri Winwood Added To Class list
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: adding Anastassia Bewsheato AC12345
-2020-03-14 12:18:INFO: Anastassia Bewshea Added To Class list
-2020-03-14 12:18:INFO: adding Goddard De Wolfeto AC12345
-2020-03-14 12:18:INFO: Goddard De Wolfe Added To Class list
-2020-03-14 12:18:INFO: adding Karmen Garretsonto AC12345
-2020-03-14 12:18:INFO: Karmen Garretson Added To Class list
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: adding Axel Sentanceto AC12345
-2020-03-14 12:18:INFO: Axel Sentance Added To Class list
-2020-03-14 12:18:INFO: adding Maressa Cresseyto AC12345
-2020-03-14 12:18:INFO: Maressa Cressey Added To Class list
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: Error, this student is already in the class list, skipping
-2020-03-14 12:18:INFO: all students successfully added to class list.
-2020-03-14 12:18:INFO: no file found
-2020-03-14 12:18:INFO: Lecturer account successfully created
-2020-03-14 12:18:INFO: Successfully Signed Into Lecturer Account
-2020-03-14 12:18:INFO: AC12345 : Test Module 1 successfully created.
-2020-03-14 12:18:INFO: Lecture set: Monday from week 1 to 12 at Dalhousie at 2019-12-02 14:00:00 successfully created.
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Attempting to add Draco Malfoy to class list: AC12345
-2020-03-14 12:18:INFO: Draco Malfoy Added To Class list
-2020-03-14 12:18:INFO: Draco Malfoy Updated 
-2020-03-14 12:18:INFO: Draco Malfoy Successfully Signed into 0GPX4Q
-2020-03-14 12:18:INFO: Error, Student has already been signed in.
-2020-03-14 12:18:INFO: Draco Malfoy Updated 
-2020-03-14 12:18:INFO: Draco Malfoy Successfully Signed into 0QBBU2
-2020-03-14 12:18:INFO: Error, Student has already been signed in.
-2020-03-14 12:18:INFO: Draco Malfoy Updated 
-2020-03-14 12:18:INFO: Draco Malfoy Successfully Signed into 4BW1OH
-2020-03-14 12:18:INFO: Error, Student has already been signed in.
-2020-03-14 12:18:INFO: Draco Malfoy Updated 
-2020-03-14 12:18:INFO: Draco Malfoy Successfully Signed into 6HHF3M
-2020-03-14 12:18:INFO: Error, Student has already been signed in.
-2020-03-14 12:18:INFO: Draco Malfoy Updated 
-2020-03-14 12:18:INFO: Draco Malfoy Successfully Signed into E4GBJR
-2020-03-14 12:18:INFO: Error, Student has already been signed in.
-2020-03-14 12:18:INFO: Draco Malfoy Updated 
-2020-03-14 12:18:INFO: Draco Malfoy Successfully Signed into GWRWQR
-2020-03-14 12:18:INFO: Error, Student has already been signed in.
-2020-03-14 12:18:INFO: Draco Malfoy Updated 
-2020-03-14 12:18:INFO: Draco Malfoy Successfully Signed into GWWOAF
-2020-03-14 12:18:INFO: Error, Student has already been signed in.
-2020-03-14 12:18:INFO: Draco Malfoy Updated 
-2020-03-14 12:18:INFO: Draco Malfoy Successfully Signed into IG1Y9M
-2020-03-14 12:18:INFO: Error, Student has already been signed in.
-2020-03-14 12:18:INFO: Draco Malfoy Updated 
-2020-03-14 12:18:INFO: Draco Malfoy Successfully Signed into KN5294
-2020-03-14 12:18:INFO: Error, Student has already been signed in.
-2020-03-14 12:18:INFO: Draco Malfoy Updated 
-2020-03-14 12:18:INFO: Draco Malfoy Successfully Signed into RGGMCX
-2020-03-14 12:18:INFO: Error, Student has already been signed in.
-2020-03-14 12:18:INFO: Draco Malfoy Updated 
-2020-03-14 12:18:INFO: Draco Malfoy Successfully Signed into XLR3ZZ
-2020-03-14 12:18:INFO: Error, Student has already been signed in.
-2020-03-14 12:18:INFO: Draco Malfoy Updated 
-2020-03-14 12:18:INFO: Draco Malfoy Successfully Signed into XPMYNZ
-2020-03-14 12:18:INFO: Error, Student has already been signed in.
-2020-03-14 12:18:INFO: Matriculation Number or password is incorrect
-2020-03-14 12:18:INFO: Incorrect lecture code, attempt made by: 160012345
-2020-03-14 12:18:INFO: Lecturer account successfully created
-2020-03-14 12:18:INFO: Successfully Signed Into Lecturer Account
-2020-03-14 12:18:INFO: Account does not exist
-2020-03-14 12:18:INFO: Lecturer account successfully created
-2020-03-14 12:18:INFO: The ID already exists, Account Creation failed
-2020-03-14 12:18:INFO: Student uploaded to database
-2020-03-14 12:18:INFO: Student account successfully created
-2020-03-14 12:18:INFO: Invalid Matriculation Number
-2020-03-14 12:18:INFO: Error, ID already exists
+2020-03-27 10:14:INFO: Lecturer account successfully created
+2020-03-27 10:14:INFO: Successfully Signed Into Lecturer Account
+2020-03-27 10:14:INFO: AC12345 : Test Module 1 successfully created.
+2020-03-27 10:14:INFO: Lecture set: Monday from week 13 to 24 at Dalhousie at 2020-04-06 14:00:00 successfully created.
+2020-03-27 10:14:INFO: Student uploaded to database
+2020-03-27 10:14:INFO: Student account successfully created
+2020-03-27 10:14:INFO: Attempting to add Ashien Weatherdon to class list: AC12345
+2020-03-27 10:14:INFO: Ashien Weatherdon Added To Class list
+2020-03-27 10:14:INFO: Ashien Weatherdon Has less than 50% attendance for AC12345
+2020-03-27 10:14:INFO: Ashien Weatherdon Has less than 80% attendance for AC12345
+2020-03-27 10:14:INFO: Ashien Weatherdon Has less than 50% attendance for AC12345
+2020-03-27 10:14:INFO: Ashien Weatherdon Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Student uploaded to database
+2020-03-27 10:15:INFO: Student account successfully created
+2020-03-27 10:15:INFO: Attempting to add Arman Akitt to class list: AC12345
+2020-03-27 10:15:INFO: Arman Akitt Added To Class list
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has less than 50% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has less than 50% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Student uploaded to database
+2020-03-27 10:15:INFO: Student account successfully created
+2020-03-27 10:15:INFO: Attempting to add Frederigo Graveston to class list: AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Added To Class list
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has less than 50% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has less than 50% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Student uploaded to database
+2020-03-27 10:15:INFO: Student account successfully created
+2020-03-27 10:15:INFO: Attempting to add Rodney Younglove to class list: AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Added To Class list
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has less than 50% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has less than 50% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Student uploaded to database
+2020-03-27 10:15:INFO: Student account successfully created
+2020-03-27 10:15:INFO: Attempting to add Hildegaard Scotchmore to class list: AC12345
+2020-03-27 10:15:INFO: Hildegaard Scotchmore Added To Class list
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Hildegaard Scotchmore Has less than 50% attendance for AC12345
+2020-03-27 10:15:INFO: Hildegaard Scotchmore Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Hildegaard Scotchmore Has less than 50% attendance for AC12345
+2020-03-27 10:15:INFO: Hildegaard Scotchmore Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Hildegaard Scotchmore Has less than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Arman Akitt Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Frederigo Graveston Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Rodney Younglove Has 100% attendance for AC12345
+2020-03-27 10:15:INFO: Hildegaard Scotchmore Has more than 80% attendance for AC12345
+2020-03-27 10:15:INFO: Hildegaard Scotchmore Has 100% attendance for AC12345
+2020-03-27 10:16:INFO: Lecturer account successfully created
+2020-03-27 10:16:INFO: Successfully Signed Into Lecturer Account
+2020-03-27 10:16:INFO: AC10000 : Test Module 1 successfully created.
+2020-03-27 10:16:INFO: Lecture set: Monday from week 1 to 12 at Dalhousie at 2019-12-02 14:00:00 successfully created.
+2020-03-27 10:16:INFO: Student uploaded to database
+2020-03-27 10:16:INFO: Student account successfully created
+2020-03-27 10:16:INFO: Student uploaded to database
+2020-03-27 10:16:INFO: Student account successfully created
+2020-03-27 10:16:INFO: Attempting to add Harry Potter to class list: AC10000
+2020-03-27 10:16:INFO: Harry Potter Added To Class list
+2020-03-27 10:16:INFO: Attempting to add Draco Malfoy to class list: AC10000
+2020-03-27 10:16:INFO: Draco Malfoy Added To Class list
+2020-03-27 10:16:INFO: AC12345 : Test Module 2 successfully created.
+2020-03-27 10:16:INFO: Lecture set: Tuesday from week 1 to 12 at Dalhousie at 2019-12-03 14:00:00 successfully created.
+2020-03-27 10:16:INFO: Attempting to add Harry Potter to class list: AC12345
+2020-03-27 10:16:INFO: Harry Potter Added To Class list
+2020-03-27 10:16:INFO: Attempting to add Draco Malfoy to class list: AC12345
+2020-03-27 10:16:INFO: Draco Malfoy Added To Class list
+2020-03-27 10:16:INFO: attempting to remove 160012345 from class list...
+2020-03-27 10:16:INFO: Draco Malfoy Removed From AC10000
+2020-03-27 10:16:INFO: attempting to remove 160012346 from class list...
+2020-03-27 10:16:INFO: Harry Potter Removed From AC10000
+2020-03-27 10:16:INFO: Lecturer account successfully created
+2020-03-27 10:16:INFO: Successfully Signed Into Lecturer Account
+2020-03-27 10:16:INFO: AC12345 : Test Module successfully created.
+2020-03-27 10:16:INFO: Error, module names cannot be duplicated...
+2020-03-27 10:16:INFO: Error, module ID already exists, please choose another.
+2020-03-27 10:17:INFO: Lecturer account successfully created
+2020-03-27 10:17:INFO: Successfully Signed Into Lecturer Account
+2020-03-27 10:17:INFO: Lecture set: Monday from week 1 to 12 at Dalhousie at 2019-12-02 14:00:00 successfully created.
+2020-03-27 10:17:INFO: Lecturer account successfully created
+2020-03-27 10:17:INFO: Successfully Signed Into Lecturer Account
+2020-03-27 10:17:INFO: AC12345 : Test Module 1 successfully created.
+2020-03-27 10:17:INFO: Lecture set: Monday from week 1 to 12 at Dalhousie at 2019-12-02 14:00:00 successfully created.
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Student uploaded to database
+2020-03-27 10:17:INFO: Student account successfully created
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: Error, ID already exists
+2020-03-27 10:17:INFO: File successfully received
+2020-03-27 10:17:INFO: adding Ashien Weatherdonto AC12345
+2020-03-27 10:17:INFO: Ashien Weatherdon Added To Class list
+2020-03-27 10:17:INFO: adding Arman Akittto AC12345
+2020-03-27 10:17:INFO: Arman Akitt Added To Class list
+2020-03-27 10:17:INFO: adding Frederigo Gravestonto AC12345
+2020-03-27 10:17:INFO: Frederigo Graveston Added To Class list
+2020-03-27 10:17:INFO: adding Rodney Youngloveto AC12345
+2020-03-27 10:17:INFO: Rodney Younglove Added To Class list
+2020-03-27 10:17:INFO: adding Hildegaard Scotchmoreto AC12345
+2020-03-27 10:17:INFO: Hildegaard Scotchmore Added To Class list
+2020-03-27 10:17:INFO: adding Bertina Dishmanto AC12345
+2020-03-27 10:17:INFO: Bertina Dishman Added To Class list
+2020-03-27 10:18:INFO: adding Jacquenetta Culbertto AC12345
+2020-03-27 10:18:INFO: Jacquenetta Culbert Added To Class list
+2020-03-27 10:18:INFO: adding Maximo Klulicekto AC12345
+2020-03-27 10:18:INFO: Maximo Klulicek Added To Class list
+2020-03-27 10:18:INFO: adding Tim Baribalto AC12345
+2020-03-27 10:18:INFO: Tim Baribal Added To Class list
+2020-03-27 10:18:INFO: adding Allyson Lastto AC12345
+2020-03-27 10:18:INFO: Allyson Last Added To Class list
+2020-03-27 10:18:INFO: adding Maximo Hollingsbeeto AC12345
+2020-03-27 10:18:INFO: Maximo Hollingsbee Added To Class list
+2020-03-27 10:18:INFO: adding Enrika Tofaninito AC12345
+2020-03-27 10:18:INFO: Enrika Tofanini Added To Class list
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: adding Samara Coleiroto AC12345
+2020-03-27 10:18:INFO: Samara Coleiro Added To Class list
+2020-03-27 10:18:INFO: adding Fae Auklandto AC12345
+2020-03-27 10:18:INFO: Fae Aukland Added To Class list
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: adding Renate Kingsnorthto AC12345
+2020-03-27 10:18:INFO: Renate Kingsnorth Added To Class list
+2020-03-27 10:18:INFO: adding Mair Yuto AC12345
+2020-03-27 10:18:INFO: Mair Yu Added To Class list
+2020-03-27 10:18:INFO: adding Ashley Ruppelto AC12345
+2020-03-27 10:18:INFO: Ashley Ruppel Added To Class list
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: adding Diann Sarfatito AC12345
+2020-03-27 10:18:INFO: Diann Sarfati Added To Class list
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: adding Meredithe Raceto AC12345
+2020-03-27 10:18:INFO: Meredithe Race Added To Class list
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: adding Pedro Vidoto AC12345
+2020-03-27 10:18:INFO: Pedro Vido Added To Class list
+2020-03-27 10:18:INFO: adding Jude Athersmithto AC12345
+2020-03-27 10:18:INFO: Jude Athersmith Added To Class list
+2020-03-27 10:18:INFO: adding Celestyn Peadento AC12345
+2020-03-27 10:18:INFO: Celestyn Peaden Added To Class list
+2020-03-27 10:18:INFO: adding Kath Dorlingto AC12345
+2020-03-27 10:18:INFO: Kath Dorling Added To Class list
+2020-03-27 10:18:INFO: adding Farica Jearyto AC12345
+2020-03-27 10:18:INFO: Farica Jeary Added To Class list
+2020-03-27 10:18:INFO: adding Caryl Eddiesto AC12345
+2020-03-27 10:18:INFO: Caryl Eddies Added To Class list
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: adding Martainn Foystonto AC12345
+2020-03-27 10:18:INFO: Martainn Foyston Added To Class list
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: adding Milty Redrupto AC12345
+2020-03-27 10:18:INFO: Milty Redrup Added To Class list
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: adding Reg Taysbilto AC12345
+2020-03-27 10:18:INFO: Reg Taysbil Added To Class list
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: adding Terri Winwoodto AC12345
+2020-03-27 10:18:INFO: Terri Winwood Added To Class list
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: adding Anastassia Bewsheato AC12345
+2020-03-27 10:18:INFO: Anastassia Bewshea Added To Class list
+2020-03-27 10:18:INFO: adding Goddard De Wolfeto AC12345
+2020-03-27 10:18:INFO: Goddard De Wolfe Added To Class list
+2020-03-27 10:18:INFO: adding Karmen Garretsonto AC12345
+2020-03-27 10:18:INFO: Karmen Garretson Added To Class list
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: adding Axel Sentanceto AC12345
+2020-03-27 10:18:INFO: Axel Sentance Added To Class list
+2020-03-27 10:18:INFO: adding Maressa Cresseyto AC12345
+2020-03-27 10:18:INFO: Maressa Cressey Added To Class list
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: Error, this student is already in the class list, skipping
+2020-03-27 10:18:INFO: all students successfully added to class list.
+2020-03-27 10:18:INFO: no file found
+2020-03-27 10:18:INFO: Lecturer account successfully created
+2020-03-27 10:18:INFO: Successfully Signed Into Lecturer Account
+2020-03-27 10:18:INFO: AC12345 : Test Module 1 successfully created.
+2020-03-27 10:19:INFO: Lecture set: Monday from week 1 to 12 at Dalhousie at 2019-12-02 14:00:00 successfully created.
+2020-03-27 10:19:INFO: Student uploaded to database
+2020-03-27 10:19:INFO: Student account successfully created
+2020-03-27 10:19:INFO: Attempting to add Draco Malfoy to class list: AC12345
+2020-03-27 10:19:INFO: Draco Malfoy Added To Class list
+2020-03-27 10:19:INFO: Draco Malfoy Updated 
+2020-03-27 10:19:INFO: Draco Malfoy Successfully Signed into 007OM1
+2020-03-27 10:19:INFO: Error, Student has already been signed in.
+2020-03-27 10:19:INFO: Draco Malfoy Updated 
+2020-03-27 10:19:INFO: Draco Malfoy Successfully Signed into 2AYDUC
+2020-03-27 10:19:INFO: Error, Student has already been signed in.
+2020-03-27 10:19:INFO: Draco Malfoy Updated 
+2020-03-27 10:19:INFO: Draco Malfoy Successfully Signed into 2E609M
+2020-03-27 10:19:INFO: Error, Student has already been signed in.
+2020-03-27 10:19:INFO: Draco Malfoy Updated 
+2020-03-27 10:19:INFO: Draco Malfoy Successfully Signed into 3ICTIF
+2020-03-27 10:19:INFO: Error, Student has already been signed in.
+2020-03-27 10:19:INFO: Draco Malfoy Updated 
+2020-03-27 10:19:INFO: Draco Malfoy Successfully Signed into FL09PA
+2020-03-27 10:19:INFO: Error, Student has already been signed in.
+2020-03-27 10:19:INFO: Draco Malfoy Updated 
+2020-03-27 10:19:INFO: Draco Malfoy Successfully Signed into LVEMPR
+2020-03-27 10:19:INFO: Error, Student has already been signed in.
+2020-03-27 10:19:INFO: Draco Malfoy Updated 
+2020-03-27 10:19:INFO: Draco Malfoy Successfully Signed into QCW7TG
+2020-03-27 10:19:INFO: Error, Student has already been signed in.
+2020-03-27 10:19:INFO: Draco Malfoy Updated 
+2020-03-27 10:19:INFO: Draco Malfoy Successfully Signed into TH9846
+2020-03-27 10:19:INFO: Error, Student has already been signed in.
+2020-03-27 10:19:INFO: Draco Malfoy Updated 
+2020-03-27 10:19:INFO: Draco Malfoy Successfully Signed into UDKF2P
+2020-03-27 10:19:INFO: Error, Student has already been signed in.
+2020-03-27 10:19:INFO: Draco Malfoy Updated 
+2020-03-27 10:19:INFO: Draco Malfoy Successfully Signed into XILR7X
+2020-03-27 10:19:INFO: Error, Student has already been signed in.
+2020-03-27 10:19:INFO: Draco Malfoy Updated 
+2020-03-27 10:19:INFO: Draco Malfoy Successfully Signed into Z0THG6
+2020-03-27 10:19:INFO: Error, Student has already been signed in.
+2020-03-27 10:19:INFO: Draco Malfoy Updated 
+2020-03-27 10:19:INFO: Draco Malfoy Successfully Signed into Z8S3H2
+2020-03-27 10:19:INFO: Error, Student has already been signed in.
+2020-03-27 10:19:INFO: Matriculation Number or password is incorrect
+2020-03-27 10:19:INFO: Incorrect lecture code, attempt made by: 160012345
+2020-03-27 10:19:INFO: Lecturer account successfully created
+2020-03-27 10:19:INFO: Successfully Signed Into Lecturer Account
+2020-03-27 10:19:INFO: Account does not exist
+2020-03-27 10:19:INFO: Lecturer account successfully created
+2020-03-27 10:19:INFO: The ID already exists, Account Creation failed
+2020-03-27 10:20:INFO: Student uploaded to database
+2020-03-27 10:20:INFO: Student account successfully created
+2020-03-27 10:20:INFO: Invalid Matriculation Number
+2020-03-27 10:20:INFO: Error, ID already exists
