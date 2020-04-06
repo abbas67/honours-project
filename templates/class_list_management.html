@@ -1,26 +1,30 @@
 {% extends "layout.html" %}
 
 {% block head %}
+
+    {#  Head section of webpage  #}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='genCode.css') }}">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {# CDN links #}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturer_home.css') }}">
+    {# page title #}
     <title>Module Management</title>
+    {# Nav bar #}
+    <div class="topnav">
+        <div class="active">
+            <a href="{{ url_for('index') }}">
+                <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
+            </a>
+            <ul id="nav">
+                <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
+                <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
+                <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
 
-        <div class="topnav" >
-            <div class="active">
-                <a href="{{ url_for('index') }}">
-                    <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
-                </a>
-                <ul id="nav">
-                    <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
-                    <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
-                    <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
+            </ul>
 
-                </ul>
-
-            </div>
         </div>
+    </div>
 {% endblock head %}
 
 {% block content %}
@@ -28,9 +32,9 @@
     <h1 class="text-center"> {{ session['moduleinfo']['ModuleID'] }} : {{ session['moduleinfo']['ModuleName'] }}</h1>
 
 
-
+{# Showing any messages pushed to the UI from the Python code...#}
     {% with messages = get_flashed_messages() %}
-        <div class="d-flex justify-content-center" >
+        <div class="d-flex justify-content-center">
             <div class="my-5">
                 {% if messages %}
                     <div class="card-body">
@@ -45,26 +49,25 @@
         </div>
     {% endwith %}
 
-
-
-
-
-    {% if exists == False and lectures_exist == True%}
+{# Displaying data only if it exists#}
+    {% if exists == False and lectures_exist == True %}
 
         <div class="my-5">
 
-        <div class="d-flex justify-content-center" >
+{# A card used to display a form that allows lecturers to upload a file to the system of add students one by one. #}
+
+        <div class="d-flex justify-content-center">
             <div class="card">
                 <div class="card-body">
 
                     A class list does not exist, please upload one or add students individually.
 
-                    <form action="{{ url_for('upload_file') }}" method="post" enctype=multipart/form-data >
-                        Select a file: <input type="file"  name="file"><br><br>
-                        <input class = "btn btn-primary" type="submit" value="Upload">
+                    <form action="{{ url_for('upload_file') }}" method="post" enctype=multipart/form-data>
+                        Select a file: <input type="file" name="file"><br><br>
+                        <input class="btn btn-primary" type="submit" value="Upload">
                     </form>
 
-                    <p> </p>
+                    <p></p>
                     <form name="myform" action="{{ url_for('class_list_management') }}" method="post">
                         <label for="f_name"> First Name:</label>
                         <input type="text" name="f_name" required>
@@ -73,7 +76,7 @@
                         <label for="matric_num"> Matric #:</label>
                         <input type="text" name="matric_num" required>
 
-                        <input type="submit" class="btn btn-primary" Add >
+                        <input type="submit" class="btn btn-primary" Add>
 
                     </form>
 
@@ -82,19 +85,22 @@
         </div>
     {% endif %}
 
-{% if exists == True and lectures_exist == True%}
+{% if exists == True and lectures_exist == True %}
+{# A second version of the card aboveused to display a form
+that allows lecturers to upload a file to the system of add students one by one.
+This card is used if the class list already exists. #}
 
-    <p> </p>
-    <div class="d-flex justify-content-center" >
+    <p></p>
+    <div class="d-flex justify-content-center">
         <div class="card">
             <div class="card-body">
 
-                <form action="{{ url_for('upload_file') }}" method="post" enctype=multipart/form-data >
-                    Select a file: <input type="file"  name="file"><br><br>
-                    <input class = "btn btn-primary" type="submit" value="Upload">
+                <form action="{{ url_for('upload_file') }}" method="post" enctype=multipart/form-data>
+                    Select a file: <input type="file" name="file"><br><br>
+                    <input class="btn btn-primary" type="submit" value="Upload">
                 </form>
-                <p> </p>
-                <form name="myform" action="{{ url_for('class_list_management') }}" method="post" >
+                <p></p>
+                <form name="myform" action="{{ url_for('class_list_management') }}" method="post">
 
                     <label for="f_name"> First Name:</label>
                     <input type="text" name="f_name" required>
@@ -103,7 +109,7 @@
                     <label for="matric_num"> Matric #:</label>
                     <input type="text" name="matric_num" required>
 
-                    <input type="submit" class="btn btn-primary" Add >
+                    <input type="submit" class="btn btn-primary" Add>
 
                 </form>
             </div>
@@ -116,19 +122,22 @@
     </div>
 
     </div>
-
+{# a from that allows lecturers to search their class lists for students.#}
     <div class="flex-container">
         <form action="{{ url_for('search_class_list') }}" method="post">
             <label for="keyword"> Search:</label>
             <input type="text" name="keyword" required>
-            <button name="keyword" type="submit" class="btn btn-primary">Go </button>
+            <button name="keyword" type="submit" class="btn btn-primary">Go</button>
         </form>
 
         <form action="{{ url_for('class_list_management') }}" method="get">
-            <button name="module_id" type="submit" class="btn btn-primary mx-1" value="{{ session['moduleinfo']['ModuleID'] }}" >Show All</button>
+            <button name="module_id" type="submit" class="btn btn-primary mx-1"
+                    value="{{ session['moduleinfo']['ModuleID'] }}">Show All
+            </button>
         </form>
     </div>
 
+{# A dynamic list that displays each student in the class list. #}
     <div class="container-fluid my-3">
 
         <ul class="list-group mx-5">
@@ -136,10 +145,13 @@
             {% for item in class_list %}
 
                 <li class="list-group">
-                    <h5> </h5>
+                    <h5></h5>
                     <form action="{{ url_for('student_stats') }}" method="get">
 
-                        <button name="Student" type="submit" value="{{ item['MatricNum'] }}" class="list-group-item list-group-item-action"> {{ item['FirstName'] }} {{ item['LastName'] }} - {{ item['Attendance'] }}% Attendance </button>
+                        <button name="Student" type="submit" value="{{ item['MatricNum'] }}"
+                                class="list-group-item list-group-item-action"> {{ item['FirstName'] }} {{ item['LastName'] }}
+                            - {{ item['Attendance'] }}% Attendance
+                        </button>
                     </form>
                 </li>
 
@@ -152,20 +164,22 @@
 
 
 {% endif %}
+{# Only displayed if no lectures exist for the class so far.
+redirects lectrures to create a class list before trying to manage their class list.#}
+    {% if lectures_exist == False %}
 
-{% if lectures_exist == False %}
+        <div class="card mx-5">
+            <img class="card-img-top" src="/static/qmb.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Not So Fast!</h5>
+                <p class="card-text">It Seems like you don't have any lectures scheduled yet, please schedule some
+                    before handling your class list.</p>
+                <a href="{{ url_for('create_lecture') }}" class="btn btn-primary">Go</a>
+            </div>
+        </div>
 
-<div class="card mx-5" >
-  <img class="card-img-top" src="/static/qmb.jpg" alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">Not So Fast!</h5>
-    <p class="card-text">It Seems like you don't have any lectures scheduled yet, please schedule some before handling your class list.</p>
-    <a href="{{ url_for('createlecture') }}" class="btn btn-primary">Go</a>
-  </div>
-</div>
 
-
-{% endif %}
+    {% endif %}
 
 {% endblock content %}
 

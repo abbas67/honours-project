@@ -1,41 +1,41 @@
 {% extends "layout.html" %}
 
 {% block head %}
+    {#  Head section of webpage  #}
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturesignin.css') }}">
 
-            <div class="topnav" >
-            <div class="active">
-                <a href="{{ url_for('index') }}">
-                    <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
-                </a>
-                <ul id="nav">
-                    <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
-                    <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
+    <div class="topnav" >
+        <div class="active">
+            <a href="{{ url_for('index') }}">
+                <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
+            </a>
+            <ul id="nav">
+                <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
+                <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
 
 
-                </ul>
+            </ul>
 
-            </div>
         </div>
+    </div>
 
     <title>Login Page</title>
 
-
-	<!--Bootsrap 4 CDN-->
+    <!--Bootsrap 4 CDN-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!--Fontawesome CDN-->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <title>Home</title>
 {% endblock head %}
 
 
 {% block content %}
-
+    {# form used for lecturers to sign into their accounts. #}
     <div class="container">
-        <form action="{{ url_for('lecturersignin') }}" method="post">
+        <form action="{{ url_for('lecturer_sign_in') }}" method="post">
             <div class="d-flex justify-content-center h-100">
                 <div class="card"  >
                     <div class="card-header" style="color: ghostwhite;background-color:#4365E2">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            </form>
+        </form>
     </div>
 
 
@@ -86,7 +86,7 @@
 {% endblock content %}
 
 {% block scripts %}
-{{ super() }}
+    {{ super() }}
 
 {% endblock scripts %}
 

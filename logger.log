@@ -1,15 +1,59 @@
-2020-03-11 14:41:INFO: Successfully Signed Into Lecturer Account
-2020-03-11 14:41:INFO: Skipping first semester classes
-2020-03-11 14:42:INFO: An email has been sent to Cordelia Storment Regarding worrying attendance.
-2020-03-11 14:43:INFO: Skipping first semester classes
-2020-03-11 14:44:INFO: Retrieving module lectures from AC87154 for the current week...
-2020-03-11 14:45:INFO: Retrieving module lectures from AC87154 for the current week...
-2020-03-11 14:46:INFO: Attempting to add Abbas Lawal to class list: AC87154
-2020-03-11 14:46:INFO: Error, this student does not seem to exist.
-2020-03-11 14:47:INFO: attempting to remove 169196204 from class list...
-2020-03-11 14:47:INFO: Brett Mccullan Removed From AC87154
-2020-03-11 14:48:INFO: Skipping first semester classes
-2020-03-11 14:48:INFO: Retrieving module lectures from AC20914 for the current week...
-2020-03-11 14:49:INFO: Lecture set: Wednesday from week 13 to 24 at QMB 3 at 2020-04-08 14:00:00 successfully created.
-2020-03-11 14:49:INFO: Skipping first semester classes
-2020-03-11 14:50:INFO: Retrieving module lectures from AC20914 for the current week...
+2020-04-05 17:40:INFO: Successfully Signed Into Lecturer Account
+2020-04-05 17:40:INFO: Skipping first semester classes
+2020-04-05 17:41:INFO: Abbas Lawal Has less than 50% attendance for AC47186
+2020-04-05 17:41:INFO: Abbas Lawal Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Cordelia Storment Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Mollie Mcdoniel Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Brett Mccullan Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Teddy Pedrozo Has more than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Teddy Pedrozo Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Tasia Andreason Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Hubert Walthall Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Arthur Farrow Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Vilma Berlanga Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Billye Miro Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Glenna Slayton Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Mitzie Hudnall Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Bernardine Rodefer Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Staci Schmaltz Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Nichelle Meteer Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Janine Rhoden Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Ettie Hoopengardner Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Eden Jayson Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Lynelle Auber Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Merissa Tomblin Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Golda Kaniecki Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Catarina Gleich Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Virgie Kiel Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Jolene Ostolaza Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Keneth Borgman Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Rikki Nayar Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Elke Sengbusch Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Hoa Sarao Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Trinidad Mcrae Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Mari Lueckenbach Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Selma Husser Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Antione Onofrio Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Luisa Jurney Has less than 50% attendance for AC47186
+2020-04-05 17:41:INFO: Luisa Jurney Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Clorinda Heimann Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Dick Wenzinger Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Ahmed Angalich Has more than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Ahmed Angalich Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Iluminada Ohms Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Joanna Leinenbach Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Caprice Suell Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Stephane Myricks Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Quentin Swayze Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Annmarie Castros Has less than 50% attendance for AC47186
+2020-04-05 17:41:INFO: Annmarie Castros Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Shonda Greenbush Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Cecil Lapage Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Jeanice Claucherty Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Josphine Villanueva Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Daniel Perruzza Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Cassi Wildfong Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Britt Galam Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Adell Lipkin Has more than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Adell Lipkin Has less than 80% attendance for AC47186
+2020-04-05 17:41:INFO: Retrieving module lectures from AC47186 for the current week...

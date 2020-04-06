@@ -1,3 +1,13 @@
+
+"""
+Abbas Lawal
+AC40001 Honours Project
+BSc (Hons) Computing Science
+University of Dundee 2019/20
+Supervisor: Dr Craig Ramsay
+All CODE IS ORIGINAL UNLESS STATED SO.
+"""
+# Necessary library imports
 import binascii
 import csv
 import datetime
@@ -6,7 +16,6 @@ import hashlib
 import logging
 import os
 import random
-import re
 import string
 import collections
 from collections import Counter
@@ -18,16 +27,21 @@ from werkzeug.utils import secure_filename
 import ssl
 import smtplib
 
+# Necessary set up so that the application can run properly and be deployed etc.
 app = Flask(__name__)
-
 app.secret_key = "supersecretkey"
+# Setting
 UPLOAD_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/Uploads"
 ALLOWED_EXTENSIONS = {'csv'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+# Wiping the log file every time the application is started.
 if path.exists('logger.log'):
     os.remove('logger.log')
     print("Log file rotated.")
+
+# Sourced and modified from stack overflow.
+# https://stackoverflow.com/questions/8467978/python-want-logging-with-log-rotation-and-compression/41029671
 
 logger = logging.getLogger('logger')
 logger.setLevel(logging.DEBUG)
@@ -45,28 +59,21 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
-# drivers = [item for item in pyodbc.drivers()]
-# driver = drivers[-1]
-# server = 'tcp:abbaslawal.database.windows.net,1433'
-# database = 'abbaslawal-db'
-# uid = 'alawal98'
-# pwd = 'Hazard1998'
-#
-# params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
-# conn = pyodbc.connect(params)
 # Dynamically selecting a driver based on the machine.
 drivers = [item for item in pyodbc.drivers()]
 driver = drivers[-1]
+# Connection details for accessing Zeno database.
+# Github repository is private so cannot be easily accessed :)
 server = 'Zeno.computing.dundee.ac.uk'
 database = 'abbaslawaldb'
 uid = 'abbaslawal'
 pwd = 'abc2019ABL123..'
-
+# Connecting to the database with connection details and creating a cursor.
 params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
 conn = pyodbc.connect(params)
 cursor = conn.cursor()
 
-
+# Used to make sure lecturers must be signed in before accessing certain pages for security.
 @app.before_request
 def before_request():
 
@@ -79,18 +86,24 @@ def before_request():
 @app.route("/")
 @app.route("/Home")
 def index():
+    """ endpoint for displaying lecturer homepage, no POST requests needed. """
+
+    # returning a response to the get request with a web page.
     return render_template('homepage.html')
 
 
 @app.route("/lecturer_home")
 def lecturer_home():
     """ endpoint for lecturer homepage, no POST requests needed. """
-    if g.user:
-        # getting required lecturer info.
-        set_week()
-        lectures = get_next_lecture(get_week())
-        messages = attendance_flagging()
 
+    if g.user:
+        # getting the current week.
+        set_week()
+        # getting the upcoming lectures for the current week.
+        lectures = get_next_lecture(get_week())
+        # Getting notifications regarding individual student attendance.
+        messages = attendance_flagging()
+        # If there are no notifications then this is conveyed to the signed in lecturer.
         if len(messages) == 0:
 
             show_messages = False
@@ -98,16 +111,18 @@ def lecturer_home():
         else:
 
             show_messages = True
-        # Returning a response to the get request.
+        # Returning a response to the get request. Dynamic for every lecturer.
         return render_template('lecturer_home.html',
-                               next_lecture=lectures, timetabled_days=check_timetabled_days(lectures), lectures=lectures, show_messages=show_messages, student_messages=messages)
+                               next_lecture=lectures, timetabled_days=check_timetabled_days(lectures),
+                               lectures=lectures, show_messages=show_messages, student_messages=messages)
 
-    return redirect(url_for('lecturersignin'))
+    # returning user to homepage if they are not signed in.
+    return redirect(url_for('lecturer_sign_in'))
 
 
 def attendance_flagging():
 
-    """ method used for flagging students with less than 50% attendance. """
+    """ function used for flagging students with less than 50% attendance. """
     messages = []
 
     for item in session['supervised_modules']:
@@ -125,27 +140,31 @@ def attendance_flagging():
         students = retrieve_class_list(item['ModuleID'])
 
         for student in students:
-            # checking if
+            # checking the state of each students attendance and flagging if necessary.
             if int(float(student['Attendance'])) < int(float(50)):
 
-                logger.info(student['FirstName'] + " " + student['LastName'] + " Has less than 50% attendance for " + item['ModuleID'])
+                logger.info(student['FirstName'] + " " + student['LastName'] +
+                            " Has less than 50% attendance for " + item['ModuleID'])
 
-                messages.append(tuple((student['FirstName'] + " " + student['LastName'] + " Has less than 50% attendance for " + item['ModuleID'], student['MatricNum'], item['ModuleID'])))
+                messages.append(tuple((student['FirstName'] + " " + student['LastName'] +
+                                       " Has less than 50% attendance for " + item['ModuleID'],
+                                       student['MatricNum'], item['ModuleID'])))
 
             if int(float(student['Attendance'])) >= int(float(80)):
 
-                logger.info(student['FirstName'] + " " + student['LastName'] + " Has more than 80% attendance for " + item['ModuleID'])
+                logger.info(student['FirstName'] + " " + student['LastName'] + " Has more than 80% attendance for " +
+                            item['ModuleID'])
 
             if int(float(student['Attendance'])) == int(float(100)):
 
-                logger.info(student['FirstName'] + " " + student['LastName'] + " Has 100% attendance for " + item['ModuleID'])
+                logger.info(student['FirstName'] + " " + student['LastName'] +
+                            " Has 100% attendance for " + item['ModuleID'])
 
             else:
 
                 logger.info(
-                    student['FirstName'] + " " + student['LastName'] + " Has less than 80% attendance for " + item['ModuleID'])
-
-
+                    student['FirstName'] + " " + student['LastName'] + " Has less than 80% attendance for "
+                    + item['ModuleID'])
 
     # returning info on any students that have been flagged.
     return messages
@@ -154,65 +173,85 @@ def attendance_flagging():
 @app.route("/redirect_to_student", methods=['POST'])
 def redirect_to_student():
 
+    """ Used as an intermediate to redirect lecturers from notifications to student stat pages."""
+    # Setting a required session variable for the student stats page.
     session['moduleid'] = request.form['module_id']
-
+    # Redirecting the lecturer to the students stat page.
     return redirect(url_for('student_stats', Student=request.form['student'], from_home=True))
 
 
 @app.route("/send_email", methods=['POST'])
 def send_email():
 
-    # https://realpython.com/python-send-email/
+    """ function/endpoint used for sending students automated updates about their attendance. """
+
+    # code sourced and modified from https://realpython.com/python-send-email/
     student = get_student_info(request.form['student'])
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
-    sender_email = "abbas.uod.honours@gmail.com"  # Enter your address
-
+    sender_email = "abbas.uod.honours@gmail.com"  # sender email address.
+    # If the student only exists for demonstration purposes then the email is sent to a spam page.
     if student['Email'] == 'abc123@dundee.ac.uk':
         receiver_email = 'spam.dundee.testing@gmail.com'
-
+    # Password for email account, security is irrelevant as all email accounts in the function are not important.
     password = 'thisismypassword123'
-
+    # Finding the students information using an SQL query.
     query = 'SELECT * FROM {} WHERE MatricNum={}'.format(session['moduleid'], student['MatricNum'])
     result = pd.read_sql(query, conn)
     attendance = result.to_dict('records')[0]['Attendance']
 
+    # Finding the appropriate message to send to the student based on their attendance.
+    # Note each flash is used to send a message to the UI...
     if 80 > attendance > 50:
         message = 'Subject:\n Hi there ' \
                   '\n This is a message to let you know that your attendance is below the university policy for {}.' \
                   ' \n Please contact the lecturer if you have any issues.'.format(session['moduleid'])
 
-        logger.info("An email has been sent to " + student['FirstName'] + " " + student['LastName'] + " Regarding poor attendance.")
-        flash("An email has been sent to " + student['FirstName'] + " " + student['LastName'] + " Regarding poor attendance.")
+        logger.info("An email has been sent to " + student['FirstName'] + " " + student['LastName']
+                    + " Regarding poor attendance.")
+        flash("An email has been sent to " + student['FirstName'] + " " + student['LastName']
+              + " Regarding poor attendance.")
 
     if attendance < 50:
         message = 'Subject:\n Hi there ' \
                   '\n This is a message to let you know that your attendance is extremely low for {}.' \
                   ' \n Please contact the lecturer if you have any issues.'.format(session['moduleid'])
 
-        logger.info("An email has been sent to " + student['FirstName'] + " " + student['LastName'] + " Regarding worrying attendance.")
-        flash("An email has been sent to " + student['FirstName'] + " " + student['LastName'] + " Regarding worrying attendance.")
+        logger.info("An email has been sent to " + student['FirstName'] + " " + student['LastName'] +
+                    " Regarding worrying attendance.")
+        flash("An email has been sent to " + student['FirstName'] + " " + student['LastName'] +
+              " Regarding worrying attendance.")
     if attendance >= 80:
         message = 'Subject:\n Hi there ' \
-                  '\n This is a message to let you know that your attendance is whithin the university policy for {}!.' \
+                  '\n Just a message to let you know that your attendance is whithin the university policy for {}!.' \
                   ' \n Please contact the lecturer if you have any issues/questions.'.format(session['moduleid'])
 
-        logger.info("An email has been sent to " + student['FirstName'] + " " + student['LastName'] + " Regarding good attendance.")
-        flash("An email has been sent to " + student['FirstName'] + " " + student['LastName'] + " Regarding good attendance.")
+        logger.info("An email has been sent to " + student['FirstName'] + " " + student['LastName'] +
+                    " Regarding good attendance.")
+        flash("An email has been sent to " + student['FirstName'] + " " + student['LastName'] +
+              " Regarding good attendance.")
 
+    # Sending the email...
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
-
+    # redirecting to the class list management page.
     return redirect(url_for('student_stats', Student=request.form['student'], from_home=False))
 
 
-@app.route("/lecturersignin", methods=['POST', 'GET'])
-def lecturersignin():
+@app.route("/lecturer_sign_in", methods=['POST', 'GET'])
+def lecturer_sign_in():
 
+    """ endpoint used to allow lecturers to sign into their accounts. """
+    # Dealing with the POST request when lecturers attempt to sign in.
     if request.method == 'POST':
+
+        # Signing out any currently signed in lecturers.
         session.pop('user', None)
+
+        # Recieving the data from the POST request and checking to see if the account exists.
+
         lecturerid = request.form['lecturerid']
         password = request.form['Password']
         query = "SELECT * FROM Lecturers WHERE LecturerID=?"
@@ -223,11 +262,13 @@ def lecturersignin():
             error = "Account does not exist"
             logger.info("Account does not exist")
 
-            return render_template('lecturersignin.html', error=error)
+            # returning the web page with an error if the account does not exist.
+            return render_template('lecturer_sign_in.html', error=error)
 
-        actualpass = lecturerinfo[0]['Password']
-        if checkpass(actualpass, password) is True:
-
+        # Now checking if the password is correct...
+        actual_pass = lecturerinfo[0]['Password']
+        if checkpass(actual_pass, password) is True:
+            # resetting any possible previous session data...
             session['user'] = lecturerid
             session['moduleinfo'] = []
             session['lectureinfo'] = []
@@ -240,7 +281,8 @@ def lecturersignin():
 
                 if x['LecturerID'].strip() == session['user']:
                     session['moduleinfo'].append(x['ModuleID'])
-
+            # Signing the lecturer into their account and redirecting them to their homepage.
+            updatemanagedmodules()
             logger.info("Successfully Signed Into Lecturer Account")
             return redirect(url_for('lecturer_home'))
 
@@ -248,24 +290,30 @@ def lecturersignin():
 
             error = "LecturerID or password is incorrect"
             logger.info("LecturerID or password is incorrect")
+            # informing the lecturer that their password or ID is incorrect and that they should try again.
+            return render_template('lecturer_sign_in.html', error=error)
 
-            return render_template('lecturersignin.html', error=error)
-
+    # Handling GET requests...
     else:
 
         if g.user:
+            # return the lecturer to their homepage if they're already signed in.
+            updatemanagedmodules()
             return redirect(url_for('lecturer_home'))
-
-        return render_template('lecturersignin.html')
+        # returning a reponse to the GET request with the lecturer sign in page.
+        return render_template('lecturer_sign_in.html')
 
 
 @app.route("/signup", methods=['POST', 'GET'])
 def signup():
 
+    """ endpoint used to allow lecturers to sign into their accounts. """
+
+    # Handling POST requests involving users trying to sign in.
     if request.method == 'POST':
 
         notification = None
-
+        # Recieving data from the POST Request.
         idnum = request.form['idnum']
         password = hash_password(request.form['password'])
         fname = request.form['fname']
@@ -273,8 +321,10 @@ def signup():
         email = request.form['email']
         type = request.form['lecturercheck']
 
+        # Handling lecturers trying to sign up.
         if type == 'Lecturer':
 
+            # Checking to see if the account already exists.
             query = "SELECT * FROM Lecturers WHERE LecturerID=?"
             result = pd.read_sql(query, conn, params=(idnum,))
             resultdict = result.to_dict('records')
@@ -282,22 +332,26 @@ def signup():
             if len(resultdict) > 0:
                 notification = "The ID already exists"
                 logger.info("The ID already exists, Account Creation failed")
-
+                # Throwing back an error if the accoiunt already exists and prompting users to try again.
                 return render_template('signup.html', notification=notification)
 
+            # creating the account if all requirements are satisfied...
             query = "INSERT INTO Lecturers (LecturerID, FirstName, LastName, Password) VALUES (?, ?, ? ,?);"
             cursor.execute(query, (idnum, fname, lname, password))
             conn.commit()
             notification = "account successfully created"
             logger.info("Lecturer account successfully created")
 
+        # Handing students trying to sign up.
         else:
-
+            # making sure the matriculation number meets all required requiremnts i.e. length.
             if len(idnum) != 9:
                 notification = "Please enter a valid matriculation number"
                 logger.info("Invalid Matriculation Number")
+                # Throwing back an error if the matriculation number is not exactly 9 digits.
                 return render_template('signup.html', notification=notification)
 
+            # Checking to see if the account already exists.
             query = "SELECT * FROM Students WHERE MatricNum=?"
             result = pd.read_sql(query, conn, params=(idnum,))
             resultdict = result.to_dict('records')
@@ -305,14 +359,15 @@ def signup():
             if len(resultdict) > 0:
                 notification = "The ID already exists"
                 logger.info("Error, ID already exists")
+                # Throwing back an error if the accoiunt already exists and prompting users to try again.
                 return render_template('signup.html', notification=notification)
 
+            # creating the account if all requirements are satisfied...
             query = "INSERT INTO Students (MatricNum, FirstName, LastName, Password, Email, ModuleString) VALUES (?, ?, ? ,?, ?, ?);"
             cursor.execute(query, (idnum, fname, lname, password,email,''))
             conn.commit()
 
             logger.info("Student uploaded to database")
-
             notification = "account successfully created"
             logger.info("Student account successfully created")
 
@@ -324,18 +379,23 @@ def signup():
 @app.route("/select_module_lecture", methods=['GET', 'POST'])
 def select_module_lecture():
 
-    if request.method == 'POST':
+    """ intermediate endpoint used to allow lecturers to select a module lecture they wish to dislpay to a class."""
 
+    if request.method == 'POST':
+        # setting required session variables before redirecting.
         session['selected_module_lecture'] = request.form['module']
+        # redirecting back to create lecture page.
+        return render_template('create_lecture.html', modules=session['supervised_modules'], moduleselected=True)
 
-        return render_template('createlecture.html', modules=session['supervised_modules'], moduleselected=True)
 
+@app.route("/create_lecture", methods=['GET', 'POST'])
+def create_lecture():
 
-@app.route("/createlecture", methods=['GET', 'POST'])
-def createlecture():
-
+    """ Endpoint/Page used to allow lecturers to create lecture sets for their modules."""
+    # Handing post requests...
     if request.method == 'POST':
 
+        # Retrieving and sanitising POST request data if required...
         time = request.form['time']
         duration = request.form['duration']
         name = request.form['name']
@@ -347,41 +407,45 @@ def createlecture():
         last = request.form['last']
         last = int(last)
 
+        # Creating a lecture in the database for each lecture requested by the lecturer...
         for x in range(first, last + 1):
-
+            # converting the hour variable received from the POST request into a date/time object.
             hour = convert_time(time, weekday, x)
 
-            query = "INSERT INTO Lectures (LectureID, ModuleID, LectureName, LectureLocation, LectureDuration, Week, Day, Time) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
-
+            query = "INSERT INTO Lectures (LectureID, ModuleID, LectureName, LectureLocation, " \
+                    "LectureDuration, Week, Day, Time) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
+            # executing and committing query.
             cursor.execute(query, (generatenewcode(), module, name, location, duration, x, weekday, hour))
             conn.commit()
 
-        logger.info("Lecture set: " + weekday + " from week " + str(first) + " to " + str(last) + " at " + location + " at " + str(hour) +" successfully created.")
-
+        logger.info("Lecture set: " + weekday + " from week " + str(first) + " to " + str(last) + " at " +
+                    location + " at " + str(hour) + " successfully created.")
         updatemanagedmodules()
-
-        # update_soc_students_lectures(module)
+        # Sending message to UI for lecturer...
         flash("Lecture successfully timetabled.")
+        # returning response to POST request in form of a web page...
+        return redirect(url_for('create_lecture'))
 
-        return redirect(url_for('createlecture'))
+    # Handling get requests.
 
     else:
-
+        # making sure that the web page can only be accessed if a lecturer is logged in,
+        # otherwise redirecting to a sign in page.
         if g.user:
 
-            return render_template('createlecture.html', modules=session['supervised_modules'], moduleselected=False)
+            return render_template('create_lecture.html', modules=session['supervised_modules'], moduleselected=False)
 
-        return redirect(url_for('lecturersignin'))
+        return redirect(url_for('lecturer_sign_in'))
 
 
 def convert_time(hour, day, week):
 
+    """ Function used to convert time in string format to datetime obejects."""
+
     x = hour
-
-
     actual_day = 0
     updated_week = None
-
+    # Keeping track of days using corresponding numbers...
     if day == 'Monday':
 
         actual_day = 0
@@ -402,6 +466,7 @@ def convert_time(hour, day, week):
 
         actual_day = 4
 
+    # Converting the time and day to a datetime object...
     updated_week = return_week(week)
 
     lecture_time = str(hour)
@@ -409,41 +474,47 @@ def convert_time(hour, day, week):
     updated_week = updated_week + timedelta(actual_day)
 
     updated_week = updated_week + timedelta(hours=int((lecture_time[:2])))
+    # returning the new object...
 
     return updated_week
 
 
 def return_week(week):
 
-    dict_of_weeks = {}
+    """ Function used to return a dictionary of weeks corresponding to the Dundee University Semester. """
 
+    dict_of_weeks = {}
+    # adding key value pairs for the first semester.
     dict_of_weeks[1] = datetime.datetime.strptime("16-09-2019", "%d-%m-%Y")
 
     for i in range(2, 13):
         dict_of_weeks[i] = dict_of_weeks[i - 1] + datetime.timedelta(days=7)
-
+    # adding key value pairs for the second semester.
     dict_of_weeks[13] = datetime.datetime.strptime("20-01-2020", "%d-%m-%Y")
     for x in range(14, 25):
         dict_of_weeks[x] = dict_of_weeks[x - 1] + datetime.timedelta(days=7)
-
+    # returning the dictinoary of weeks.
     return dict_of_weeks[week]
 
 
 def get_graph_info(module_id):
 
+    """ Function used to return graph data for a line graph. """
+
     graph_data = []
-
+    # getting every lecture for the module.
     lectures = get_lectures(module_id)
-
+    # getting the real current week.
     week = int(get_week())
 
+    # checking which semester it is and setting the relevant label.
     if week < 13:
 
         session['labels'] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         for x in range(0, 12):
 
             pass
-
+        # returning the graph data...
         return graph_data
 
     if week >= 13:
@@ -452,20 +523,25 @@ def get_graph_info(module_id):
         for x in range(13, 25):
 
             pass
-
+        # returning the graph data...
         return graph_data
 
 
 def get_lecture_attendance(lecture_id, class_list, module_id):
 
+    """ Function used to caluclate the attendance for a lecture. """
+
     students_present = 0
+
+    # Checking to see if the module string for each student indicates that they were present.
 
     lecture_id = lecture_id + '-1'
     for student in class_list:
-
+        # if the student is present add 1 to the present count...
         if lecture_id in student['ModuleString']:
 
             students_present = students_present + 1
+    # simple calculation to find percentage of students that were present...
 
     return int((students_present / len(class_list)) * 100)
 
@@ -508,32 +584,40 @@ def update_office_docs():
             for absentee in lecture['absentees']:
                 file.write('\n' + absentee['FirstName'] + " " + absentee['LastName'] + " " + str(absentee['MatricNum']) + " - Overall Attendance: " + str(absentee['Attendance']) + "%" )
             file.write('\n')
-
+    # redirecting to the module options page.
     return redirect(url_for('module_options', module=session['moduleid']))
 
 
 @app.route("/module_options", methods=['GET', 'POST'])
 def module_options():
 
+    """ Endpoint used to manage module details such as class list etc."""
+
+    # Handling post requests used to delete individual lectures.
     if request.method == 'POST':
+        # retrieving data from the post request...
         lecture_id = request.form['Lecture']
         logger.info("Lecture deleted")
+        # Deleting the lecture and reflecting changes this has caused...
         delete_lecture(lecture_id)
         getmoduleinfo(session['moduleid'])
         updatemanagedmodules()
         modulelectures = get_lectures(session['moduleid'])
-
+        # reloading the page...
         return redirect(url_for('module_options', module=session['moduleid']))
+
+    # Handling Get requests...
     else:
-
+        # checking if the user is signed in...
         if g.user:
-
+            # retrieving data from the get request.
             module_id = request.args['module']
             session['moduleid'] = module_id
             getmoduleinfo(session['moduleid'])
             updatemanagedmodules()
             modulelectures = []
 
+            # making sure that the right semester or week is displayed in the timetable...
             if 'sorted_lectures' in request.args:
 
                 if request.args['sorted_lectures'] == 'Wrong_Semester':
@@ -543,7 +627,7 @@ def module_options():
                 else:
 
                     lectures = request.args.getlist('sorted_lectures')
-
+                    # sanitising datetime data so that it is displayed nicely.
                     for item in lectures:
 
                         item = item.replace("\'", "\"")
@@ -554,14 +638,14 @@ def module_options():
             else:
 
                 lectures = get_lectures(module_id)
-
+                # making sure that only the current weeks lectures are shown.
                 modulelectures = sort_lectures(get_week(), lectures, "Weekly")
 
             logger.info("Retrieving module lectures from " + str(module_id) + " for the current week...")
             session['graph_datasets'] = []
             session['labels'] = []
             session['lecture_details'] = []
-
+            # sorting the graph data...
             if int(get_week()) >= 13:
 
                 for item in modulelectures:
@@ -571,14 +655,14 @@ def module_options():
                         item['Week'] = item['Week'] - 12
 
                 session['labels'] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
+            # updating the modules attendance.
             update_module_attendance(module_id, retrieve_class_list(module_id))
 
+            # checking to see if the graph should be displayed at all i.e. if no data it will not be displayed.
             if retrieve_class_list(module_id) != [] and get_lectures(module_id) != []:
 
                 overall_attendance = calculate_overall_attendance(module_id)
                 get_graph_data(module_id)
-
 
             else:
 
@@ -592,49 +676,55 @@ def module_options():
             else:
 
                 show_graph = True
-
+            # returning a response to the get request in the form of dynamic web page
             return render_template('module_options.html', moduleid=module_id, lectures=modulelectures,
-                                   timetabled_days=check_timetabled_days(modulelectures), attendance=overall_attendance, show_graph=show_graph)
-
-        return redirect(url_for('lecturersignin'))
+                                   timetabled_days=check_timetabled_days(modulelectures),
+                                   attendance=overall_attendance, show_graph=show_graph)
+        # if the user is not signed in, they are automatically redirected to the sign in page.
+        return redirect(url_for('lecturer_sign_in'))
 
 
 def calculate_overall_attendance(module_id):
 
+    """ Function used to calculate the overall average attendance of a module. """
 
     attendance = 0
     attendance_list = []
     student_sum = 0
-
+    # retrieving the data of every student in the class list.
     class_list = retrieve_class_list(module_id)
-
+    # getting a sum each students attendance.
     for student in class_list:
 
         student_sum = student['Attendance'] + student_sum
-
-
+    # finding the attendance...
     attendance = int(student_sum/len(class_list))
-
+    # returning the attendance.
     return attendance
 
 
 def get_graph_data(module_id):
 
+    """ Function used to  get and sort line graph data."""
+
+    # partially sourced from stack overflow...
     # https://stackoverflow.com/questions/4091680/splitting-a-list-of-dictionaries-into-several-lists-of-dictionaries
 
+    # getting all the lectures from the module.
     lectures = get_lectures(module_id)
-
+    # retrieving the data of every student in the class list.
     class_list = retrieve_class_list(module_id)
 
     session['graph_datasets'] = []
 
     result = collections.defaultdict(list)
-
+    # sorting the lectures by day.
     for d in lectures:
         result[d['Day']].append(d)
 
     result_list = list(result.values())
 
+    # getting the attendance for each day the module has lectures and adding them in them to a dictionary.
     for item in result_list:
 
         temp_dict = {}
@@ -651,8 +741,13 @@ def get_graph_data(module_id):
 @app.route("/sort_timetable", methods=['POST'])
 def sort_timetable():
 
+    """ Endpoint used to return sorted lectures into weeks or semesters.
+     Only takes POST REQUESTS."""
+
+    # Checking the desired type of sorting.
     if "semester1" in request.form:
 
+        # sorting the lectures to retrieve the first semester lectures.
         getmoduleinfo(session['moduleid'])
         updatemanagedmodules()
         modulelectures = sort_lectures(12, get_lectures(session['moduleid']), "Semester1")
@@ -662,10 +757,13 @@ def sort_timetable():
 
             modulelectures = "Wrong_Semester"
 
+        # redirecting to the module options page...
         return redirect(url_for('module_options', module=session['moduleid'], sorted_lectures=modulelectures))
 
+    # Checking the desired type of sorting.
     if "semester2" in request.form:
 
+        # sorting the lectures to retrieve the second semester lectures.
         getmoduleinfo(session['moduleid'])
         updatemanagedmodules()
         modulelectures = sort_lectures(13, get_lectures(session['moduleid']), "Semester2")
@@ -675,22 +773,29 @@ def sort_timetable():
 
             modulelectures = "Wrong_Semester"
 
+        # redirecting to the module options page...
         return redirect(url_for('module_options', module=session['moduleid'], sorted_lectures=modulelectures))
 
+    # Checking the desired type of sorting.
     if "currentweek" in request.form:
 
+        # sorting the lectures to retrieve the current weeks lectures.
         getmoduleinfo(session['moduleid'])
         updatemanagedmodules()
         modulelectures = sort_lectures(get_week(), get_lectures(session['moduleid']), "Weekly")
         logger.info("Sorting lectures in " + str(session['moduleid']) + " by current week")
 
+        # redirecting to the module options page...
         return redirect(url_for('module_options', module=session['moduleid'], sorted_lectures=modulelectures))
 
 
 def sort_lectures(week, lectures, type):
 
+    """ Function used to sort lecture sets."""
+
     filtered_lectures = []
 
+    # sorting lectures by week.
     if type == "Weekly":
 
         week = int(week)
@@ -701,6 +806,7 @@ def sort_lectures(week, lectures, type):
 
                 filtered_lectures.append(item)
 
+    # sorting lectures by semester 1.
     if type == "Semester1":
 
         week = int(week)
@@ -710,6 +816,7 @@ def sort_lectures(week, lectures, type):
             if int(item['Week']) <= week:
                 filtered_lectures.append(item)
 
+    # sorting lectures by semester 2.
     if type == "Semester2":
 
         week = int(week)
@@ -719,11 +826,15 @@ def sort_lectures(week, lectures, type):
             if item['Week'] >= week:
                 filtered_lectures.append(item)
 
+    # returning the sorted/filtered lectures.
     return filtered_lectures
 
 
 def delete_lecture(lecture_id):
 
+    """ Function used to delete a single lecture"""
+
+    # deleting the lecture.
     cursor.execute("DELETE FROM Lectures WHERE LectureID=?", (lecture_id,))
     cursor.commit()
 
@@ -731,17 +842,24 @@ def delete_lecture(lecture_id):
 @app.route("/student_stats", methods=['GET', 'POST'])
 def student_stats():
 
-    if request.method == 'POST':
+    """ Endpoint/Function used to handle individual student statistics page. """
 
+    # handling post requests.
+    if request.method == 'POST':
+        # no post requests are required so this is passed...
         pass
 
+    # handling Get requests.
     else:
 
+        # making sure users must be signed in to see the page.
         if g.user:
 
+                # retreiving the students data and setting it to a session variable.
                 matric_num = request.args['Student']
                 session['Student'] = get_student_info(matric_num)
 
+                # making sure the application knows how the page was reached so the back button redirects properly.
                 if 'from_home' in request.args:
 
                     from_home = True
@@ -750,15 +868,33 @@ def student_stats():
 
                     from_home = False
 
+                # retrieving the modules lectures...
                 session['module_lectures'] = get_lectures(session['moduleid'])
-
+                # retrieving the students expected lectures.
                 expected_lectures = get_expected_lectures(session['Student'], session['moduleid'])
 
+                # checking whether if there is any point in showing a graph or not.
                 if len(expected_lectures) == 0:
-
+                    # displaying the page without graph data if there is no need to show it.
                     return render_template('student_stats.html', show_stats=False)
-
+                # retrieving the students attendance for the class.
                 attendance = get_class_attendance(expected_lectures)
+
+                # retrieving pie chart data for the student.
+                session['labels'] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+                # sorting the absent and present lectures for the chart.
+                chart_data = [0, 0]
+                for lecture in expected_lectures:
+
+                    if lecture['Attendance']:
+
+                        chart_data[0] = chart_data[0] + 1
+                    else:
+
+                        chart_data[1] = chart_data[1] + 1
+
+                # preparing a small message regarding the students attendance.
 
                 if attendance >= 80:
 
@@ -767,20 +903,23 @@ def student_stats():
                 else:
 
                     note = "This students attendance is " + str(attendance) + " and is cause for concern."
-
-                return render_template('student_stats.html', show_stats=True, attendance_info=expected_lectures, student_statement=note, from_home=from_home)
+                # displaying the page with dynamic data...
+                return render_template('student_stats.html', show_stats=True, attendance_info=expected_lectures,
+                                       student_statement=note, from_home=from_home, chart_data=chart_data)
         else:
-
-            return redirect(url_for('lecturersignin'))
+            # if the user is not signed in then they are automatically redirected to the sign in page.
+            return redirect(url_for('lecturer_sign_in'))
 
 
 def get_expected_lectures(student, module_id):
 
-    print(session['module_lectures'])
+    """ Function used to get every lecture a student is expected to have attended. """
+
+    # retrieving a modules lectures.
     lectures = get_lectures(module_id)
     expected_lectures = []
     sorted_list = []
-
+    # parsing the students sub string to get individual lectures...
     sub_strings = [x.strip() for x in student['ModuleString'].split(';')]
 
     for sub_string in sub_strings:
@@ -793,6 +932,8 @@ def get_expected_lectures(student, module_id):
 
     module_sub_strings = [x.strip() for x in module_lectures.split(',')]
 
+    # checking to see what lectures the student has went to and what lectures they have missed.
+
     for lecture in module_sub_strings:
 
         if '-1' in lecture:
@@ -803,6 +944,7 @@ def get_expected_lectures(student, module_id):
 
             expected_lectures.append([(lecture.replace('-0', '')), False])
 
+    # discounting lectures that have not happened yet...
     for expected_lecture in expected_lectures:
 
         for lecture in session['module_lectures']:
@@ -815,59 +957,75 @@ def get_expected_lectures(student, module_id):
                 new_dict['Attendance'] = expected_lecture[1]
                 sorted_list.append(new_dict)
 
+    # returning the list of expected lectures...
     return sorted_list
 
 
 def has_happened(date):
 
+    """ Function used to check if a lecture has happened yet."""
+
     past = date
     present = datetime.datetime.now()
 
+    # returning true or false regarding if the given time has passed or not.
     return past < present
 
 
 def get_class_attendance(expected_lectures):
 
+    """ Function used to return the attendance of a moodule
+    given a list of lectures that have or have not been attended"""
+
+    # list comprehension to find how many lectures were attended.
     count = Counter(x['Attendance'] for x in expected_lectures)
-
+    # finding the percentage.
     percentage = count[True]/(len(expected_lectures)) * 100
-
+    # cleaning up the percentage and returning it.
     return int(percentage)
 
 
 @app.route("/delete_module", methods=['POST'])
 def delete_module():
 
+    """ Endpoint/Function used to delete a module. """
+    # getting the POST requests data.
     module_id = request.form['Module']
 
+    # Deleting modules details completely from the database.
     cursor.execute("DELETE FROM Modules WHERE ModuleID=?", (module_id,))
     cursor.commit()
 
     cursor.execute("DELETE FROM Lectures WHERE ModuleID=?", (module_id,))
     cursor.commit()
 
-    #module_id = request.args['module']
+    # reflecting these changes across the rest of the system.
     session['moduleid'] = module_id
     getmoduleinfo(module_id)
     updatemanagedmodules()
     logger.info("Module Deleted")
 
+    # displaying the module management page.
     return render_template('modulemanager.html', modules=session['supervised_modules'])
 
 
 def get_lectures(module):
 
+    """ Function used to get the lectures of a module. """
+
+    # performing the query.
     query = "SELECT * FROM Lectures WHERE ModuleID=? ORDER BY Time ASC"
-
+    # converting the results into a list of dictionaries and returning it.
     result = pd.read_sql(query, conn, params=(module,))
-
     return result.to_dict('records')
 
 
 def check_timetabled_days(modulelectures):
 
+    """ Function used to check what days have lectures and which do not."""
     timetabled_days = {'Monday': False, 'Tuesday': False, 'Wednesday': False, 'Thursday': False, 'Friday': False}
 
+    # if a lecture is in a day then the keys day is set to True.
     for x in modulelectures:
 
         if x['Day'] == 'Monday':
@@ -885,26 +1043,33 @@ def check_timetabled_days(modulelectures):
         if x['Day'] == 'Friday':
             timetabled_days['Friday'] = True
 
+    # returning a dictionary highlighting which days have lectures.
     return timetabled_days
 
 
 def return_module_info(module_id):
+    """ Function used to retrieve the information of a module """
 
     query = "SELECT * FROM Modules WHERE ModuleID=?"
     result = pd.read_sql(query, conn, params=(module_id,))
-
+    # converting the results into a list of dictionaries and returning it.
     return result.to_dict('records')[0]
 
 
 def getmoduleinfo(module_id):
 
+    """ Function used to retrieve the information of a module """
+
     query = "SELECT * FROM Modules WHERE ModuleID=?"
     result = pd.read_sql(query, conn, params=(module_id,))
-
+    # converting the results into a list of dictionaries and setting it to a session variable.
     session['moduleinfo'] = result.to_dict('records')[0]
 
 
 def allowed_file(filename):
+    """ Function used to check if a file type is allowed or not."""
+
+    # Returning true if allowed, false otherwise.
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -998,34 +1163,44 @@ def upload_file():
 
 def check_if_in_class_list(module_id, matric_num):
 
+    """ Function used to check if a student is in a class list or not."""
+    # perfroming a query.
     query = 'SELECT * FROM {} WHERE MatricNum={}'.format(module_id, int(matric_num))
     result = pd.read_sql(query, conn)
     student = result.to_dict('records')
-
+    # if the query returns 1 then true is returned by the function, otherwise false.
     return len(student) == 1
 
 
 @app.route("/search_class_list", methods=['POST'])
 def search_class_list():
 
+    """ Function/Endpoint used to check search for a student in class list."""
+
+    # retrieving data from the POST request.
     keyword = request.form['keyword']
     students = []
 
+    # automatically checking if a keyword or matriculation number should be searched...
     if str.isdigit(keyword):
 
+        # performing the query.
         query = "SELECT * FROM Students WHERE MatricNum=?"
         result = pd.read_sql(query, conn, params=(int(keyword),))
         students = result.to_dict('records')
 
     else:
+        # performing the query.
         query = "SELECT * FROM Students WHERE FirstName=? OR LastName=? "
         result = pd.read_sql(query, conn, params=(keyword, keyword,))
         students = result.to_dict('records')
 
     if len(students) == 0:
-
+        # if nothing is found then an error is thrown back to the lecturer.
         flash("No Student Found")
         return redirect(url_for('class_list_management', module_id=session['moduleid']))
+
+    # if one or more students are found, then the page is reloaded and the found students are shown...
     else:
 
         class_list = []
@@ -1033,61 +1208,75 @@ def search_class_list():
         for item in students:
 
             class_list.append(get_student_info(item['MatricNum']))
-
+            
+    # displaying the web page.
     return render_template('class_list_management.html', exists=True, class_list=class_list)
 
 
 @app.route("/class_list_management", methods=['GET', 'POST'])
 def class_list_management():
 
+    """ Function/Endpoint used to handle class list management. """
+
+    # Handling POST requests to add individual students to class lists.
     if request.method == 'POST':
+        # retrieving data from the post requests
 
         f_name = request.form['f_name']
         l_name = request.form['l_name']
         matric_num = request.form['matric_num']
+
         logger.info("Attempting to add " + f_name + ' ' + l_name + ' to class list: ' + session['moduleid'])
 
+        # checking that the student actually exists.
         if get_student_info(matric_num) is None:
 
             flash("Error, this student does not seem to exist.")
             logger.info("Error, this student does not seem to exist.")
-
+            # if the student does not exist an error is thrown back.
             return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
-        if path.exists(create_path('class_list', session['moduleid'])) is True and check_if_in_file(matric_num, create_path('class_list', session['moduleid'])) is True:
+        # checking that the student isn't already in the class list.
+        if check_if_in_class_list(session['moduleid'], matric_num) is True:
 
             logger.info("Abandoning... student is already in the class list")
             flash("Error, this student is already in the class list!")
             session['class_list'] = retrieve_class_list(session['moduleid'])
+            # if the student is already in the class then an error is thrown back.
             return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
         else:
-
+            # if all conditions are satisfied then the student is added to the class list.
             create_class_list(matric_num, session['moduleid'])
+            # reloading the page with the new student.
             return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
     else:
-
+        # Handling GET requests.
         if g.user:
-
+            # retrieving data from the get request.
             module_id = request.args['module_id']
             session['moduleid'] = module_id
-
+            # retrieving the class list.
             class_list = retrieve_class_list(module_id)
             exists = True
+
+            # checking if the class list is empty so the page knows what to show.
             if len(class_list) == 0:
 
                 exists = False
                 class_list = None
 
             else:
-
+                # updating the module attendance.
                 update_module_attendance(module_id, class_list)
 
+                # getting individual attendance for students.
                 for student in class_list:
 
                     student['Attendance'] = get_student_attendance(student['MatricNum'], module_id)
 
+            # checking if there are any lectures for the class yet.
 
             if get_lectures(module_id) == []:
 
@@ -1096,39 +1285,47 @@ def class_list_management():
             else:
 
                 lectures_exist = True
+            # displaying the web page/returning a response to the get request.
+            return render_template('class_list_management.html', exists=exists, class_list=class_list,
+                                   lectures_exist=lectures_exist)
 
-            return render_template('class_list_management.html', exists=exists, class_list=class_list, lectures_exist=lectures_exist)
-
-        return redirect(url_for('lecturersignin'))
+        # redirecting to the sign in page if the lecturer is not already signed in.
+        return redirect(url_for('lecturer_sign_in'))
 
 
 def get_student_attendance(matric_num, module_id):
 
+    """ Function used to calculate an individual students attendance. """
+
+    # performing the query.
     query = 'SELECT Attendance FROM {} WHERE MatricNum={}'.format(module_id, matric_num)
     result = pd.read_sql(query, conn)
     student = result.to_dict('records')
-
+    # returning the students attendance from their record.
     return student[0]['Attendance']
 
 
 def update_module_attendance(module_id, class_list):
 
+    """ Function used to update the attendance for every student in the module. """
+
     session['module_lectures'] = get_lectures(module_id)
 
     expected_lectures = []
-
+    # sorting each lecture to make sure lectures that have not happened are not taken into account.
     for lecture in session['module_lectures']:
 
         time = lecture['Time']
 
         if has_happened(time) is True:
             expected_lectures.append(lecture)
-
+    # updating the attendance for every student in the module.
     for student in class_list:
 
         expected_lectures = get_expected_lectures(student, module_id)
 
         student_expected_lectures = expected_lectures
+        # checking what lectures each student was present in.
         for lecture in student_expected_lectures:
 
             if lecture['LectureID'] + '-1' in student['ModuleString']:
@@ -1137,6 +1334,8 @@ def update_module_attendance(module_id, class_list):
             else:
 
                 lecture['Attendance'] = False
+
+        # updating each students attendance in the database.
         query = 'UPDATE {} set Attendance={} WHERE MatricNum={}'\
             .format(module_id, get_class_attendance(student_expected_lectures), student['MatricNum'])
 
@@ -1146,10 +1345,14 @@ def update_module_attendance(module_id, class_list):
 
 def get_student_info_basic(matric_num):
 
+    """ Function used to retrieve only the first, last name and matriculation of a student. """
+
+    # perfroming the query...
     query = "SELECT FirstName, LastName FROM Students WHERE MatricNum=?"
     result = pd.read_sql(query, conn, params=(int(matric_num),))
     student = result.to_dict('records')
 
+    # if nothing is found then None is returned otherwise the students information is returned.
     if student == []:
 
         return None
@@ -1162,17 +1365,17 @@ def get_student_info_basic(matric_num):
 @app.route("/remove_from_class_list", methods=['POST'])
 def remove_from_class_list():
 
+    """ Function/Endpoint used to remove a student from a class list."""
+
     student_id = request.form['Student']
 
     logger.info("attempting to remove " + str(student_id) + " from class list...")
-
+    # removing the student from the module class list table in the database.
     query = 'DELETE FROM {} WHERE MatricNum={};'.format(session['moduleid'], student_id)
-
     cursor.execute(query)
     conn.commit()
 
-    # pull_student_modules()
-
+    # parsing the students module string to remove the expected lectures...
     sub_strings = [x.strip() for x in get_student_info(student_id)['ModuleString'].split(';')]
 
     for sub_string in sub_strings:
@@ -1186,50 +1389,55 @@ def remove_from_class_list():
         if session['moduleid'] in sub_string:
             sub_strings.remove(sub_string)
 
+    # joining together the new module string with unnecessary lectures removed.
     module_string = ';' + ';'.join(sub_strings)
 
+    # updating the student in the students table in the database.
     query = 'UPDATE Students SET ModuleString={} WHERE MatricNum={};'.format("'" + module_string + "'", "'" + str(student_id) + "'")
     cursor.execute(query)
     cursor.commit()
-
     student = get_student_info(student_id)
     logger.info(student['FirstName'] + " " + student['LastName'] + " Removed From " + session['moduleid'])
+    # redirecting to the class list management web page.
     return redirect(url_for('class_list_management', module_id=session['moduleid']))
 
 
 def retrieve_class_list(module_id):
+    """ Function used to retrieve a class list from the database"""
 
     class_list = []
-
-    query = 'SELECT {}.MatricNum, {}.Attendance, Students.FirstName,Students.LastName, Students.ModuleString FROM {} INNER JOIN Students ON {}.MatricNum=Students.MatricNum;'.format(module_id, module_id, module_id, module_id)
-
+    # performing the query and converting it into a list of dictionaries.
+    query = 'SELECT {}.MatricNum, {}.Attendance, Students.FirstName,Students.LastName, Students.ModuleString' \
+            ' FROM {} INNER JOIN Students ON {}.MatricNum=Students.MatricNum;'.\
+        format(module_id, module_id, module_id, module_id)
     result = pd.read_sql(query, conn)
-
     students = result.to_dict('records')
-
+    # returning the list of students.
     return students
 
 
 def create_class_list(matric_num, module_id):
 
+    """ Function used to add a student to a class list."""
+
     student = get_student_info(matric_num)
     lectures = get_lectures(module_id)
 
+    # checking that the student isn't already in the class list.
     if check_if_in_class_list(module_id, matric_num) is False:
-
+        # adding the student to the module class list table in the database.
         query = 'INSERT INTO {}(MatricNum, Attendance) VALUES (?, ?);'.format(module_id)
-
         cursor.execute(query, (matric_num, 0))
         conn.commit()
 
         student_string = str(student['ModuleString']) + ";" + str(module_id) + ":"
-
+        # adding lectures to the student module string.
         for lecture in lectures:
 
             student_string = student_string + lecture['LectureID'] + "-" + str(0) + ','
 
         student_string = student_string[:-1]
-
+        # updating the students module string in the database.
         query = 'UPDATE Students SET ModuleString={} WHERE MatricNum={};'.format("'" + student_string + "'", "'" + str(matric_num) + "'")
 
         logger.info(student['FirstName'] + " " + student['LastName'] + " Added To Class list")
@@ -1238,16 +1446,19 @@ def create_class_list(matric_num, module_id):
         conn.commit()
 
     else:
-
+        # logging that the student is already in the class list and doing nothing.
         logger.info(student['FirstName'] + " " + student['LastName'] + " is already in the class list.")
 
 
 def get_student_info(matric_num):
 
+    """ Function used to get all a students info"""
+
+    # performing the query and converting it to a list of dictionaries.
     query = "SELECT * FROM Students WHERE MatricNum=?"
     result = pd.read_sql(query, conn, params=(int(matric_num),))
     student = result.to_dict('records')
-
+    # if the query returns nothing then return none, otherwise return the student.
     if len(student) == 0:
 
         return None
@@ -1257,49 +1468,43 @@ def get_student_info(matric_num):
         return student[0]
 
 
-def create_path(type, filename):
-
-    if type == "class_list":
-
-        filename = ('/Class_Lists/%s.txt' % filename)
-        current_path = os.path.abspath(os.path.dirname(__file__))
-        return current_path + filename
-
-    if type == "attendance_docs":
-
-        filename = ('/Attendance_Docs/%s.txt' % filename)
-        current_path = os.path.abspath(os.path.dirname(__file__))
-        return current_path + filename
-
-
 @app.route("/modulemanagement", methods=['GET', 'POST'])
 def modulemanagement():
 
-    if request.method == 'POST':
+    """ Function/Endpoint used to manage module creation"""
 
+    # Handling POST requests...
+    if request.method == 'POST':
+        # retrieving the data from the POST request.
         moduleid = request.form['moduleid']
         modulename = request.form['modulename']
 
+        # checking the module ID doesnt already exist.
         if check_duplicate('Modules', 'ModuleID', moduleid):
             error = "Error, module ID already exists, please choose another."
             logger.info("Error, module ID already exists, please choose another.")
             flash("Error, module ID already exists, please choose another.")
+            # throwing back an error if the ID exists.
             return render_template('modulemanager.html', modules=session['supervised_modules'], Notification=error)
 
+        # checking the module name doesnt already exist.
         if check_duplicate('Modules', 'ModuleName', modulename):
             error = "Error, module ID already exists, please choose another."
             logger.info("Error, module names cannot be duplicated...")
             flash("Error, module name already exists, please choose another")
+            # throwing back an error if the name exists.
             return render_template('modulemanager.html', modules=session['supervised_modules'], Notification=error)
 
+        # checking the module ID is the correct length
         if len(moduleid) != 7:
 
             error = "Error, module ID is the wrong length."
             logger.info("Error, module ID is the wrong length")
             flash("Error, module ID is the wrong length ")
+            # throwing back an error if the id length is not the correct length.
             return render_template('modulemanager.html', modules=session['supervised_modules'], Notification=error)
 
-
+        # creating the module table in the database along with adding the module to the modules table.
         query = "INSERT INTO Modules(ModuleID, ModuleName, LecturerID) VALUES (?, ?, ?);"
         cursor.execute(query, (moduleid, modulename, session['user']))
         conn.commit()
@@ -1311,13 +1516,15 @@ def modulemanagement():
 
         updatemanagedmodules()
         logger.info(str(moduleid) + " : " + str(modulename) + " successfully created.")
-
+        # reloading the page.
         return redirect(url_for('modulemanagement'))
 
+    # handling GET requests.
     else:
-
+        # making sure users are signed in otherwise redirecting to sign in page.
         if g.user:
 
+            # checking to see if there are any modules to be displayed.
             updatemanagedmodules()
             if len(session['supervised_modules']) == 0:
 
@@ -1326,29 +1533,22 @@ def modulemanagement():
             else:
 
                 modules_display = True
-
+            # returning a request to the get request in the from of a web page.
             return render_template('modulemanager.html', modules=session['supervised_modules'], modules_display=modules_display)
 
-        return redirect(url_for('lecturersignin'))
+        return redirect(url_for('lecturer_sign_in'))
 
 
 def updatemanagedmodules():
 
+    """ Function used to keep track of the modules currently supervised by the user."""
+
+    # perfroming the query and converting the results to a list of dictionaries.
     query = "SELECT * FROM Modules WHERE LecturerID=?"
     result = pd.read_sql(query, conn, params=(session['user'],))
+    # setting a session variable to a list of supervised modules.
+    print(result.to_dict('records'))
     session['supervised_modules'] = result.to_dict('records')
-
-
-@app.route("/update_managed_modules", methods=['POST'])
-def update_managed_modules():
-
-    user_id = request.form['user_id']
-
-    query = "SELECT * FROM Modules WHERE LecturerID=?"
-    result = pd.read_sql(query, conn, params=(user_id,))
-    session['supervised_modules'] = result.to_dict('records')
-
-    return json.dumps(True)
 
 
 @app.route("/lecturesignin", methods=['GET', 'POST'])
@@ -1455,28 +1655,24 @@ def lecturesignin():
         return render_template('lecturesignin.html', date=date)
 
 
-def check_if_in_file(matriculation_number, path):
-
-    with open(path) as f:
-        if matriculation_number in f.read():
-            return True
-        else:
-            return False
-
-
 @app.route("/gencode", methods=['GET', 'POST'])
 def gencode():
 
+    """ Function/Endpoint used to display the code generation page."""
+
     if request.method == 'POST':
         modulecode = request.form['module']
+        # Providing a HTTP 200 response to the get request.
         return render_template('gencode.html', moduleselected=False, lectureselected=False)
 
+    # making sure that teh user is logged in otherwise, redirecting to the sign in page.
     else:
         if g.user:
             updatemanagedmodules()
+            # Providing a HTTP 200 response to the get request.
             return render_template('gencode.html', moduleselected=False, lectureselected=False)
 
-        return redirect(url_for('lecturersignin'))
+        return redirect(url_for('lecturer_sign_in'))
 
 
 @app.route("/selectmodule", methods=['GET', 'POST'])
@@ -1511,9 +1707,9 @@ def generatenewcode():
     return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(6))
 
 
-# sourced from https://www.vitoshacademy.com/hashing-passwords-in-python/
 def checkpass(stored_password, provided_password):
     """Verify a stored password against one provided by user"""
+    # sourced from https://www.vitoshacademy.com/hashing-passwords-in-python/
     salt = stored_password[:64]
     stored_password = stored_password[64:]
     pwdhash = hashlib.pbkdf2_hmac('sha512',
@@ -1526,6 +1722,7 @@ def checkpass(stored_password, provided_password):
 
 def hash_password(password):
     """Hash a password for storing."""
+    # sourced from https://www.vitoshacademy.com/hashing-passwords-in-python/
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
     pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'),
                                   salt, 100000)
@@ -1534,12 +1731,12 @@ def hash_password(password):
 
 
 def check_duplicate(table_name, field, unique_key):
-
+    """Function used to check duplicate records in a table."""
     query = ("SELECT * FROM %s WHERE %s=?" % (table_name, field))
-    # filename = ('/Attendance_Docs/%s.txt' % lecturecode)
     result = pd.read_sql(query, conn, params=(unique_key,))
     tableinfo = result.to_dict('records')
 
+    # returning True if there is a duplicate otherwise returning false.
     if len(tableinfo) > 0:
 
         return True
@@ -1550,13 +1747,16 @@ def check_duplicate(table_name, field, unique_key):
 
 
 def get_week():
+    """Function for getting the current week in the dundee university semester. """
 
+    # getting the current day in real life.
     today = datetime.datetime.today()
 
+    # getting the matching week...
     for key, value in session['weeks'].items():
 
         if value.isocalendar()[1] == today.isocalendar()[1] and value.year == today.year:
-
+            # returning the week.
             return key
 
 
@@ -1616,6 +1816,9 @@ def get_next_lecture(week):
 
 @app.route('/sign_out')
 def sign_out():
+
+    """Function for signing out lecturers."""
+    # Deleting all session data.
     session.pop('user', None)
     session.clear()
     logger.info("Successfully Signed Out")
@@ -1624,4 +1827,4 @@ def sign_out():
 
 if __name__ == "__main__":
 
-    app.run( threaded=True, debug=True)
+    app.run(host="0.0.0.0", threaded=True, port=5000)

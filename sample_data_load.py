@@ -1,3 +1,15 @@
+"""
+Abbas Lawal
+AC40001 Honours Project
+BSc (Hons) Computing Science
+University of Dundee 2019/20
+Supervisor: Dr Craig Ramsay
+All CODE IS ORIGINAL UNLESS STATED SO.
+
+The Purpose of this script is to load sample data into the system.
+"""
+
+
 import csv
 import json
 import hashlib, binascii, os
@@ -376,9 +388,26 @@ def get_lectures(module):
     return result.to_dict('records')
 
 
+def create_mock_data():
+
+    query = "SELECT top 25 * FROM Students;"
+    print(query)
+    result = pd.read_sql(query, conn)
+    students = result.to_dict('records')
+
+    with open('MOCK_DATA.csv', 'w') as file:
+
+        file.write('MatricNum,FirstName,LastName')
+
+        for student in students:
+            print(student)
+            file.write('\n' + str(student['MatricNum']) + ',' + student['FirstName'] + ',' + student['LastName'])
+
+
 if __name__ == "__main__":
 
     clear_table()
     sample_data = load_data()
     updated_students = []
     insert_data(sample_data, get_class_names())
+    create_mock_data()

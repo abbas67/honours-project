@@ -8,26 +8,26 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturer_home.css') }}">
     <title>Module Management</title>
+    {#nav bar #}
+    <div class="topnav" >
+        <div class="active">
+            <a href="{{ url_for('index') }}">
+                <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
+            </a>
+            <ul id="nav">
+                <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
+                <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
+                <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
 
-        <div class="topnav" >
-            <div class="active">
-                <a href="{{ url_for('index') }}">
-                    <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
-                </a>
-                <ul id="nav">
-                    <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
-                    <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
-                    <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
+            </ul>
 
-                </ul>
-
-            </div>
         </div>
+    </div>
 
 {% endblock head %}
 
 {% block content %}
-
+    {# list of bootstrap cards to display modules managed by the lecturer. #}
     <br>
     <h1 align="center"> Module Manager</h1>
     {% with messages = get_flashed_messages() %}
@@ -60,7 +60,7 @@
                 <br>
             </form>
         {% endfor %}
-
+        {# button to reveal option to add a new module...#}
         {% if modules_display == True %}
 
             <button type="button" class="btn btn-primary" onclick = "myFunction()" >Create New Module </button>
@@ -69,7 +69,7 @@
 
 
         {% if modules_display == False %}
-
+            {# displayed if no modules exist.#}
 
             <div>
                 <div class="card mx-5" >
@@ -83,7 +83,7 @@
             </div>
         {% endif %}
 
-
+        {# form to create new module#}
         <br>
         <div id="myDIV" style="display: none">
             <div class="card">
@@ -109,7 +109,7 @@
     </div>
 
     <script>
-
+        {# javascript function to show and hide create new module form. #}
         function myFunction() {
             var x = document.getElementById("myDIV");
             if (x.style.display === "none") {

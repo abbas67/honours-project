@@ -1,27 +1,27 @@
 {% extends "layout.html" %}
 
 {% block head %}
-
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='createlecture.css') }}">
+    {#  Head section of webpage  #}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='create_lecture.css') }}">
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.17.2/build/tabview/assets/skins/night/tabview.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <script src="http://yui.yahooapis.com/3.18.1/build/yui/yui-min.js"></script>
+    {# nav bar#}
+    <div class="topnav" >
+        <div class="active">
+            <a href="{{ url_for('index') }}">
+                <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
+            </a>
+            <ul id="nav">
+                <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
+                <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
+                <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
 
-            <div class="topnav" >
-            <div class="active">
-                <a href="{{ url_for('index') }}">
-                    <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
-                </a>
-                <ul id="nav">
-                    <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
-                    <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
-                    <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
+            </ul>
 
-                </ul>
-
-            </div>
         </div>
+    </div>
 
     <title>Lecture Management</title>
 
@@ -31,7 +31,7 @@
 
 
     <h1 align="center"> Lecture Planning </h1>
-
+    {# Showing any messages pushed to the UI from the Python code...#}
     {% with messages = get_flashed_messages() %}
         <div class="d-flex justify-content-center" >
             <div class="my-5">
@@ -60,43 +60,43 @@
 
                     <div class="card-body">
                         {% if moduleselected == True %}
-                        <h5 class="card-title"> Create A lecture Set</h5>
+                            <h5 class="card-title"> Create A lecture Set</h5>
 
-                    {% endif %}
-                    {% if moduleselected == False %}
+                        {% endif %}
+                        {% if moduleselected == False %}
+                            {# used to allow lecturers to select which class they want to create a lecture set for. #}
+                            <ul class="list-group mx-5">
+                                <li class="list-group-item active">Select A Module</li>
+                                {% for item in modules %}
 
-                        <ul class="list-group mx-5">
-                            <li class="list-group-item active">Select A Module</li>
-                            {% for item in modules %}
+                                    <li class="list-group">
+                                        <h5> </h5>
+                                        <form name="myform" action="{{ url_for('select_module_lecture') }}" method="post">
 
-                                <li class="list-group">
-                                    <h5> </h5>
-                                    <form name="myform" action="{{ url_for('select_module_lecture') }}" method="post">
+                                            <button name="module" type="submit" value="{{ item['ModuleID'] }}" class="list-group-item list-group-item-action"> {{ item['ModuleName'] }} </button>
+                                        </form>
+                                    </li>
 
-                                        <button name="module" type="submit" value="{{ item['ModuleID'] }}" class="list-group-item list-group-item-action"> {{ item['ModuleName'] }} </button>
-                                    </form>
-                                </li>
+                                {% endfor %}
 
-                            {% endfor %}
-
-                        </ul>
+                            </ul>
 
                         {% endif %}
                         {% if moduleselected == True %}
 
+                            {# Form that is used to allow student to create a lecture set.#}
+                            <form name="myform" action="{{ url_for('create_lecture') }}" method="post">
 
-                            <form name="myform" action="{{ url_for('createlecture') }}" method="post">
-
-                            <div class="flex-container">
-                                <label for="name"> Teaching Type:</label>
-                                <select name="name" class="form-control" id="exampleFormControlSelect1" required>
-                                    <option value="" disabled selected hidden>Select Teaching Type</option>
-                                    <option value="Tutorial">Tutorial</option>
-                                    <option value="Lecture">Lecture</option>
-                                    <option value="Lab">Lab</option>
-                                    <option value="Seminar">Seminar</option>
-                                </select>
-                            </div>
+                                <div class="flex-container">
+                                    <label for="name"> Teaching Type:</label>
+                                    <select name="name" class="form-control" id="exampleFormControlSelect1" required>
+                                        <option value="" disabled selected hidden>Select Teaching Type</option>
+                                        <option value="Tutorial">Tutorial</option>
+                                        <option value="Lecture">Lecture</option>
+                                        <option value="Lab">Lab</option>
+                                        <option value="Seminar">Seminar</option>
+                                    </select>
+                                </div>
                                 <label for="first"> First Week:</label>
                                 <select name="first" class="form-control"  required>
                                     <option value="" disabled selected hidden>Select First Lecture Week</option>
@@ -206,7 +206,7 @@
                                 <br>
                                 <div>
                                     <input type="submit" class="btn btn-primary" Create Lecture >
-                                    <a  href="{{ url_for('createlecture') }}" class="btn btn-primary"> Back</a>
+                                    <a  href="{{ url_for('create_lecture') }}" class="btn btn-primary"> Back</a>
                                 </div>
                             </form>
 

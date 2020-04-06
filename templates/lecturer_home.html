@@ -2,22 +2,25 @@
 {% extends "layout.html" %}
 {% block head %}
 
-        <div class="topnav" >
-            <div class="active">
-                <a href="{{ url_for('index') }}">
-                    <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
-                </a>
-                <ul id="nav">
-                    <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
-                    <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
-                    <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
+    {#  Head section of webpage  #}
 
-                </ul>
+    {# nav bar #}
+    <div class="topnav" >
+        <div class="active">
+            <a href="{{ url_for('index') }}">
+                <img id="logo" src="/static/uni_logo.png" alt="Uni Logo">
+            </a>
+            <ul id="nav">
+                <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
+                <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
+                <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
 
-            </div>
+            </ul>
+
         </div>
+    </div>
 
-
+    {# CDN links #}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lecturer_home.css') }}">
 
@@ -33,7 +36,7 @@
 
     <div class="container">
 
-
+        {# notification bar that shows a dynamic set of clickable notifications. #}
         <div class="my-4">
             <div class="card">
                 <div class="card-body">
@@ -50,7 +53,7 @@
                                     <li class="list-group" style="color: ghostwhite;">
                                         <h5> </h5>
                                         <form action="{{ url_for('redirect_to_student') }}" method="post">
-                                           <input type="hidden"  name="module_id" value="{{ item[2] }}">
+                                            <input type="hidden"  name="module_id" value="{{ item[2] }}">
                                             <button name="student" type="submit" value="{{ item[1] }}" class="list-group-item list-group-item-action"> {{ item[0] }} </button>
                                         </form>
                                     </li>
@@ -63,16 +66,16 @@
 
                     {% endif %}
 
-                {%if show_messages == False %}
+                    {%if show_messages == False %}
 
-                    <p class="card-text" style="color:#4365E2;">No current Notifications.</p>
+                        <p class="card-text" style="color:#4365E2;">No current Notifications.</p>
 
-                {% endif %}
+                    {% endif %}
 
                 </div>
             </div>
         </div>
-
+        {# code generation option#}
         <div class="my-4">
             <div class="card">
                 <div class="card-body">
@@ -82,7 +85,7 @@
                 </div>
             </div>
         </div>
-
+        {# module management option #}
         <div class="my-4">
             <div class="card">
                 <div class="card-body">
@@ -92,7 +95,7 @@
                 </div>
             </div>
         </div>
-
+        {# dynamic timetable that shows lecturers what classes they have on during the days of the week. #}
         <div class="my-4">
             <div class="card">
                 <div class="card-body" style="background-color:#4365E2;">
@@ -304,6 +307,8 @@
 
 {% block scripts %}
     {{ super() }}
+    {# CDN links #}
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 

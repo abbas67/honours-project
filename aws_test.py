@@ -1,5 +1,0 @@
-import pyodbc
-
-
-print(conn)
-
