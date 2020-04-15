@@ -51,9 +51,9 @@
         {% for item in modules %}
             <form action="{{ url_for('module_options') }}" method="get">
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ item['ModuleID'] }}</h5>
-                        <p class="card-text">{{ item['ModuleName'] }}</p>
+                    <div class="card-body" style="background-color:#4365E2">
+                        <h5 class="card-title" style="color: ghostwhite">{{ item['ModuleID'] }}</h5>
+                        <p class="card-text" style="color: ghostwhite">{{ item['ModuleName'] }}</p>
                         <button name="module" type="submit" class="btn btn-primary" value="{{ item['ModuleID'] }}" >Module Options</button>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                 <div class="card mx-5" >
                     <img class="card-img-top" src="/static/modules.jpg" alt="Card image cap">
                     <div class="card-body">
-                        <h5 class="card-title">You don't have any modules!</h5>
+                        <h5 class="card-title">It seems that you don't have any modules yet!</h5>
                         <p class="card-text">Click the button below to get started.</p>
                         <button type="button" class="btn btn-primary" onclick = "myFunction()" >Create New Module </button>
                     </div>
@@ -86,8 +86,8 @@
         {# form to create new module#}
         <br>
         <div id="myDIV" style="display: none">
-            <div class="card">
-                <div class="card-body">
+            <div class="card m-5">
+                <div class="card-body" style="background-color: #4365E2">
                     <form action="{{ url_for('modulemanagement') }}" method="post">
 
                         <div class="input-group form-group">

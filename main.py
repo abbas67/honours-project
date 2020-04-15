@@ -1,4 +1,3 @@
-
 """
 Abbas Lawal
 AC40001 Honours Project
@@ -10,6 +9,8 @@ All CODE IS ORIGINAL UNLESS STATED SO.
 # Necessary library imports
 import binascii
 import csv
+import sqlite3
+from sqlite3 import Error
 import datetime
 from datetime import timedelta
 import hashlib
@@ -59,18 +60,8 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
-# Dynamically selecting a driver based on the machine.
-drivers = [item for item in pyodbc.drivers()]
-driver = drivers[-1]
-# Connection details for accessing Zeno database.
-# Github repository is private so cannot be easily accessed :)
-server = 'Zeno.computing.dundee.ac.uk'
-database = 'abbaslawaldb'
-uid = 'abbaslawal'
-pwd = 'abc2019ABL123..'
-# Connecting to the database with connection details and creating a cursor.
-params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
-conn = pyodbc.connect(params)
+file_path = os.path.abspath(os.path.dirname(__file__))
+conn = sqlite3.connect(file_path + '/Database/database.db', check_same_thread=False, timeout=10)
 cursor = conn.cursor()
 
 # Used to make sure lecturers must be signed in before accessing certain pages for security.
@@ -107,14 +98,25 @@ def lecturer_home():
         if len(messages) == 0:
 
             show_messages = False
+            too_many_messages = False
 
         else:
 
             show_messages = True
+
+            if len(messages) > 10:
+
+                too_many_messages = True
+
+            else:
+
+                too_many_messages = False
+
         # Returning a response to the get request. Dynamic for every lecturer.
         return render_template('lecturer_home.html',
                                next_lecture=lectures, timetabled_days=check_timetabled_days(lectures),
-                               lectures=lectures, show_messages=show_messages, student_messages=messages)
+                               lectures=lectures, show_messages=show_messages,
+                               student_messages=messages, too_many_messages=too_many_messages)
 
     # returning user to homepage if they are not signed in.
     return redirect(url_for('lecturer_sign_in'))
@@ -129,11 +131,6 @@ def attendance_flagging():
 
         lectures = get_lectures(item['ModuleID'])
 
-        if lectures:
-            # Currently skipping first semester as it is not currently of concern!
-            if lectures[0]['Week'] <= 12:
-                logger.info("Skipping first semester classes")
-                continue
         # Updating the current attendance to make sure the flagging is accurate.
         update_module_attendance(item['ModuleID'], retrieve_class_list(item['ModuleID']))
         # Retrieving the updated class list.
@@ -358,6 +355,7 @@ def signup():
 
             if len(resultdict) > 0:
                 notification = "The ID already exists"
+                print(resultdict)
                 logger.info("Error, ID already exists")
                 # Throwing back an error if the accoiunt already exists and prompting users to try again.
                 return render_template('signup.html', notification=notification)
@@ -555,6 +553,12 @@ def update_office_docs():
 
     module_id = request.form['module_id']
     class_list = retrieve_class_list(module_id)
+
+    if len(get_lectures(module_id)) is 0 or len(class_list) is 0:
+
+        flash("Currently Nothing To Update The School Office, Try Again Later.")
+        return redirect(url_for('module_options', module=session['moduleid']))
+
     expected_lectures = get_expected_lectures(get_student_info(class_list[0]['MatricNum']), module_id)
 
     # Finding the missing students for each student in the lecture.
@@ -585,6 +589,8 @@ def update_office_docs():
                 file.write('\n' + absentee['FirstName'] + " " + absentee['LastName'] + " " + str(absentee['MatricNum']) + " - Overall Attendance: " + str(absentee['Attendance']) + "%" )
             file.write('\n')
     # redirecting to the module options page.
+
+    flash("School Office Docs Updated")
     return redirect(url_for('module_options', module=session['moduleid']))
 
 
@@ -646,15 +652,23 @@ def module_options():
             session['labels'] = []
             session['lecture_details'] = []
             # sorting the graph data...
-            if int(get_week()) >= 13:
 
-                for item in modulelectures:
-
-                    if item['Week'] > 12:
-
-                        item['Week'] = item['Week'] - 12
+            if get_week() is None:
 
                 session['labels'] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+            else:
+
+                if int(get_week()) >= 13:
+
+                    for item in modulelectures:
+
+                        if item['Week'] > 12:
+
+                            item['Week'] = item['Week'] - 12
+
+                    session['labels'] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
             # updating the modules attendance.
             update_module_attendance(module_id, retrieve_class_list(module_id))
 
@@ -795,6 +809,10 @@ def sort_lectures(week, lectures, type):
 
     filtered_lectures = []
 
+    if week is None:
+
+        return filtered_lectures
+
     # sorting lectures by week.
     if type == "Weekly":
 
@@ -836,7 +854,6 @@ def delete_lecture(lecture_id):
 
     # deleting the lecture.
     cursor.execute("DELETE FROM Lectures WHERE LectureID=?", (lecture_id,))
-    cursor.commit()
 
 
 @app.route("/student_stats", methods=['GET', 'POST'])
@@ -949,7 +966,7 @@ def get_expected_lectures(student, module_id):
 
         for lecture in session['module_lectures']:
 
-            time = lecture['Time']
+            time = datetime.datetime.strptime(lecture['Time'], '%Y-%m-%d %H:%M:%S')
 
             if str(lecture['LectureID']) == str(expected_lecture[0]) and has_happened(time) is True:
 
@@ -994,10 +1011,8 @@ def delete_module():
 
     # Deleting modules details completely from the database.
     cursor.execute("DELETE FROM Modules WHERE ModuleID=?", (module_id,))
-    cursor.commit()
 
     cursor.execute("DELETE FROM Lectures WHERE ModuleID=?", (module_id,))
-    cursor.commit()
 
     # reflecting these changes across the rest of the system.
     session['moduleid'] = module_id
@@ -1188,12 +1203,13 @@ def search_class_list():
         query = "SELECT * FROM Students WHERE MatricNum=?"
         result = pd.read_sql(query, conn, params=(int(keyword),))
         students = result.to_dict('records')
-
     else:
+        students = []
+        for word in keyword.split():
         # performing the query.
-        query = "SELECT * FROM Students WHERE FirstName=? OR LastName=? "
-        result = pd.read_sql(query, conn, params=(keyword, keyword,))
-        students = result.to_dict('records')
+            query = 'SELECT * FROM Students WHERE FirstName LIKE "%{}%" OR LastName LIKE "%{}%"'.format(word, word)
+            result = pd.read_sql(query, conn)
+            students = students + result.to_dict('records')
 
     if len(students) == 0:
         # if nothing is found then an error is thrown back to the lecturer.
@@ -1205,12 +1221,18 @@ def search_class_list():
 
         class_list = []
 
-        for item in students:
+        for student in students:
 
-            class_list.append(get_student_info(item['MatricNum']))
-            
-    # displaying the web page.
-    return render_template('class_list_management.html', exists=True, class_list=class_list)
+            if check_if_in_class_list(session['moduleid'], student['MatricNum']):
+
+                student['Attendance'] = get_student_attendance(student['MatricNum'], session['moduleid'])
+                class_list.append(student)
+        print(class_list)
+
+
+
+        # displaying the web page.
+        return render_template('class_list_management.html', exists=True, class_list=class_list, lectures_exist=True)
 
 
 @app.route("/class_list_management", methods=['GET', 'POST'])
@@ -1301,6 +1323,7 @@ def get_student_attendance(matric_num, module_id):
     query = 'SELECT Attendance FROM {} WHERE MatricNum={}'.format(module_id, matric_num)
     result = pd.read_sql(query, conn)
     student = result.to_dict('records')
+
     # returning the students attendance from their record.
     return student[0]['Attendance']
 
@@ -1315,9 +1338,7 @@ def update_module_attendance(module_id, class_list):
     # sorting each lecture to make sure lectures that have not happened are not taken into account.
     for lecture in session['module_lectures']:
 
-        time = lecture['Time']
-
-        if has_happened(time) is True:
+        if has_happened(datetime.datetime.strptime(lecture['Time'], '%Y-%m-%d %H:%M:%S')) is True:
             expected_lectures.append(lecture)
     # updating the attendance for every student in the module.
     for student in class_list:
@@ -1395,7 +1416,7 @@ def remove_from_class_list():
     # updating the student in the students table in the database.
     query = 'UPDATE Students SET ModuleString={} WHERE MatricNum={};'.format("'" + module_string + "'", "'" + str(student_id) + "'")
     cursor.execute(query)
-    cursor.commit()
+
     student = get_student_info(student_id)
     logger.info(student['FirstName'] + " " + student['LastName'] + " Removed From " + session['moduleid'])
     # redirecting to the class list management web page.
@@ -1485,7 +1506,16 @@ def modulemanagement():
             logger.info("Error, module ID already exists, please choose another.")
             flash("Error, module ID already exists, please choose another.")
             # throwing back an error if the ID exists.
-            return render_template('modulemanager.html', modules=session['supervised_modules'], Notification=error)
+
+            if len(session['supervised_modules']) == 0:
+
+                modules_display = False
+
+            else:
+
+                modules_display = True
+
+            return render_template('modulemanager.html', modules=session['supervised_modules'], Notification=error, modules_display=modules_display)
 
         # checking the module name doesnt already exist.
         if check_duplicate('Modules', 'ModuleName', modulename):
@@ -1493,7 +1523,16 @@ def modulemanagement():
             logger.info("Error, module names cannot be duplicated...")
             flash("Error, module name already exists, please choose another")
             # throwing back an error if the name exists.
-            return render_template('modulemanager.html', modules=session['supervised_modules'], Notification=error)
+
+            if len(session['supervised_modules']) == 0:
+
+                modules_display = False
+
+            else:
+
+                modules_display = True
+
+            return render_template('modulemanager.html', modules=session['supervised_modules'], Notification=error, modules_display=modules_display)
 
         # checking the module ID is the correct length
         if len(moduleid) != 7:
@@ -1502,7 +1541,15 @@ def modulemanagement():
             logger.info("Error, module ID is the wrong length")
             flash("Error, module ID is the wrong length ")
             # throwing back an error if the id length is not the correct length.
-            return render_template('modulemanager.html', modules=session['supervised_modules'], Notification=error)
+
+            if len(session['supervised_modules']) == 0:
+
+                modules_display = False
+
+            else:
+
+                modules_display = True
+            return render_template('modulemanager.html', modules=session['supervised_modules'], Notification=error,modules_display=modules_display)
 
         # creating the module table in the database along with adding the module to the modules table.
         query = "INSERT INTO Modules(ModuleID, ModuleName, LecturerID) VALUES (?, ?, ?);"
@@ -1670,7 +1717,14 @@ def gencode():
         if g.user:
             updatemanagedmodules()
             # Providing a HTTP 200 response to the get request.
-            return render_template('gencode.html', moduleselected=False, lectureselected=False)
+            if len(session['supervised_modules']) is 0:
+
+                modules_exist = False
+            else:
+                modules_exist = True
+
+            return render_template('gencode.html', moduleselected=False,
+                                   lectureselected=False, modules_exist=modules_exist)
 
         return redirect(url_for('lecturer_sign_in'))
 
@@ -1681,14 +1735,14 @@ def selectmodule():
     # Receiving data from the post request.
     module = request.form['module']
     # Retrieving the lectures for the week for the selected module...
-    lectures = sort_lectures(get_week(), get_lectures(module), "Weekly")
+    lectures = get_lectures(module)
     # Sanitising the lecture data so it is in a readable format.
     for lecture in lectures:
 
-        lecture['Time'] = lecture['Time'].to_pydatetime()
+        lecture['Time'] = datetime.datetime.strptime(lecture['Time'], '%Y-%m-%d %H:%M:%S')
         lecture['Time'] = lecture['Time'].time()
     # Providing a HTTP 200 response to the post request.
-    return render_template('gencode.html', lectures=lectures, moduleselected=True, lectureselected=False)
+    return render_template('gencode.html', lectures=lectures, moduleselected=True, lectureselected=False, modules_exist=True)
 
 
 @app.route("/selectlecture", methods=['GET', 'POST'])
@@ -1699,7 +1753,7 @@ def selectlecture():
     # sending the lecture code to the web page.
     flash(lecture)
     # Providing a HTTP 200 response to the post request.
-    return render_template('gencode.html', moduleselected=True, code=lecture, lectureselected=True)
+    return render_template('gencode.html', moduleselected=True, code=lecture, lectureselected=True, modules_exist=True)
 
 
 def generatenewcode():
@@ -1774,6 +1828,9 @@ def set_week():
         dict_of_weeks[i] = dict_of_weeks[i - 1] + datetime.timedelta(days=7)
 
     session['weeks'] = dict_of_weeks
+
+    if get_week() is None:
+        logging.info("Semester Is Over")
 
 
 def get_next_lecture(week):

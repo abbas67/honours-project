@@ -39,15 +39,14 @@
         {# notification bar that shows a dynamic set of clickable notifications. #}
         <div class="my-4">
             <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title" style="color: #4365E2;">Notifications </h5>
+                <div class="card-body"style="background-color:#4365E2 ">
+                    <h5 class="card-title" style="color: ghostwhite;">Notifications </h5>
 
-                    {%if show_messages %}
+                    {%if show_messages == True and too_many_messages == False %}
 
                         <div class="container-fluid my-3">
 
                             <ul class="list-group mx-5">
-                                <li class="list-group-item active" style="color: ghostwhite;background-color: #4365E2;">Attendance Notifications</li>
                                 {% for item in student_messages %}
 
                                     <li class="list-group" style="color: ghostwhite;">
@@ -66,9 +65,23 @@
 
                     {% endif %}
 
+                    {%if show_messages == True and too_many_messages == True %}
+
+                         <div class="container-fluid my-3">
+
+                            <ul class="list-group mx-5">
+                                <li class="list-group-item active" style="color: #4365E2;background-color: ghostwhite ;">You have an overwhelming amount of attendance issues, please check module management.</li>
+
+                            </ul>
+
+                        </div>
+
+
+                    {% endif %}
+
                     {%if show_messages == False %}
 
-                        <p class="card-text" style="color:#4365E2;">No current Notifications.</p>
+                        <p class="card-text" style="color:ghostwhite;">No current Notifications.</p>
 
                     {% endif %}
 
@@ -78,9 +91,9 @@
         {# code generation option#}
         <div class="my-4">
             <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title" style="color:#4365E2;"> Code Generation</h5>
-                    <p class="card-text"  style="color:#4365E2;">Generate and display a code for a lecture.</p>
+                <div class="card-body"style="background-color:#4365E2 ">
+                    <h5 class="card-title" style="color:ghostwhite;"> Code Generation</h5>
+                    <p class="card-text"  style="color:ghostwhite;">Generate and display a code for a lecture.</p>
                     <a href="{{ url_for('gencode') }}" class="btn btn-primary">Go</a>
                 </div>
             </div>
@@ -88,9 +101,9 @@
         {# module management option #}
         <div class="my-4">
             <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title" style="color:#4365E2;">Module Manager</h5>
-                    <p class="card-text" style="color:#4365E2;">Manage your modules</p>
+                <div class="card-body"style="background-color:#4365E2 ">
+                    <h5 class="card-title" style="color:ghostwhite;">Module Manager</h5>
+                    <p class="card-text" style="color:ghostwhite;">Manage your modules</p>
                     <a href="{{ url_for('modulemanagement') }}" class="btn btn-primary">Go</a>
                 </div>
             </div>
@@ -106,7 +119,7 @@
 
                             <div class=mx-2>
 
-                                <h5 class="card-title" style="color: ghostwhite;" text-align="centre">Monday</h5>
+                                <h5 class="card-title" style="color: #4365E2;" text-align="centre">Monday</h5>
                                 <div class="card-body" style="background-color:#4365E2;">
                                     <ul class="list-group" style="background-color:#4365E2;color: #2b542c">
 

@@ -18,7 +18,6 @@
                 <li id="nav"><a href="{{ url_for('lecturer_home') }}">Lecturers</a></li>
                 <li id="nav"><a href="{{ url_for('lecturesignin') }}">Students</a></li>
                 <li id="nav"><a href="{{ url_for('sign_out') }}">Sign Out</a></li>
-
             </ul>
 
         </div>
@@ -36,11 +35,11 @@
             <div class ="container">
                 <form action="{{ url_for('selectmodule') }}" method="post">
                     {% for item in session['supervised_modules'] %}
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ item['ModuleID'] }}</h5>
-                                <p class="card-text">{{ item['ModuleName'] }}</p>
-                                <input name="module" type="submit" class="btn btn-primary" value="{{ item['ModuleID'] }}" >
+                        <div class="card m-5">
+                            <div class="card-body" style="background-color: #4365E2">
+                                <h5 class="card-title" style="color: ghostwhite">{{ item['ModuleID'] }}</h5>
+                                <p class="card-text" style="color: ghostwhite">{{ item['ModuleName'] }}</p>
+                                <button name="module" type="submit" class="btn btn-primary" value="{{ item['ModuleID'] }}" >Select</button>
                             </div>
                         </div>
                         <br>
@@ -59,7 +58,7 @@
                     <h5 class="card-title">Select Lecture</h5>
 
                     <table class="table">
-                        <thead class="thead-dark">
+                        <thead class="thead-dark" style="background-color: #4365E2">
                         <tr>
                             <th scope="col"></th>
                             <th scope="col"></th>
@@ -87,7 +86,7 @@
                         </tbody>
                     </table>
                 </div>
-                <a href="{{ url_for('gencode') }}" class="btn btn-primary">Back</a>
+                <a href="{{ url_for('gencode') }}" class="btn btn-primary" style="background-color: #4365E2">Back</a>
             </div>
         {% endif %}
 
@@ -108,6 +107,20 @@
         {% endwith %}
     </div>
 
+      {% if modules_exist == False %}
+            {# displayed if no modules exist.#}
+
+            <div>
+                <div class="card mx-5" >
+                    <img class="card-img-top" src="/static/modules.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">It seems that you don't have any modules yet!</h5>
+                        <p class="card-text">Click the button below to get started.</p>
+                        <a href="{{ url_for('modulemanagement') }}" type="submit" style="color:#4365E2" class="btn btn-primary">Go </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
 
 {% endblock content %}
 
