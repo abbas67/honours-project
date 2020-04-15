@@ -1,34 +1,35 @@
+"""
+NOTE THAT EVERY TEST HAS TO BE RAN INDIVIDUALLY TO AVOID ISSUES WITH DATABASE LOCKING.
+
+Abbas Lawal
+AC40001 Honours Project
+BSc (Hons) Computing Science
+University of Dundee 2019/20
+Supervisor: Dr Craig Ramsay
+All CODE IS ORIGINAL UNLESS STATED SO.
+"""
+
 import csv
 import os
 import io
+import sqlite3
+from sqlite3 import Error
 import pandas as pd
 from flask import Flask, render_template, request, redirect, url_for, flash, session, g, json
 import flask
 import requests
 import unittest
 import logging
-from dbconn import connect
 import pyodbc
 import requests
 from unittest import mock
-
-
-from main import app, updatemanagedmodules, get_class_attendance, get_student_attendance,\
-    update_module_attendance, get_expected_lectures
-import tests.load_students_for_test
+from dbconn import connect
+from main import app
+from create_tables import create_all_tables
 
 app.testing = True
-
-drivers = [item for item in pyodbc.drivers()]
-driver = drivers[-1]
-server = 'Zeno.computing.dundee.ac.uk'
-database = 'abbaslawaldb'
-uid = 'abbaslawal'
-pwd = 'abc2019ABL123..'
-
-params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
-conn = pyodbc.connect(params)
-cursor = conn.cursor()
+conn = connect()
+create_all_tables()
 
 
 # Testing that each page returns the required response.
@@ -101,72 +102,15 @@ class AdvancedTests(unittest.TestCase):
         self.app = app.test_client()
         self.app.testing = True
 
+
         pass
 
     def tearDown(self,):
 
-        cursor = connect()
+        create_all_tables()
 
-        cursor.execute("DELETE FROM Students WHERE MatricNum=?", ('160012345',))
-        cursor.commit()
 
-        cursor.execute("DELETE FROM Students WHERE MatricNum=?", ('160012346',))
-        cursor.commit()
-
-        cursor.execute("DELETE FROM Lecturers WHERE LecturerID=?", ('testaccount123',))
-        cursor.commit()
-
-        cursor.execute("DELETE FROM Lecturers WHERE LecturerID=?", ('testaccount321',))
-        cursor.commit()
-
-        cursor.execute("DELETE FROM Lecturers WHERE LecturerID=?", ('testlecturerID123',))
-        cursor.commit()
-
-        cursor.execute("DELETE FROM Modules WHERE ModuleID=?", ('AC12345',))
-        cursor.commit()
-
-        cursor.execute("DELETE FROM Lectures WHERE ModuleID=?", ('AC12345',))
-        cursor.commit()
-
-        cursor.execute("DELETE FROM Modules WHERE ModuleID=?", ('AC10000',))
-        cursor.commit()
-
-        cursor.execute("DELETE FROM Lectures WHERE ModuleID=?", ('AC10000',))
-        cursor.commit()
-
-        cursor.execute("DELETE FROM Modules WHERE ModuleID=?", ('AC12346',))
-        cursor.commit()
-
-        cursor.execute("DELETE FROM Lectures WHERE ModuleID=?", ('AC12346',))
-        cursor.commit()
-
-        cursor.execute("DELETE FROM Lecturers WHERE LecturerID=?", ('wrong_account',))
-        cursor.commit()
-
-        query = 'SELECT TABLE_NAME FROM information_schema.tables'
-        result = pd.read_sql(query, conn)
-        tables = result.to_dict('records')
-
-        for table in tables:
-
-            if table['TABLE_NAME'] == 'AC10000':
-
-                query = 'DROP Table AC10000;'
-                cursor.execute(query)
-                cursor.commit()
-
-            if table['TABLE_NAME'] == 'AC12345':
-
-                query = 'DROP Table AC12345;'
-                cursor.execute(query)
-                cursor.commit()
-
-        for student in range(100000000, 100000051):
-
-            cursor.execute('DELETE FROM Students WHERE MatricNum={}'.format(student))
-            cursor.commit()
-
-    # Testing the account creation functionality for students
+    #Testing the account creation functionality for students
 
     def test_student_signup(self):
 
@@ -176,9 +120,11 @@ class AdvancedTests(unittest.TestCase):
                                                           fname="John", lname="Smith", lecturercheck="Student", email="testemail123@google.com", follow_redirects=True))
             # checking tha the application has actually created the account by checking the logs.
             # checking to see that the correct response code is given by the request.
+
             self.assertEqual(response.status_code, 200)
             self.assertIn('INFO:logger:Student account successfully created', cm.output)
             # Checking to see that the student has been uploaded to the database.
+
             self.assertTrue(self.check_student_upload(160012345), "Test Failed")
 
         # Testing for issues with the matriculation number.
@@ -385,7 +331,6 @@ class AdvancedTests(unittest.TestCase):
                 # Checking that the lectures have been removed for each student.
                 for lecture in self.get_lectures('AC10000'):
 
-
                     self.assertNotIn(lecture['LectureID'] + '-0', student['ModuleString'])
 
                 # Checking that the correct lectures are still there for the students.
@@ -530,8 +475,10 @@ class AdvancedTests(unittest.TestCase):
                 # Updating the student in the DB.
                 query = 'UPDATE Students SET ModuleString={} WHERE MatricNum={};'\
                     .format("'" + string + "'", "'" + student['MatricNum'] + "'")
-                cursor.execute(query)
-                conn.commit()
+
+                cursor = conn.cursor()
+                cursor.execute(query,conn)
+
                 # verifying the correct response has been logged.
                 with self.assertLogs(level='INFO') as cm:
                     response = self.app.get('/lecturer_home')
@@ -605,7 +552,7 @@ class AdvancedTests(unittest.TestCase):
         return len(student) == 1
 
     def retrieve_class_list(self, module_id):
-
+        cursor = connect()
         class_list = []
 
         query = 'SELECT {}.MatricNum, {}.Attendance, Students.FirstName,Students.LastName, Students.ModuleString FROM {} INNER JOIN Students ON {}.MatricNum=Students.MatricNum;'.format(

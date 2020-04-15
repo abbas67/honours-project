@@ -1,15 +1,27 @@
-2020-03-30 12:27:INFO: Lecturer account successfully created
-2020-03-30 12:27:INFO: Successfully Signed Into Lecturer Account
-2020-03-30 12:27:INFO: AC12345 : Test Module 1 successfully created.
-2020-03-30 12:27:INFO: Lecture set: Monday from week 13 to 24 at Dalhousie at 2020-04-06 14:00:00 successfully created.
-2020-03-30 12:27:INFO: Student uploaded to database
-2020-03-30 12:27:INFO: Student account successfully created
-2020-03-30 12:27:INFO: Attempting to add Ashien Weatherdon to class list: AC12345
-2020-03-30 12:27:INFO: Ashien Weatherdon Added To Class list
-2020-03-30 12:27:INFO: Ashien Weatherdon Has less than 50% attendance for AC12345
-2020-03-30 12:27:INFO: Ashien Weatherdon Has less than 80% attendance for AC12345
-2020-03-30 12:27:INFO: Ashien Weatherdon Has less than 50% attendance for AC12345
-2020-03-30 12:27:INFO: Ashien Weatherdon Has less than 80% attendance for AC12345
-2020-03-30 12:27:INFO: Ashien Weatherdon Has less than 80% attendance for AC12345
-2020-03-30 12:27:INFO: Ashien Weatherdon Has more than 80% attendance for AC12345
-2020-03-30 12:27:INFO: Ashien Weatherdon Has 100% attendance for AC12345
+2020-04-15 13:02:INFO: Lecturer account successfully created
+2020-04-15 13:02:INFO: Successfully Signed Into Lecturer Account
+2020-04-15 13:02:INFO: AC12345 : Test Module 1 successfully created.
+2020-04-15 13:02:INFO: Lecture set: Monday from week 13 to 24 at Dalhousie at 2020-04-06 14:00:00 successfully created.
+2020-04-15 13:02:INFO: Student uploaded to database
+2020-04-15 13:02:INFO: Student account successfully created
+2020-04-15 13:02:INFO: Attempting to add Ashien Weatherdon to class list: AC12345
+2020-04-15 13:02:INFO: Ashien Weatherdon Added To Class list
+2020-04-15 13:02:INFO: Lecturer account successfully created
+2020-04-15 13:02:INFO: Successfully Signed Into Lecturer Account
+2020-04-15 13:02:INFO: AC10000 : Test Module 1 successfully created.
+2020-04-15 13:02:INFO: Lecture set: Monday from week 1 to 12 at Dalhousie at 2019-12-02 14:00:00 successfully created.
+2020-04-15 13:02:INFO: Student uploaded to database
+2020-04-15 13:02:INFO: Student account successfully created
+2020-04-15 13:02:INFO: Student uploaded to database
+2020-04-15 13:02:INFO: Student account successfully created
+2020-04-15 13:02:INFO: Attempting to add Harry Potter to class list: AC10000
+2020-04-15 13:02:INFO: Harry Potter Added To Class list
+2020-04-15 13:02:INFO: Attempting to add Draco Malfoy to class list: AC10000
+2020-04-15 13:02:INFO: Draco Malfoy Added To Class list
+2020-04-15 13:02:INFO: AC12345 : Test Module 2 successfully created.
+2020-04-15 13:02:INFO: Lecture set: Tuesday from week 1 to 12 at Dalhousie at 2019-12-03 14:00:00 successfully created.
+2020-04-15 13:02:INFO: Attempting to add Harry Potter to class list: AC12345
+2020-04-15 13:02:INFO: Harry Potter Added To Class list
+2020-04-15 13:02:INFO: Attempting to add Draco Malfoy to class list: AC12345
+2020-04-15 13:02:INFO: Draco Malfoy Added To Class list
+2020-04-15 13:02:INFO: attempting to remove 160012345 from class list...

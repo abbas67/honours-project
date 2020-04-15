@@ -11,27 +11,23 @@ The Purpose of this script is to load sample data into the system.
 
 
 import csv
+import sqlite3
+from sqlite3 import Error
 import json
 import hashlib, binascii, os
 import datetime
 from datetime import timedelta
 import random,string
 from random import randint
+from create_tables import create_all_tables
 from os import path
 from dbconn import connect
 import pandas as pd
 import pyodbc
 import shutil
 
-drivers = [item for item in pyodbc.drivers()]
-driver = drivers[-1]
-server = 'Zeno.computing.dundee.ac.uk'
-database = 'abbaslawaldb'
-uid = 'abbaslawal'
-pwd = 'abc2019ABL123..'
-
-params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
-conn = pyodbc.connect(params)
+file_path = os.path.abspath(os.path.dirname(__file__))
+conn = sqlite3.connect(file_path + '/Database/database.db', check_same_thread=False)
 cursor = conn.cursor()
 
 
@@ -78,7 +74,6 @@ def load_data():
 
 def insert_data(sample_data, class_names):
 
-    cursor = connect()
     students = []
 
     for x in sample_data[250:500]:
@@ -160,7 +155,7 @@ def insert_module(cursor, sample_data, students):
 
     query = "INSERT INTO Modules(ModuleID, ModuleName, LecturerID) VALUES (?, ?, ?);"
     cursor.execute(query, (module_ID, sample_data['Module_1'], sample_data['LecturerID']))
-    cursor.commit()
+
 
     query = 'CREATE TABLE {} (MatricNum char(9), Attendance int);'.format(module_ID)
     cursor.execute(query)
@@ -180,7 +175,7 @@ def insert_module(cursor, sample_data, students):
             print(generatenewcode(), module_ID, lecture_name, lecture_location, x, day, lecture_time)
 
             cursor.execute(query, (generatenewcode(), module_ID, lecture_name, lecture_location, randint(1, 4), x, day, lecture_time))
-            cursor.commit()
+
 
     print("Semester 1 is timetabled")
 
@@ -192,7 +187,7 @@ def insert_module(cursor, sample_data, students):
 
     query = "INSERT INTO Modules(ModuleID, ModuleName, LecturerID) VALUES (?, ?, ?);"
     cursor.execute(query, (module_ID, sample_data['Module_2'], sample_data['LecturerID']))
-    cursor.commit()
+
 
     query = 'CREATE TABLE {} (MatricNum char(9), Attendance int);'.format(module_ID)
     cursor.execute(query)
@@ -211,7 +206,7 @@ def insert_module(cursor, sample_data, students):
             print(generatenewcode(), module_ID, lecture_name, lecture_location, x, day, lecture_time)
 
             cursor.execute(query, (generatenewcode(), module_ID, lecture_name, lecture_location, randint(1, 4), x, day, lecture_time))
-            cursor.commit()
+
 
     print("Semester 2 is timetabled")
 
@@ -267,7 +262,7 @@ def insert_lecturers(cursor, sample_data):
     query = "INSERT INTO Lecturers (LecturerID, FirstName, LastName, Password) VALUES (?, ?, ? ,?);"
     cursor.execute(query, (sample_data['LecturerID'], sample_data['first_name'], sample_data['last_name'], hash_password('password123')))
     print(sample_data['LecturerID'], sample_data['first_name'], sample_data['last_name'], hash_password('password123'))
-    cursor.commit()
+
 
 
 def generatenewcode():
@@ -302,24 +297,21 @@ def clear_table():
     result = pd.read_sql(query, conn)
     modules = result.to_dict('records')
 
-    cursor = connect()
-    cursor.execute("TRUNCATE TABLE Students")
-    cursor.commit()
+    cursor = conn
+    cursor.execute("DELETE FROM Students")
 
-    cursor.execute("TRUNCATE TABLE Lecturers")
-    cursor.commit()
 
-    cursor.execute("TRUNCATE TABLE Lectures")
-    cursor.commit()
+    cursor.execute("DELETE FROM Lecturers")
+
+
+    cursor.execute("DELETE FROM Lectures")
 
     for module in modules:
 
         query = 'DROP Table {};'.format(module['ModuleID'])
         cursor.execute(query)
-        cursor.commit()
 
-    cursor.execute("TRUNCATE TABLE Modules")
-    cursor.commit()
+    cursor.execute("DELETE FROM Modules")
 
 
 def convert_time(hour, day, week):
@@ -390,7 +382,7 @@ def get_lectures(module):
 
 def create_mock_data():
 
-    query = "SELECT top 25 * FROM Students;"
+    query = "SELECT * FROM Students LIMIT 25;"
     print(query)
     result = pd.read_sql(query, conn)
     students = result.to_dict('records')
@@ -406,6 +398,7 @@ def create_mock_data():
 
 if __name__ == "__main__":
 
+    create_all_tables()
     clear_table()
     sample_data = load_data()
     updated_students = []

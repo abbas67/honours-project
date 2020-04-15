@@ -1,15 +1,11 @@
-import pyodbc
+import sqlite3
+import os
+from sqlite3 import Error
 
 
 def connect():
 
-    drivers = [item for item in pyodbc.drivers()]
-    driver = drivers[-1]
-    server = 'Zeno.computing.dundee.ac.uk'
-    database = 'abbaslawaldb'
-    uid = 'abbaslawal'
-    pwd = 'abc2019ABL123..'
+    file_path = os.path.abspath(os.path.dirname(__file__))
+    conn = sqlite3.connect(file_path + '/Database/database.db', check_same_thread=False)
 
-    params = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={uid};PWD={pwd}'
-    conn = pyodbc.connect(params)
-    return conn.cursor()
+    return conn
