@@ -1,55 +1,810 @@
-2020-04-15 14:28:INFO: Retrieving module lectures from AC17540 for the current week...
-2020-04-15 14:28:INFO: Successfully Signed Out
-2020-04-15 14:28:INFO: Successfully Signed Into Lecturer Account
-2020-04-15 14:28:INFO: Alyce Arias Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Alyce Arias Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Heike Berganza Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Heike Berganza Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Carey Dopico Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Carey Dopico Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Dottie Hellickson Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Dottie Hellickson Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Deandrea Hughey Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Deandrea Hughey Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Kimberlie Duenas Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Kimberlie Duenas Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Martina Staback Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Martina Staback Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Skye Fillingim Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Skye Fillingim Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Jade Farrar Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Jade Farrar Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Charlene Hamilton Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Charlene Hamilton Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Geoffrey Acey Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Geoffrey Acey Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Stevie Westerbeck Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Stevie Westerbeck Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Pamella Fortino Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Pamella Fortino Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Harrison Haufler Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Harrison Haufler Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Johnna Engelberg Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Johnna Engelberg Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Buddy Cloney Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Buddy Cloney Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Dalene Riden Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Dalene Riden Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Jerry Zurcher Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Jerry Zurcher Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Haydee Denooyer Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Haydee Denooyer Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Joseph Cryer Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Joseph Cryer Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Deonna Kippley Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Deonna Kippley Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Raymon Calvaresi Has less than 50% attendance for AC12345
-2020-04-15 14:28:INFO: Raymon Calvaresi Has less than 80% attendance for AC12345
-2020-04-15 14:28:INFO: Retrieving module lectures from AC12345 for the current week...
-2020-04-15 14:29:INFO: Successfully Signed Out
-2020-04-15 14:30:INFO: Lecturer account successfully created
-2020-04-15 14:30:INFO: Successfully Signed Into Lecturer Account
-2020-04-15 14:30:INFO: Error, module ID is the wrong length
-2020-04-15 14:30:INFO: AC12333 : INTRO TO successfully created.
-2020-04-15 14:30:INFO: Retrieving module lectures from AC12333 for the current week...
-2020-04-15 14:30:INFO: Successfully Signed Out
+2020-04-20 17:06:INFO: Successfully Signed Into Lecturer Account
+2020-04-20 17:06:INFO: Cordelia Storment Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Mollie Mcdoniel Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Brett Mccullan Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Teddy Pedrozo Has less than 50% attendance for AC96105
+2020-04-20 17:06:INFO: Teddy Pedrozo Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Tasia Andreason Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Hubert Walthall Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Arthur Farrow Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Vilma Berlanga Has more than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Vilma Berlanga Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Billye Miro Has more than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Billye Miro Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Glenna Slayton Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Mitzie Hudnall Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Bernardine Rodefer Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Staci Schmaltz Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Nichelle Meteer Has more than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Nichelle Meteer Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Janine Rhoden Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Ettie Hoopengardner Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Eden Jayson Has more than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Eden Jayson Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Lynelle Auber Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Merissa Tomblin Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Golda Kaniecki Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Catarina Gleich Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Virgie Kiel Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Jolene Ostolaza Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Keneth Borgman Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Rikki Nayar Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Elke Sengbusch Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Hoa Sarao Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Trinidad Mcrae Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Mari Lueckenbach Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Selma Husser Has more than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Selma Husser Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Antione Onofrio Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Luisa Jurney Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Clorinda Heimann Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Dick Wenzinger Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Ahmed Angalich Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Iluminada Ohms Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Joanna Leinenbach Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Caprice Suell Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Stephane Myricks Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Quentin Swayze Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Annmarie Castros Has less than 50% attendance for AC96105
+2020-04-20 17:06:INFO: Annmarie Castros Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Shonda Greenbush Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Cecil Lapage Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Jeanice Claucherty Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Josphine Villanueva Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Daniel Perruzza Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Cassi Wildfong Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Britt Galam Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Adell Lipkin Has less than 80% attendance for AC96105
+2020-04-20 17:06:INFO: Cordelia Storment Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Mollie Mcdoniel Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Brett Mccullan Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Teddy Pedrozo Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Tasia Andreason Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Hubert Walthall Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Arthur Farrow Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Vilma Berlanga Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Billye Miro Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Glenna Slayton Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Mitzie Hudnall Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Bernardine Rodefer Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Staci Schmaltz Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Nichelle Meteer Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Janine Rhoden Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Ettie Hoopengardner Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Eden Jayson Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Lynelle Auber Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Merissa Tomblin Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Golda Kaniecki Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Catarina Gleich Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Virgie Kiel Has more than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Virgie Kiel Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Jolene Ostolaza Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Keneth Borgman Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Rikki Nayar Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Elke Sengbusch Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Hoa Sarao Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Trinidad Mcrae Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Mari Lueckenbach Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Selma Husser Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Antione Onofrio Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Luisa Jurney Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Clorinda Heimann Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Dick Wenzinger Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Ahmed Angalich Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Iluminada Ohms Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Joanna Leinenbach Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Caprice Suell Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Stephane Myricks Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Quentin Swayze Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Annmarie Castros Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Shonda Greenbush Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Cecil Lapage Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Jeanice Claucherty Has more than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Jeanice Claucherty Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Josphine Villanueva Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Daniel Perruzza Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Cassi Wildfong Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Britt Galam Has less than 80% attendance for AC54291
+2020-04-20 17:06:INFO: Adell Lipkin Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Cordelia Storment Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Mollie Mcdoniel Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Brett Mccullan Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Teddy Pedrozo Has less than 50% attendance for AC96105
+2020-04-20 17:07:INFO: Teddy Pedrozo Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Tasia Andreason Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Hubert Walthall Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Arthur Farrow Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Vilma Berlanga Has more than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Vilma Berlanga Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Billye Miro Has more than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Billye Miro Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Glenna Slayton Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Mitzie Hudnall Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Bernardine Rodefer Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Staci Schmaltz Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Nichelle Meteer Has more than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Nichelle Meteer Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Janine Rhoden Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Ettie Hoopengardner Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Eden Jayson Has more than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Eden Jayson Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Lynelle Auber Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Merissa Tomblin Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Golda Kaniecki Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Catarina Gleich Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Virgie Kiel Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Jolene Ostolaza Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Keneth Borgman Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Rikki Nayar Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Elke Sengbusch Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Hoa Sarao Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Trinidad Mcrae Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Mari Lueckenbach Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Selma Husser Has more than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Selma Husser Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Antione Onofrio Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Luisa Jurney Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Clorinda Heimann Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Dick Wenzinger Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Ahmed Angalich Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Iluminada Ohms Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Joanna Leinenbach Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Caprice Suell Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Stephane Myricks Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Quentin Swayze Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Annmarie Castros Has less than 50% attendance for AC96105
+2020-04-20 17:07:INFO: Annmarie Castros Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Shonda Greenbush Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Cecil Lapage Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Jeanice Claucherty Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Josphine Villanueva Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Daniel Perruzza Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Cassi Wildfong Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Britt Galam Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Adell Lipkin Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Cordelia Storment Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Mollie Mcdoniel Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Brett Mccullan Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Teddy Pedrozo Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Tasia Andreason Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Hubert Walthall Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Arthur Farrow Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Vilma Berlanga Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Billye Miro Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Glenna Slayton Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Mitzie Hudnall Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Bernardine Rodefer Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Staci Schmaltz Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Nichelle Meteer Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Janine Rhoden Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Ettie Hoopengardner Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Eden Jayson Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Lynelle Auber Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Merissa Tomblin Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Golda Kaniecki Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Catarina Gleich Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Virgie Kiel Has more than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Virgie Kiel Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Jolene Ostolaza Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Keneth Borgman Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Rikki Nayar Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Elke Sengbusch Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Hoa Sarao Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Trinidad Mcrae Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Mari Lueckenbach Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Selma Husser Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Antione Onofrio Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Luisa Jurney Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Clorinda Heimann Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Dick Wenzinger Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Ahmed Angalich Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Iluminada Ohms Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Joanna Leinenbach Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Caprice Suell Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Stephane Myricks Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Quentin Swayze Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Annmarie Castros Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Shonda Greenbush Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Cecil Lapage Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Jeanice Claucherty Has more than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Jeanice Claucherty Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Josphine Villanueva Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Daniel Perruzza Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Cassi Wildfong Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Britt Galam Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Adell Lipkin Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Retrieving module lectures from AC96105 for the current week...
+2020-04-20 17:07:INFO: Retrieving module lectures from AC96105 for the current week...
+2020-04-20 17:07:INFO: Retrieving module lectures from AC96105 for the current week...
+2020-04-20 17:07:INFO: Cordelia Storment Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Mollie Mcdoniel Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Brett Mccullan Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Teddy Pedrozo Has less than 50% attendance for AC96105
+2020-04-20 17:07:INFO: Teddy Pedrozo Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Tasia Andreason Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Hubert Walthall Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Arthur Farrow Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Vilma Berlanga Has more than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Vilma Berlanga Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Billye Miro Has more than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Billye Miro Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Glenna Slayton Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Mitzie Hudnall Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Bernardine Rodefer Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Staci Schmaltz Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Nichelle Meteer Has more than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Nichelle Meteer Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Janine Rhoden Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Ettie Hoopengardner Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Eden Jayson Has more than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Eden Jayson Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Lynelle Auber Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Merissa Tomblin Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Golda Kaniecki Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Catarina Gleich Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Virgie Kiel Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Jolene Ostolaza Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Keneth Borgman Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Rikki Nayar Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Elke Sengbusch Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Hoa Sarao Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Trinidad Mcrae Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Mari Lueckenbach Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Selma Husser Has more than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Selma Husser Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Antione Onofrio Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Luisa Jurney Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Clorinda Heimann Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Dick Wenzinger Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Ahmed Angalich Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Iluminada Ohms Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Joanna Leinenbach Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Caprice Suell Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Stephane Myricks Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Quentin Swayze Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Annmarie Castros Has less than 50% attendance for AC96105
+2020-04-20 17:07:INFO: Annmarie Castros Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Shonda Greenbush Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Cecil Lapage Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Jeanice Claucherty Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Josphine Villanueva Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Daniel Perruzza Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Cassi Wildfong Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Britt Galam Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Adell Lipkin Has less than 80% attendance for AC96105
+2020-04-20 17:07:INFO: Cordelia Storment Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Mollie Mcdoniel Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Brett Mccullan Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Teddy Pedrozo Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Tasia Andreason Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Hubert Walthall Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Arthur Farrow Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Vilma Berlanga Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Billye Miro Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Glenna Slayton Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Mitzie Hudnall Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Bernardine Rodefer Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Staci Schmaltz Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Nichelle Meteer Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Janine Rhoden Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Ettie Hoopengardner Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Eden Jayson Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Lynelle Auber Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Merissa Tomblin Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Golda Kaniecki Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Catarina Gleich Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Virgie Kiel Has more than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Virgie Kiel Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Jolene Ostolaza Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Keneth Borgman Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Rikki Nayar Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Elke Sengbusch Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Hoa Sarao Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Trinidad Mcrae Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Mari Lueckenbach Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Selma Husser Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Antione Onofrio Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Luisa Jurney Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Clorinda Heimann Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Dick Wenzinger Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Ahmed Angalich Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Iluminada Ohms Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Joanna Leinenbach Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Caprice Suell Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Stephane Myricks Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Quentin Swayze Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Annmarie Castros Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Shonda Greenbush Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Cecil Lapage Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Jeanice Claucherty Has more than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Jeanice Claucherty Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Josphine Villanueva Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Daniel Perruzza Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Cassi Wildfong Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Britt Galam Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Adell Lipkin Has less than 80% attendance for AC54291
+2020-04-20 17:07:INFO: Retrieving module lectures from AC96105 for the current week...
+2020-04-20 17:07:INFO: An email has been sent to Billye Miro Regarding good attendance.
+2020-04-20 17:08:INFO: Cordelia Storment Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Mollie Mcdoniel Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Brett Mccullan Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Teddy Pedrozo Has less than 50% attendance for AC96105
+2020-04-20 17:08:INFO: Teddy Pedrozo Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Tasia Andreason Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Hubert Walthall Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Arthur Farrow Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Vilma Berlanga Has more than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Vilma Berlanga Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Billye Miro Has more than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Billye Miro Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Glenna Slayton Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Mitzie Hudnall Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Bernardine Rodefer Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Staci Schmaltz Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Nichelle Meteer Has more than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Nichelle Meteer Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Janine Rhoden Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Ettie Hoopengardner Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Eden Jayson Has more than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Eden Jayson Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Lynelle Auber Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Merissa Tomblin Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Golda Kaniecki Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Catarina Gleich Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Virgie Kiel Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Jolene Ostolaza Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Keneth Borgman Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Rikki Nayar Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Elke Sengbusch Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Hoa Sarao Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Trinidad Mcrae Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Mari Lueckenbach Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Selma Husser Has more than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Selma Husser Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Antione Onofrio Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Luisa Jurney Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Clorinda Heimann Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Dick Wenzinger Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Ahmed Angalich Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Iluminada Ohms Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Joanna Leinenbach Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Caprice Suell Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Stephane Myricks Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Quentin Swayze Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Annmarie Castros Has less than 50% attendance for AC96105
+2020-04-20 17:08:INFO: Annmarie Castros Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Shonda Greenbush Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Cecil Lapage Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Jeanice Claucherty Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Josphine Villanueva Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Daniel Perruzza Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Cassi Wildfong Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Britt Galam Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Adell Lipkin Has less than 80% attendance for AC96105
+2020-04-20 17:08:INFO: Cordelia Storment Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Mollie Mcdoniel Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Brett Mccullan Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Teddy Pedrozo Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Tasia Andreason Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Hubert Walthall Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Arthur Farrow Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Vilma Berlanga Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Billye Miro Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Glenna Slayton Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Mitzie Hudnall Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Bernardine Rodefer Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Staci Schmaltz Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Nichelle Meteer Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Janine Rhoden Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Ettie Hoopengardner Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Eden Jayson Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Lynelle Auber Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Merissa Tomblin Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Golda Kaniecki Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Catarina Gleich Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Virgie Kiel Has more than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Virgie Kiel Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Jolene Ostolaza Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Keneth Borgman Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Rikki Nayar Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Elke Sengbusch Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Hoa Sarao Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Trinidad Mcrae Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Mari Lueckenbach Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Selma Husser Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Antione Onofrio Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Luisa Jurney Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Clorinda Heimann Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Dick Wenzinger Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Ahmed Angalich Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Iluminada Ohms Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Joanna Leinenbach Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Caprice Suell Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Stephane Myricks Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Quentin Swayze Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Annmarie Castros Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Shonda Greenbush Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Cecil Lapage Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Jeanice Claucherty Has more than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Jeanice Claucherty Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Josphine Villanueva Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Daniel Perruzza Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Cassi Wildfong Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Britt Galam Has less than 80% attendance for AC54291
+2020-04-20 17:08:INFO: Adell Lipkin Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: AC12345 : sample class successfully created.
+2020-04-20 17:10:INFO: Retrieving module lectures from AC12345 for the current week...
+2020-04-20 17:10:INFO: Retrieving module lectures from AC12345 for the current week...
+2020-04-20 17:10:INFO: Lecture set: Tuesday from week 3 to 9 at Dalhousei at 2019-11-12 10:00:00 successfully created.
+2020-04-20 17:10:INFO: Cordelia Storment Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Mollie Mcdoniel Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Brett Mccullan Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Teddy Pedrozo Has less than 50% attendance for AC96105
+2020-04-20 17:10:INFO: Teddy Pedrozo Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Tasia Andreason Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Hubert Walthall Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Arthur Farrow Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Vilma Berlanga Has more than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Vilma Berlanga Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Billye Miro Has more than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Billye Miro Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Glenna Slayton Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Mitzie Hudnall Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Bernardine Rodefer Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Staci Schmaltz Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Nichelle Meteer Has more than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Nichelle Meteer Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Janine Rhoden Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Ettie Hoopengardner Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Eden Jayson Has more than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Eden Jayson Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Lynelle Auber Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Merissa Tomblin Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Golda Kaniecki Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Catarina Gleich Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Virgie Kiel Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Jolene Ostolaza Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Keneth Borgman Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Rikki Nayar Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Elke Sengbusch Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Hoa Sarao Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Trinidad Mcrae Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Mari Lueckenbach Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Selma Husser Has more than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Selma Husser Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Antione Onofrio Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Luisa Jurney Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Clorinda Heimann Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Dick Wenzinger Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Ahmed Angalich Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Iluminada Ohms Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Joanna Leinenbach Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Caprice Suell Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Stephane Myricks Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Quentin Swayze Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Annmarie Castros Has less than 50% attendance for AC96105
+2020-04-20 17:10:INFO: Annmarie Castros Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Shonda Greenbush Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Cecil Lapage Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Jeanice Claucherty Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Josphine Villanueva Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Daniel Perruzza Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Cassi Wildfong Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Britt Galam Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Adell Lipkin Has less than 80% attendance for AC96105
+2020-04-20 17:10:INFO: Cordelia Storment Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Mollie Mcdoniel Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Brett Mccullan Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Teddy Pedrozo Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Tasia Andreason Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Hubert Walthall Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Arthur Farrow Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Vilma Berlanga Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Billye Miro Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Glenna Slayton Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Mitzie Hudnall Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Bernardine Rodefer Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Staci Schmaltz Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Nichelle Meteer Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Janine Rhoden Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Ettie Hoopengardner Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Eden Jayson Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Lynelle Auber Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Merissa Tomblin Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Golda Kaniecki Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Catarina Gleich Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Virgie Kiel Has more than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Virgie Kiel Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Jolene Ostolaza Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Keneth Borgman Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Rikki Nayar Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Elke Sengbusch Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Hoa Sarao Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Trinidad Mcrae Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Mari Lueckenbach Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Selma Husser Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Antione Onofrio Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Luisa Jurney Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Clorinda Heimann Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Dick Wenzinger Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Ahmed Angalich Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Iluminada Ohms Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Joanna Leinenbach Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Caprice Suell Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Stephane Myricks Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Quentin Swayze Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Annmarie Castros Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Shonda Greenbush Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Cecil Lapage Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Jeanice Claucherty Has more than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Jeanice Claucherty Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Josphine Villanueva Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Daniel Perruzza Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Cassi Wildfong Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Britt Galam Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Adell Lipkin Has less than 80% attendance for AC54291
+2020-04-20 17:10:INFO: Retrieving module lectures from AC12345 for the current week...
+2020-04-20 17:10:INFO: Retrieving module lectures from AC12345 for the current week...
+2020-04-20 17:10:INFO: File successfully received
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: all students successfully added to class list.
+2020-04-20 17:10:INFO: File successfully received
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: Error, student, does not exist, skipping
+2020-04-20 17:10:INFO: all students successfully added to class list.
+2020-04-20 17:11:INFO: File successfully received
+2020-04-20 17:11:INFO: adding Portia Stimmelto AC12345
+2020-04-20 17:11:INFO: Portia Stimmel Added To Class list
+2020-04-20 17:11:INFO: adding Rhea Aredondoto AC12345
+2020-04-20 17:11:INFO: Rhea Aredondo Added To Class list
+2020-04-20 17:11:INFO: adding Benedict Samato AC12345
+2020-04-20 17:11:INFO: Benedict Sama Added To Class list
+2020-04-20 17:11:INFO: adding Alyce Ariasto AC12345
+2020-04-20 17:11:INFO: Alyce Arias Added To Class list
+2020-04-20 17:11:INFO: adding Heike Berganzato AC12345
+2020-04-20 17:11:INFO: Heike Berganza Added To Class list
+2020-04-20 17:11:INFO: adding Carey Dopicoto AC12345
+2020-04-20 17:11:INFO: Carey Dopico Added To Class list
+2020-04-20 17:11:INFO: adding Dottie Hellicksonto AC12345
+2020-04-20 17:11:INFO: Dottie Hellickson Added To Class list
+2020-04-20 17:11:INFO: adding Deandrea Hugheyto AC12345
+2020-04-20 17:11:INFO: Deandrea Hughey Added To Class list
+2020-04-20 17:11:INFO: adding Kimberlie Duenasto AC12345
+2020-04-20 17:11:INFO: Kimberlie Duenas Added To Class list
+2020-04-20 17:11:INFO: adding Martina Stabackto AC12345
+2020-04-20 17:11:INFO: Martina Staback Added To Class list
+2020-04-20 17:11:INFO: adding Skye Fillingimto AC12345
+2020-04-20 17:11:INFO: Skye Fillingim Added To Class list
+2020-04-20 17:11:INFO: adding Jade Farrarto AC12345
+2020-04-20 17:11:INFO: Jade Farrar Added To Class list
+2020-04-20 17:11:INFO: adding Charlene Hamiltonto AC12345
+2020-04-20 17:11:INFO: Charlene Hamilton Added To Class list
+2020-04-20 17:11:INFO: adding Geoffrey Aceyto AC12345
+2020-04-20 17:11:INFO: Geoffrey Acey Added To Class list
+2020-04-20 17:11:INFO: adding Stevie Westerbeckto AC12345
+2020-04-20 17:11:INFO: Stevie Westerbeck Added To Class list
+2020-04-20 17:11:INFO: adding Pamella Fortinoto AC12345
+2020-04-20 17:11:INFO: Pamella Fortino Added To Class list
+2020-04-20 17:11:INFO: adding Harrison Hauflerto AC12345
+2020-04-20 17:11:INFO: Harrison Haufler Added To Class list
+2020-04-20 17:11:INFO: adding Johnna Engelbergto AC12345
+2020-04-20 17:11:INFO: Johnna Engelberg Added To Class list
+2020-04-20 17:11:INFO: adding Buddy Cloneyto AC12345
+2020-04-20 17:11:INFO: Buddy Cloney Added To Class list
+2020-04-20 17:11:INFO: adding Dalene Ridento AC12345
+2020-04-20 17:11:INFO: Dalene Riden Added To Class list
+2020-04-20 17:11:INFO: adding Jerry Zurcherto AC12345
+2020-04-20 17:11:INFO: Jerry Zurcher Added To Class list
+2020-04-20 17:11:INFO: adding Haydee Denooyerto AC12345
+2020-04-20 17:11:INFO: Haydee Denooyer Added To Class list
+2020-04-20 17:11:INFO: adding Joseph Cryerto AC12345
+2020-04-20 17:11:INFO: Joseph Cryer Added To Class list
+2020-04-20 17:11:INFO: adding Deonna Kippleyto AC12345
+2020-04-20 17:11:INFO: Deonna Kippley Added To Class list
+2020-04-20 17:11:INFO: adding Raymon Calvaresito AC12345
+2020-04-20 17:11:INFO: Raymon Calvaresi Added To Class list
+2020-04-20 17:11:INFO: all students successfully added to class list.
+2020-04-20 17:11:INFO: Cordelia Storment Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Mollie Mcdoniel Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Brett Mccullan Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Teddy Pedrozo Has less than 50% attendance for AC96105
+2020-04-20 17:11:INFO: Teddy Pedrozo Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Tasia Andreason Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Hubert Walthall Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Arthur Farrow Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Vilma Berlanga Has more than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Vilma Berlanga Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Billye Miro Has more than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Billye Miro Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Glenna Slayton Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Mitzie Hudnall Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Bernardine Rodefer Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Staci Schmaltz Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Nichelle Meteer Has more than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Nichelle Meteer Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Janine Rhoden Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Ettie Hoopengardner Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Eden Jayson Has more than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Eden Jayson Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Lynelle Auber Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Merissa Tomblin Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Golda Kaniecki Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Catarina Gleich Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Virgie Kiel Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Jolene Ostolaza Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Keneth Borgman Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Rikki Nayar Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Elke Sengbusch Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Hoa Sarao Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Trinidad Mcrae Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Mari Lueckenbach Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Selma Husser Has more than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Selma Husser Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Antione Onofrio Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Luisa Jurney Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Clorinda Heimann Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Dick Wenzinger Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Ahmed Angalich Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Iluminada Ohms Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Joanna Leinenbach Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Caprice Suell Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Stephane Myricks Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Quentin Swayze Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Annmarie Castros Has less than 50% attendance for AC96105
+2020-04-20 17:11:INFO: Annmarie Castros Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Shonda Greenbush Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Cecil Lapage Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Jeanice Claucherty Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Josphine Villanueva Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Daniel Perruzza Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Cassi Wildfong Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Britt Galam Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Adell Lipkin Has less than 80% attendance for AC96105
+2020-04-20 17:11:INFO: Cordelia Storment Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Mollie Mcdoniel Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Brett Mccullan Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Teddy Pedrozo Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Tasia Andreason Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Hubert Walthall Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Arthur Farrow Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Vilma Berlanga Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Billye Miro Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Glenna Slayton Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Mitzie Hudnall Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Bernardine Rodefer Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Staci Schmaltz Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Nichelle Meteer Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Janine Rhoden Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Ettie Hoopengardner Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Eden Jayson Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Lynelle Auber Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Merissa Tomblin Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Golda Kaniecki Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Catarina Gleich Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Virgie Kiel Has more than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Virgie Kiel Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Jolene Ostolaza Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Keneth Borgman Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Rikki Nayar Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Elke Sengbusch Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Hoa Sarao Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Trinidad Mcrae Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Mari Lueckenbach Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Selma Husser Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Antione Onofrio Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Luisa Jurney Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Clorinda Heimann Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Dick Wenzinger Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Ahmed Angalich Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Iluminada Ohms Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Joanna Leinenbach Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Caprice Suell Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Stephane Myricks Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Quentin Swayze Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Annmarie Castros Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Shonda Greenbush Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Cecil Lapage Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Jeanice Claucherty Has more than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Jeanice Claucherty Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Josphine Villanueva Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Daniel Perruzza Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Cassi Wildfong Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Britt Galam Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Adell Lipkin Has less than 80% attendance for AC54291
+2020-04-20 17:11:INFO: Portia Stimmel Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Portia Stimmel Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Rhea Aredondo Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Rhea Aredondo Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Benedict Sama Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Benedict Sama Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Alyce Arias Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Alyce Arias Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Heike Berganza Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Heike Berganza Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Carey Dopico Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Carey Dopico Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Dottie Hellickson Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Dottie Hellickson Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Deandrea Hughey Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Deandrea Hughey Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Kimberlie Duenas Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Kimberlie Duenas Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Martina Staback Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Martina Staback Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Skye Fillingim Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Skye Fillingim Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Jade Farrar Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Jade Farrar Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Charlene Hamilton Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Charlene Hamilton Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Geoffrey Acey Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Geoffrey Acey Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Stevie Westerbeck Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Stevie Westerbeck Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Pamella Fortino Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Pamella Fortino Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Harrison Haufler Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Harrison Haufler Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Johnna Engelberg Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Johnna Engelberg Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Buddy Cloney Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Buddy Cloney Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Dalene Riden Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Dalene Riden Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Jerry Zurcher Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Jerry Zurcher Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Haydee Denooyer Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Haydee Denooyer Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Joseph Cryer Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Joseph Cryer Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Deonna Kippley Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Deonna Kippley Has less than 80% attendance for AC12345
+2020-04-20 17:11:INFO: Raymon Calvaresi Has less than 50% attendance for AC12345
+2020-04-20 17:11:INFO: Raymon Calvaresi Has less than 80% attendance for AC12345

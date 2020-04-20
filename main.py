@@ -10,7 +10,6 @@ All CODE IS ORIGINAL UNLESS STATED SO.
 import binascii
 import csv
 import sqlite3
-from sqlite3 import Error
 import datetime
 from datetime import timedelta
 import hashlib
@@ -22,7 +21,6 @@ import collections
 from collections import Counter
 from os import path
 import pandas as pd
-import pyodbc
 from flask import Flask, render_template, request, redirect, url_for, flash, session, g, json
 from werkzeug.utils import secure_filename
 import ssl

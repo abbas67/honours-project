@@ -12,7 +12,7 @@ The Purpose of this script is to load sample data into the system.
 
 import csv
 import sqlite3
-from sqlite3 import Error
+
 import json
 import hashlib, binascii, os
 import datetime
@@ -20,11 +20,9 @@ from datetime import timedelta
 import random,string
 from random import randint
 from create_tables import create_all_tables
-from os import path
-from dbconn import connect
+
 import pandas as pd
-import pyodbc
-import shutil
+
 
 file_path = os.path.abspath(os.path.dirname(__file__))
 conn = sqlite3.connect(file_path + '/Database/database.db', check_same_thread=False)
@@ -80,19 +78,9 @@ def insert_data(sample_data, class_names):
 
         students.append(insert_students(cursor, x))
 
-
-    print("Students Loaded")
-
     counter = 0
     updated_list = []
-
-    #list_of_indexes = [, [51, 100], [101, 150], [151, 200],[201, 250] ]
     list_of_students = []
-
-
-    # print(students[0:50])
-    # print(students[51:100])
-    # print(students[101:150])
 
     student_list = []
     for x in students[0:50]:
@@ -131,15 +119,12 @@ def insert_data(sample_data, class_names):
 
     for index, value in enumerate(sample_data[200:205]):
 
-        print(list_of_students)
         value['Module_1'] = class_names[counter]
         value['Module_2'] = class_names[counter + 1]
         counter = counter + 2
 
         insert_lecturers(cursor, value)
         insert_module(cursor, value, list_of_students[index])
-
-    print("Lecturers and relevant Modules Loaded")
 
 
 def insert_module(cursor, sample_data, students):
@@ -170,14 +155,10 @@ def insert_module(cursor, sample_data, students):
         for x in range(1, 12 + 1):
 
             lecture_time = convert_time(random.choice(time), day, x)
-
             query = "INSERT INTO Lectures (LectureID, ModuleID, LectureName, LectureLocation, LectureDuration, Week, Day, Time ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
-            print(generatenewcode(), module_ID, lecture_name, lecture_location, x, day, lecture_time)
 
             cursor.execute(query, (generatenewcode(), module_ID, lecture_name, lecture_location, randint(1, 4), x, day, lecture_time))
 
-
-    print("Semester 1 is timetabled")
 
     for student in students[:50]:
 
@@ -203,12 +184,8 @@ def insert_module(cursor, sample_data, students):
             lecture_time = convert_time(random.choice(time), day, x)
 
             query = "INSERT INTO Lectures (LectureID, ModuleID, LectureName, LectureLocation, LectureDuration, Week, Day, Time ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
-            print(generatenewcode(), module_ID, lecture_name, lecture_location, x, day, lecture_time)
 
             cursor.execute(query, (generatenewcode(), module_ID, lecture_name, lecture_location, randint(1, 4), x, day, lecture_time))
-
-
-    print("Semester 2 is timetabled")
 
     for student in new_students[:50]:
 
@@ -227,7 +204,6 @@ def add_to_class_list(student, module_id):
 
     student_string = ";" + str(module_id) + ":"
 
-    print(str("Old String: ") + str(student['ModuleString']))
     for lecture in lectures:
 
         student_string = student_string + lecture['LectureID'] + "-" + str(random.choice(x)) + ','
@@ -237,8 +213,6 @@ def add_to_class_list(student, module_id):
     student_string = student_string + student['ModuleString']
 
     student['ModuleString'] = student_string
-
-    print(str("New String: ") + str(student_string))
 
     query = 'UPDATE Students SET ModuleString={} WHERE MatricNum={};'.format("'" + student_string + "'", "'" + str(student['MatricNum']) + "'")
 
@@ -253,7 +227,7 @@ def insert_students(cursor, sample_data):
     query = "INSERT INTO Students (MatricNum, FirstName, LastName, Password, ModuleString, Email) VALUES (?, ?, ? ,?, ?, ?);"
     cursor.execute(query, (sample_data['MatricNum'], sample_data['first_name'], sample_data['last_name'], hash_password('password123'), '', 'abc123@dundee.ac.uk'))
     json_string = str('{ "MatricNum" : ' + str(sample_data['MatricNum']) + ', "FirstName" : "' + str(sample_data['first_name']) + '", "LastName" : "' + str(sample_data['last_name'])  + '", "ModuleString" : "", ' + " "  + '"Email"' + ":" + '"abc123@dundee.ac.uk"' + '}')
-    # print(json_string)
+
     return json.loads(json_string)
 
 
@@ -261,8 +235,6 @@ def insert_lecturers(cursor, sample_data):
 
     query = "INSERT INTO Lecturers (LecturerID, FirstName, LastName, Password) VALUES (?, ?, ? ,?);"
     cursor.execute(query, (sample_data['LecturerID'], sample_data['first_name'], sample_data['last_name'], hash_password('password123')))
-    print(sample_data['LecturerID'], sample_data['first_name'], sample_data['last_name'], hash_password('password123'))
-
 
 
 def generatenewcode():
@@ -279,7 +251,6 @@ def hash_password(password):
     return (salt + pwdhash).decode('ascii')
 
 
-
 def gen_id():
 
     return randint(100000000, 999999999)
@@ -291,7 +262,6 @@ def gen_username(first_name, last_name):
 
 
 def clear_table():
-
 
     query = "SELECT * FROM  Modules"
     result = pd.read_sql(query, conn)
@@ -315,11 +285,6 @@ def clear_table():
 
 
 def convert_time(hour, day, week):
-
-    # print(hour)
-    # print(day)
-    # print(week)
-
 
     actual_day = 0
     updated_week = None
@@ -383,7 +348,7 @@ def get_lectures(module):
 def create_mock_data():
 
     query = "SELECT * FROM Students LIMIT 25;"
-    print(query)
+
     result = pd.read_sql(query, conn)
     students = result.to_dict('records')
 
@@ -392,8 +357,18 @@ def create_mock_data():
         file.write('MatricNum,FirstName,LastName')
 
         for student in students:
-            print(student)
+
             file.write('\n' + str(student['MatricNum']) + ',' + student['FirstName'] + ',' + student['LastName'])
+
+
+def prepare():
+
+    create_all_tables()
+    clear_table()
+    sample_data = load_data()
+    updated_students = []
+    insert_data(sample_data, get_class_names())
+    create_mock_data()
 
 
 if __name__ == "__main__":
