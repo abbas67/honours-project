@@ -32,10 +32,10 @@
     {% if lectureselected == False %}
         <!-- Allowing lecturers to select a module to narrow down what lecture they want to sign into. -->
         {% if moduleselected == False %}
-            <div class ="container">
+            <div class ="container" style="margin-top: 100px;">
                 <form action="{{ url_for('selectmodule') }}" method="post">
                     {% for item in session['supervised_modules'] %}
-                        <div class="card m-5">
+                        <div class="card mx-5">
                             <div class="card-body" style="background-color: #4365E2">
                                 <h5 class="card-title" style="color: ghostwhite">{{ item['ModuleID'] }}</h5>
                                 <p class="card-text" style="color: ghostwhite">{{ item['ModuleName'] }}</p>

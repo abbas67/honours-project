@@ -525,7 +525,7 @@ def get_graph_info(module_id):
 
 def get_lecture_attendance(lecture_id, class_list, module_id):
 
-    """ Function used to caluclate the attendance for a lecture. """
+    """ Function used to calculate the attendance for a lecture. """
 
     students_present = 0
 
@@ -586,9 +586,9 @@ def update_office_docs():
             for absentee in lecture['absentees']:
                 file.write('\n' + absentee['FirstName'] + " " + absentee['LastName'] + " " + str(absentee['MatricNum']) + " - Overall Attendance: " + str(absentee['Attendance']) + "%" )
             file.write('\n')
+            flash("School Office Docs Updated")
     # redirecting to the module options page.
 
-    flash("School Office Docs Updated")
     return redirect(url_for('module_options', module=session['moduleid']))
 
 
