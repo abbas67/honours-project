@@ -5,7 +5,7 @@ httplib2==0.17.0
 idna==2.8
 importlib-metadata==0.23
 itsdangerous==1.1.0
-Jinja2==2.10.1
+Jinja2==2.11.3
 jmespath==0.9.5
 joblib==0.14.1
 macholib==1.11
